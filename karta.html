@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шай-карта — Shaiym</title>
+<meta name="description" content="Shaiym Шай-картасы: сегіз мөр жинаңыз — сыйлық алыңыз.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=PT+Sans:wght@400;700&display=swap">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100svh;
+    background: radial-gradient(130% 100% at 50% 0%, #1c3a27 0%, #16301f 60%, #102417 100%);
+    color: #f3ecdd;
+    font-family: 'PT Sans', 'Segoe UI', Arial, sans-serif;
+    display: flex; justify-content: center;
+    padding: 30px 16px 50px;
+    line-height: 1.55;
+  }
+  .wrap { width: 100%; max-width: 520px; text-align: center; }
+  .brand svg { width: 42px; height: 42px; }
+  .brand .name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 28px; }
+  .rule { width: 44px; height: 2px; background: #c8a24f; margin: 16px auto; border: 0; }
+  h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 32px; }
+  .lede { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 16px; color: rgba(243,236,221,.7); margin-top: 6px; }
+  .panel {
+    background: #1d3b28; border: 1px solid rgba(200,162,79,.5);
+    padding: 22px 20px; margin-top: 18px; text-align: center;
+  }
+  .panel h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 22px; color: #e6cf9a; margin-bottom: 12px; }
+  input[type=text] {
+    width: 100%; max-width: 300px; padding: 12px 14px; font-family: inherit; font-size: 15px;
+    background: #16301f; color: #f3ecdd; border: 1px solid rgba(200,162,79,.55); text-align: center;
+  }
+  input[type=text]:focus { outline: 2px solid #c8a24f; }
+  .hello { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 19px; color: #e6cf9a; }
+  .stamps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; max-width: 320px; margin: 16px auto 0; }
+  .stamp {
+    aspect-ratio: 1; border-radius: 50%;
+    border: 2px dashed rgba(200,162,79,.55);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .25s ease;
+  }
+  .stamp.on { border-style: solid; border-color: #c8a24f; background: rgba(200,162,79,.12); transform: scale(1.04); }
+  .stamp svg { width: 58%; height: 58%; }
+  .btn {
+    display: inline-block; padding: 13px 26px; font-size: 15px; font-weight: 700;
+    text-decoration: none; border: 1px solid #c8a24f; cursor: pointer; font-family: inherit;
+    background: #c8a24f; color: #1a3322; margin-top: 16px;
+  }
+  .btn-ghost { background: transparent; color: #e6cf9a; }
+  .code-row { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .code-row input { max-width: 140px; letter-spacing: .3em; text-transform: uppercase; font-weight: 700; font-size: 18px; }
+  .msg { margin-top: 10px; font-size: 14px; min-height: 20px; }
+  .msg.ok { color: #9fd3a0; }
+  .msg.err { color: #e2a08a; }
+  .reward {
+    margin-top: 16px; padding: 18px;
+    border: 1px solid #c8a24f; background: rgba(200,162,79,.14);
+  }
+  .reward .t { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 24px; color: #e6cf9a; }
+  .reward p { font-size: 14px; color: rgba(243,236,221,.8); margin-top: 6px; }
+  .note { margin-top: 12px; font-size: 12.5px; color: rgba(243,236,221,.5); }
+  .stats { margin-top: 10px; font-size: 13px; color: rgba(243,236,221,.6); }
+  .hide { display: none; }
+  footer { margin-top: 26px; font-size: 13px; color: rgba(243,236,221,.5); }
+  footer a { color: #e6cf9a; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="4.6" stroke-linecap="round">
+      <path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
+      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
+      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
+      <path d="M48 69 L48 86" stroke-width="5.5"/>
+    </svg>
+    <div class="name">Shaiym</div>
+  </div>
+  <hr class="rule">
+  <h1>Шай-карта</h1>
+  <div class="lede">Сегіз мөр — бір сыйлық: тегін кофе немесе шайға 10% жеңілдік</div>
+
+  <div class="panel" id="name-panel">
+    <h2>Танысайық</h2>
+    <input type="text" id="name-input" placeholder="Есіміңіз" maxlength="30">
+    <br><button class="btn" onclick="saveName()">Сақтау</button>
+  </div>
+
+  <div class="panel hide" id="card-panel">
+    <div class="hello" id="hello"></div>
+    <div class="stamps" id="stamps"></div>
+    <div class="stats" id="stats"></div>
+
+    <div id="collect">
+      <div class="code-row">
+        <input type="text" id="code-input" placeholder="КОД" maxlength="3">
+        <button class="btn" style="margin-top: 0;" onclick="addStamp()">Мөр басу</button>
+      </div>
+      <div class="msg" id="msg"></div>
+      <div class="note">Сатып алған кезде сатушыдан «бүгінгі кодты» сұраңыз. Күніне — бір мөр.</div>
+    </div>
+
+    <div class="reward hide" id="reward">
+      <div class="t">🎉 Сыйлық дайын!</div>
+      <p>Осы экранды сатушыға көрсетіңіз: <b>тегін кофе</b> немесе <b>шайға 10% жеңілдік</b> — таңдау сіздікі.</p>
+      <button class="btn" onclick="claimReward()">Сыйлықты алдым</button>
+    </div>
+  </div>
+
+  <footer><a href="/">← Басты бет</a> · <a href="/recepty">Рецепттер</a> · <a href="/test">Дәм тесті</a></footer>
+</main>
+
+<script>
+  const KEY = 'shaiym_karta_v1';
+  let state = { name: '', stamps: 0, lastStampDay: '', rewards: 0 };
+  try { const s = localStorage.getItem(KEY); if (s) state = Object.assign(state, JSON.parse(s)); } catch (e) {}
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  function dayStr(d) { return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate(); }
+
+  function dayCode(d) {
+    const seed = dayStr(d);
+    const h = (seed * 7919 + 104729) % 46656;
+    return h.toString(36).toUpperCase().padStart(3, '0');
+  }
+
+  const LEAF = '<svg viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="6" stroke-linecap="round"><path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/><path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/><path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/><path d="M48 69 L48 86" stroke-width="7"/></svg>';
+
+  function render() {
+    const named = !!state.name;
+    document.getElementById('name-panel').classList.toggle('hide', named);
+    document.getElementById('card-panel').classList.toggle('hide', !named);
+    if (!named) return;
+    document.getElementById('hello').textContent = state.name + ', қош келдіңіз!';
+    let html = '';
+    for (let i = 0; i < 8; i++) html += `<div class="stamp ${i < state.stamps ? 'on' : ''}">${i < state.stamps ? LEAF : ''}</div>`;
+    document.getElementById('stamps').innerHTML = html;
+    document.getElementById('stats').textContent = state.rewards > 0 ? `Алынған сыйлықтар: ${state.rewards}` : '';
+    const full = state.stamps >= 8;
+    document.getElementById('collect').classList.toggle('hide', full);
+    document.getElementById('reward').classList.toggle('hide', !full);
+  }
+
+  function saveName() {
+    const v = document.getElementById('name-input').value.trim();
+    if (!v) return;
+    state.name = v; save(); render();
+  }
+
+  function addStamp() {
+    const msg = document.getElementById('msg');
+    const v = (document.getElementById('code-input').value || '').trim().toUpperCase();
+    const today = String(dayStr(new Date()));
+    if (state.lastStampDay === today) {
+      msg.className = 'msg err'; msg.textContent = 'Бүгінгі мөр қойылып қойған — ертең тағы келіңіз 🍃';
+      return;
+    }
+    if (v === dayCode(new Date())) {
+      state.stamps = Math.min(8, state.stamps + 1);
+      state.lastStampDay = today;
+      save(); render();
+      msg.className = 'msg ok'; msg.textContent = 'Мөр қойылды! Рақмет 🍃';
+      document.getElementById('code-input').value = '';
+    } else {
+      msg.className = 'msg err'; msg.textContent = 'Код дұрыс емес. Сатушыдан бүгінгі кодты сұраңыз.';
+    }
+  }
+
+  function claimReward() {
+    state.rewards += 1;
+    state.stamps = 0;
+    save(); render();
+  }
+
+  render();
+</script>
+</body>
+</html>
