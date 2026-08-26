@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дәм тесті — Shaiym</title>
+<meta name="description" content="Бес сұрақ — және Shaiym сізге лайық шайды тауып береді.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=PT+Sans:wght@400;700&display=swap">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100svh;
+    background: radial-gradient(130% 100% at 50% 0%, #1c3a27 0%, #16301f 60%, #102417 100%);
+    color: #f3ecdd;
+    font-family: 'PT Sans', 'Segoe UI', Arial, sans-serif;
+    display: flex; justify-content: center;
+    padding: 30px 16px 50px;
+    line-height: 1.55;
+  }
+  .wrap { width: 100%; max-width: 560px; text-align: center; }
+  .brand svg { width: 42px; height: 42px; }
+  .brand .name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 28px; }
+  .rule { width: 44px; height: 2px; background: #c8a24f; margin: 16px auto; border: 0; }
+  h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 32px; }
+  .lede { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 16px; color: rgba(243,236,221,.7); margin-top: 6px; }
+  .progress { display: flex; gap: 6px; justify-content: center; margin: 22px 0 6px; }
+  .dot { width: 34px; height: 4px; background: rgba(200,162,79,.25); transition: background .3s; }
+  .dot.on { background: #c8a24f; }
+  .q {
+    background: #1d3b28; border: 1px solid rgba(200,162,79,.5);
+    padding: 26px 22px; margin-top: 14px; text-align: center;
+  }
+  .q h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 24px; color: #e6cf9a; }
+  .opts { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+  .opt {
+    padding: 13px 16px; border: 1px solid rgba(200,162,79,.55);
+    background: transparent; color: #f3ecdd; font-family: inherit; font-size: 15.5px; cursor: pointer;
+    transition: background .12s ease, transform .12s ease;
+  }
+  .opt:hover { background: rgba(200,162,79,.14); transform: translateY(-1px); }
+  .hide { display: none; }
+  .result-card {
+    background: #1d3b28; border: 1px solid rgba(200,162,79,.55);
+    box-shadow: inset 0 0 0 5px #1d3b28, inset 0 0 0 6px rgba(200,162,79,.35);
+    padding: 30px 24px; margin-top: 14px;
+  }
+  .result-card .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .3em; color: #a5b5a5; text-transform: uppercase; }
+  .result-card .tea { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 38px; color: #e6cf9a; margin-top: 8px; }
+  .result-card .why { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 16.5px; color: rgba(243,236,221,.8); margin-top: 10px; }
+  .result-card .alt { margin-top: 16px; font-size: 14px; color: rgba(243,236,221,.65); }
+  .result-card .alt b { color: #e6cf9a; }
+  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+  .btn {
+    display: inline-block; padding: 13px 24px; font-size: 14.5px; font-weight: 700;
+    text-decoration: none; border: 1px solid #c8a24f; cursor: pointer; font-family: inherit;
+  }
+  .btn-solid { background: #c8a24f; color: #1a3322; }
+  .btn-ghost { background: transparent; color: #e6cf9a; }
+  .note { margin-top: 16px; font-size: 12.5px; color: rgba(243,236,221,.5); }
+  footer { margin-top: 26px; font-size: 13px; color: rgba(243,236,221,.5); }
+  footer a { color: #e6cf9a; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="4.6" stroke-linecap="round">
+      <path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
+      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
+      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
+      <path d="M48 69 L48 86" stroke-width="5.5"/>
+    </svg>
+    <div class="name">Shaiym</div>
+  </div>
+  <hr class="rule">
+  <h1>Дәм тесті</h1>
+  <div class="lede">Бес сұрақ — және өз шайыңызды табасыз</div>
+
+  <div class="progress" id="progress"></div>
+  <div id="quiz"></div>
+
+  <div id="result" class="hide">
+    <div class="result-card">
+      <div class="eyebrow">Сіздің шайыңыз</div>
+      <div class="tea" id="r-tea"></div>
+      <div class="why" id="r-why"></div>
+      <div class="alt" id="r-alt"></div>
+      <div class="btns">
+        <a class="btn btn-solid" id="r-link" href="/">Рецептін ашу</a>
+        <button class="btn btn-ghost" onclick="restart()">Қайта өту</button>
+      </div>
+      <div class="note">Дүкенде осы нәтижені сатушыға көрсетіңіз — дәмін бірден татырамыз 🍃</div>
+    </div>
+  </div>
+
+  <footer><a href="/">← Басты бет</a> · <a href="/recepty">Рецепттер</a></footer>
+</main>
+
+<script>
+  const TEAS = {
+    tashkent:  { name: 'Ташкент шайы',  url: '/tashkent',  why: 'Жеңіл, сергітетін, бәріне жағатын классика — көк шай, лимон мен бал.' },
+    marokko:   { name: 'Марокко шайы',  url: '/marokko',   why: 'Жалбызды, хош иісті және көңілді — Мағриб қонақжайлылығы.' },
+    masala:    { name: 'Масала шай',    url: '/masala',    why: 'Қою, сүтті және дәмдеуішті — бойды жылытатын күшті шай.' },
+    shyrganak: { name: 'Шырғанақ шайы', url: '/shyrganak', why: 'Қышқылтым жидек, бал мен даршын — дәрумен мен жылу.' },
+    imbir:     { name: 'Зімбір шайы',   url: '/imbir',     why: 'Зімбір, лимон және бал — тұмауға да, көңілге де ем.' },
+    malina:    { name: 'Таңқурай шайы', url: '/malina',    why: 'Балалық шақтың жидек дәмі — жұмсақ әрі жылы.' },
+    karkade:   { name: 'Қарқаде',       url: '/karkade',   why: 'Қызыл, қышқыл, сергітеді — кофеинсіз таза дәм.' },
+    turk:      { name: 'Түрік шайы',    url: '/turk',      why: 'Қою, күшті, армудпен — Стамбул мәнерінің өзі.' },
+    ulun:      { name: 'Сүтті улун',    url: '/ulun',      why: 'Жұмсақ сүт дәмді, талғампаз — шай театрының жұлдызы.' },
+    zhasmin:   { name: 'Жасмин шайы',   url: '/zhasmin',   why: 'Гүл жұпарлы, нәзік, тыныштандырады.' },
+    qysqy:     { name: 'Қысқы шай',     url: '/qysqy',     why: 'Жидек, апельсин мен дәмдеуіштер — мереке кесеге құйылған.' },
+    dala:      { name: 'Дала шай',      url: '/dala',      why: 'Дала шөптері — жебір, түймедақ, итмұрын: таза тыныштық.' },
+  };
+
+  const QUESTIONS = [
+    { q: 'Қандай дәм ұнайды?', opts: [
+      ['Қою әрі күшті', { masala: 3, turk: 3, qysqy: 1 }],
+      ['Жеңіл әрі нәзік', { tashkent: 2, zhasmin: 3, ulun: 3 }],
+      ['Қышқылтым, жидекті', { karkade: 3, shyrganak: 3, malina: 2, qysqy: 2 }],
+      ['Хош иісті, дәмдеуішті', { masala: 2, marokko: 2, imbir: 2, qysqy: 2 }],
+    ]},
+    { q: 'Шайды сүтпен ішесіз бе?', opts: [
+      ['Иә, сүтпен жақсы', { masala: 3, turk: 1 }],
+      ['Жоқ, таза күйінде', { tashkent: 1, marokko: 1, zhasmin: 1, ulun: 1, karkade: 1 }],
+    ]},
+    { q: 'Шай не үшін керек?', opts: [
+      ['Жылыну үшін', { masala: 2, imbir: 3, qysqy: 3, shyrganak: 2 }],
+      ['Сергу үшін', { marokko: 2, karkade: 2, tashkent: 2, turk: 2 }],
+      ['Тынышталу үшін', { zhasmin: 3, dala: 3, ulun: 2 }],
+      ['Қонақ күту үшін', { turk: 2, marokko: 2, qysqy: 2, tashkent: 1 }],
+    ]},
+    { q: 'Кофеинге көзқарас?', opts: [
+      ['Күштірек болсын', { turk: 2, masala: 2, tashkent: 1 }],
+      ['Орташа', { tashkent: 1, marokko: 1, ulun: 2, zhasmin: 1 }],
+      ['Кофеинсіз болсын', { karkade: 3, dala: 3, imbir: 2 }],
+    ]},
+    { q: 'Көңіл-күй қандай?', opts: [
+      ['Классика — сенімді дәм', { tashkent: 2, turk: 2, malina: 1 }],
+      ['Жаңа бірдеңе көргім келеді', { ulun: 2, marokko: 2, zhasmin: 2, karkade: 1 }],
+      ['Мереке!', { qysqy: 3, shyrganak: 1, marokko: 1 }],
+      ['Дала мен дәстүр', { dala: 3, malina: 2, imbir: 1 }],
+    ]},
+  ];
+
+  let step = 0;
+  const scores = {};
+  const quiz = document.getElementById('quiz');
+  const progress = document.getElementById('progress');
+
+  function renderProgress() {
+    progress.innerHTML = QUESTIONS.map((_, i) => `<div class="dot ${i <= step ? 'on' : ''}"></div>`).join('');
+  }
+
+  function renderQuestion() {
+    renderProgress();
+    const item = QUESTIONS[step];
+    quiz.innerHTML = `<div class="q"><h2>${item.q}</h2><div class="opts">` +
+      item.opts.map((o, i) => `<button class="opt" onclick="pick(${i})">${o[0]}</button>`).join('') +
+      `</div></div>`;
+  }
+
+  function pick(i) {
+    const pts = QUESTIONS[step].opts[i][1];
+    for (const k in pts) scores[k] = (scores[k] || 0) + pts[k];
+    step++;
+    if (step < QUESTIONS.length) renderQuestion();
+    else showResult();
+  }
+
+  function showResult() {
+    progress.innerHTML = '';
+    quiz.innerHTML = '';
+    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    const top = TEAS[sorted[0][0]];
+    const alt = sorted[1] ? TEAS[sorted[1][0]] : null;
+    document.getElementById('r-tea').textContent = top.name;
+    document.getElementById('r-why').textContent = top.why;
+    document.getElementById('r-link').href = top.url;
+    document.getElementById('r-alt').innerHTML = alt ? `Тағы бір нұсқа: <b>${alt.name}</b> — <a href="${alt.url}" style="color:#e6cf9a;">рецепті</a>` : '';
+    document.getElementById('result').classList.remove('hide');
+    try { localStorage.setItem('shaiym_test_result', sorted[0][0]); } catch (e) {}
+  }
+
+  function restart() {
+    step = 0;
+    for (const k in scores) delete scores[k];
+    document.getElementById('result').classList.add('hide');
+    renderQuestion();
+  }
+
+  renderQuestion();
+</script>
+</body>
+</html>
