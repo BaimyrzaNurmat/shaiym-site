@@ -4,162 +4,220 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shaiym — шай дүкені · Абай</title>
-<meta name="description" content="Shaiym — ресторанные чаи, рецепты и подарочные наборы. Жақында ашылады: Абай ауылы, жаңа базар (Келес ауданы).">
+<meta name="description" content="Shaiym — мейрамхана шайлары, рецепттер, сыйлық жиынтықтары және жаңа қуырылған кофе. Абай ауылы, жаңа базар.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=PT+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=PT+Sans:wght@400;700&display=swap">
 <style>
   :root {
-    --green-deep: #16301f;
-    --green-panel: #1d3b28;
-    --gold: #c8a24f;
-    --gold-soft: #e6cf9a;
-    --cream: #f3ecdd;
-    --cream-dim: rgba(243, 236, 221, .68);
-    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-    --sans: "PT Sans", "Segoe UI", Arial, sans-serif;
+    --green-deep: #16301f; --green: #1d3b28; --green-soft: #4a5f4e;
+    --gold: #c8a24f; --gold-soft: #e6cf9a; --gold-dark: #a07c2c;
+    --cream: #f3ecdd; --cream-panel: #faf6ec;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'PT Sans', 'Segoe UI', Arial, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { height: 100%; }
-  body {
-    min-height: 100svh;
-    background: radial-gradient(120% 90% at 50% 0%, #1c3a27 0%, var(--green-deep) 58%, #102417 100%);
+  body { background: var(--cream); color: var(--green); font-family: var(--sans); line-height: 1.6; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.on { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  .hero {
+    background: radial-gradient(130% 100% at 50% 0%, #1c3a27 0%, var(--green-deep) 60%, #102417 100%);
     color: var(--cream);
-    font-family: var(--sans);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 16px;
-  }
-  .card {
-    width: 100%;
-    max-width: 560px;
-    background: var(--green-panel);
-    border: 1px solid rgba(200, 162, 79, .55);
-    box-shadow: inset 0 0 0 5px var(--green-panel), inset 0 0 0 6px rgba(200, 162, 79, .35), 0 24px 60px rgba(0, 0, 0, .35);
-    padding: 56px 36px 40px;
+    padding: 44px 20px 0;
     text-align: center;
-    animation: rise .8s ease-out both;
+    overflow: hidden;
   }
-  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .card { animation: none; } }
-
-  .leaf { width: 56px; height: 56px; margin: 0 auto 18px; display: block; }
-
-  .wordmark {
-    font-family: var(--serif);
-    font-weight: 600;
-    font-size: clamp(52px, 12vw, 76px);
-    line-height: 1;
-    color: var(--cream);
-    letter-spacing: .01em;
-  }
-  .tagline {
-    margin-top: 14px;
-    color: var(--gold-soft);
-    font-size: 13px;
-    letter-spacing: .42em;
-    text-indent: .42em; /* компенсирует трекинг при центровке */
-    text-transform: uppercase;
-  }
-  .rule {
-    width: 44px; height: 2px;
-    background: var(--gold);
-    margin: 26px auto;
-    border: 0;
-  }
-  .soon-kk {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(24px, 5.4vw, 30px);
-    color: var(--gold-soft);
-  }
-  .soon-ru {
-    margin-top: 6px;
-    color: var(--cream-dim);
-    font-size: 15px;
-    letter-spacing: .14em;
-    text-indent: .14em;
-    text-transform: uppercase;
-  }
-  .lede {
-    margin: 22px auto 0;
-    max-width: 40ch;
-    color: var(--cream-dim);
-    font-size: 16px;
-    line-height: 1.65;
-  }
-  .lede b { color: var(--cream); font-weight: 700; }
-
-  .actions {
-    margin-top: 30px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .hero .leaf { width: 54px; height: 54px; margin: 0 auto 14px; }
+  .hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(46px, 10vw, 68px); line-height: 1; }
+  .hero .tag { margin-top: 10px; color: var(--gold-soft); font-size: 12px; letter-spacing: .42em; text-indent: .42em; text-transform: uppercase; }
+  .hero .lede { margin: 20px auto 0; max-width: 46ch; color: rgba(243,236,221,.78); font-size: 17px; }
+  .hero .lede b { color: var(--cream); }
+  .cta { margin-top: 26px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   .btn {
-    display: inline-block;
-    padding: 13px 26px;
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
-    border: 1px solid var(--gold);
-    transition: transform .15s ease, background-color .15s ease, color .15s ease;
+    display: inline-block; padding: 14px 28px; font-size: 15px; font-weight: 700;
+    text-decoration: none; border: 1px solid var(--gold);
+    transition: transform .15s ease, background-color .15s ease;
   }
-  .btn:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
   .btn-solid { background: var(--gold); color: #1a3322; }
   .btn-solid:hover { background: var(--gold-soft); transform: translateY(-1px); }
-  .btn-ghost { color: var(--gold-soft); background: transparent; }
-  .btn-ghost:hover { background: rgba(200, 162, 79, .12); transform: translateY(-1px); }
+  .btn-ghost { color: var(--gold-soft); }
+  .btn-ghost:hover { background: rgba(200,162,79,.12); transform: translateY(-1px); }
+  .hero .pic { max-width: 900px; margin: 36px auto 0; border: 1px solid rgba(200,162,79,.5); border-bottom: 0; }
 
-  .address {
-    margin-top: 30px;
-    color: var(--cream-dim);
-    font-size: 14px;
-    letter-spacing: .05em;
-  }
-  .address .dot { color: var(--gold); padding: 0 6px; }
+  .facts { background: var(--green); color: var(--cream); padding: 18px 16px; }
+  .facts .in { max-width: 980px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 30px; justify-content: center; font-size: 14.5px; }
+  .facts b { color: var(--gold-soft); }
 
-  footer {
-    margin-top: 26px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(200, 162, 79, .25);
-    color: rgba(243, 236, 221, .45);
-    font-size: 12.5px;
-    letter-spacing: .08em;
+  section { padding: 56px 20px; }
+  .in { max-width: 980px; margin: 0 auto; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .24em; color: var(--gold-dark); text-transform: uppercase; text-align: center; }
+  h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 5vw, 38px); text-align: center; margin-top: 6px; }
+  .sublede { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--green-soft); text-align: center; margin-top: 6px; }
+
+  .promo { background: var(--green-deep); color: var(--cream); }
+  .promo-card {
+    max-width: 640px; margin: 26px auto 0; padding: 26px;
+    border: 1px solid rgba(200,162,79,.55);
+    box-shadow: inset 0 0 0 5px var(--green-deep), inset 0 0 0 6px rgba(200,162,79,.35);
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; text-align: center;
   }
+  .promo-card .name { font-family: var(--serif); font-weight: 600; font-size: 30px; color: var(--gold-soft); }
+  .promo-card .off { font-size: 42px; font-weight: 700; color: var(--gold); font-variant-numeric: lining-nums; }
+  .promo-card p { color: rgba(243,236,221,.75); font-size: 14.5px; max-width: 34ch; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 28px; }
+  .card {
+    background: var(--cream-panel); border: 1px solid rgba(200,162,79,.5);
+    padding: 18px; text-decoration: none; display: flex; flex-direction: column;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(29,59,40,.12); }
+  .card img { height: 96px; object-fit: contain; }
+  .card h3 { font-family: var(--serif); font-weight: 600; font-size: 20px; text-align: center; margin-top: 8px; }
+  .card p { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--green-soft); text-align: center; }
+  .center { text-align: center; margin-top: 24px; }
+
+  .split { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; margin-top: 28px; }
+  .split > div { flex: 1 1 320px; }
+  .split img { border: 1px solid rgba(200,162,79,.5); }
+  .split h3 { font-family: var(--serif); font-weight: 600; font-size: 26px; }
+  .split p { margin-top: 10px; color: var(--green-soft); font-size: 15.5px; }
+  .split ul { margin: 12px 0 0 18px; color: var(--green-soft); font-size: 15px; }
+  .split li { margin-top: 6px; }
+  .split li b { color: var(--green); }
+
+  .stamps { display: flex; gap: 8px; margin-top: 14px; }
+  .stamp {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1.6px dashed var(--gold); display: flex; align-items: center; justify-content: center;
+  }
+  .stamp svg { width: 18px; height: 18px; }
+
+  footer { background: var(--green-deep); color: rgba(243,236,221,.65); padding: 36px 20px; text-align: center; font-size: 14px; }
+  footer .slogan { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--cream); }
+  footer .links { margin-top: 12px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+  footer a { color: var(--gold-soft); text-decoration: none; font-weight: 700; }
+  footer .addr { margin-top: 14px; font-size: 13px; }
 </style>
 </head>
 <body>
-  <main class="card">
-    <svg class="leaf" viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="4.6" stroke-linecap="round" aria-hidden="true">
-      <path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
-      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
-      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
-      <path d="M48 69 L48 86" stroke-width="5.5"/>
-    </svg>
 
-    <h1 class="wordmark">Shaiym</h1>
-    <p class="tagline">шай дүкені</p>
+<header class="hero">
+  <svg class="leaf" viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="4.6" stroke-linecap="round" aria-hidden="true">
+    <path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
+    <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
+    <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
+    <path d="M48 69 L48 86" stroke-width="5.5"/>
+  </svg>
+  <h1>Shaiym</h1>
+  <div class="tag">шай дүкені · Абай</div>
+  <p class="lede"><b>Мейрамхана шайы — енді үйіңізде.</b> Ташкент, Марокко, масала, шырғанақ — дәмін дүкенде татып, рецептімен бірге үйге алып кетесіз. Жаңа қуырылған кофе де осында.</p>
+  <div class="cta">
+    <a class="btn btn-solid" href="/test">Дәм тесті · өз шайыңды тап</a>
+    <a class="btn btn-ghost" href="/recepty">Рецепттер</a>
+    <a class="btn btn-ghost" href="https://wa.me/77064200133">WhatsApp</a>
+  </div>
+  <img class="pic" src="/img/fasad.jpg" alt="Shaiym дүкені">
+</header>
 
-    <hr class="rule">
+<div class="facts">
+  <div class="in">
+    <span><b>Тегін дегустация</b> — күн сайын</span>
+    <span><b>Әр сатып алуға</b> — рецепт-карточка сыйлыққа</span>
+    <span><b>Кофе с собой</b> — жаңа қуырылған дән</span>
+    <span><b>Той мен құдалыққа</b> — дайын жиынтықтар</span>
+  </div>
+</div>
 
-    <p class="soon-kk">Жақында ашылады</p>
-    <p class="soon-ru" lang="ru">Скоро открытие</p>
-
-    <p class="lede" lang="ru"><b>Мейрамхана шайы — енді үйіңізде.</b><br>
-    Ресторанные чаи, рецепт к каждой покупке, подарочные наборы и свежий зерновой кофе — скоро на новом базаре села Абай.</p>
-
-    <div class="actions">
-      <a class="btn btn-solid" href="https://wa.me/77064200133">Написать в WhatsApp</a>
-      <a class="btn btn-ghost" href="/recepty">Рецепттер</a>
-      <a class="btn btn-ghost" href="https://www.instagram.com/shaiym.kz/">@shaiym.kz</a>
+<section class="promo">
+  <div class="in reveal">
+    <div class="eyebrow" style="color: var(--gold-soft);">Апта шайы</div>
+    <h2 style="color: var(--cream);">Осы аптада — жеңілдік</h2>
+    <div class="promo-card">
+      <div>
+        <div class="name">Ташкент шайы</div>
+        <p>Көк шай, лимон, бал және жалбыз — шайханадағыдай. Барлық ингредиенттер бір себетте.</p>
+      </div>
+      <div class="off">−15%</div>
     </div>
+    <p style="text-align: center; margin-top: 14px; font-size: 13px; color: rgba(243,236,221,.55);">Апта сайын жаңа шай. Келесі аптада не болатынын Instagram-нан біліңіз.</p>
+  </div>
+</section>
 
-    <p class="address">Абай ауылы<span class="dot">•</span>жаңа базар<span class="dot">•</span>Келес ауданы</p>
+<section>
+  <div class="in reveal">
+    <div class="eyebrow">Рецепттер</div>
+    <h2>12 мейрамхана шайы — үйде</h2>
+    <div class="sublede">Әр рецептке — қадам-қадаммен нұсқаулық және дүкендегі дайын себет</div>
+    <div class="grid">
+      <a class="card" href="/tashkent"><img src="/img/tashkent.png" alt=""><h3>Ташкент шайы</h3><p>көк шай · лимон · бал</p></a>
+      <a class="card" href="/marokko"><img src="/img/marokko.png" alt=""><h3>Марокко шайы</h3><p>жалбыз · шекер</p></a>
+      <a class="card" href="/masala"><img src="/img/masala.png" alt=""><h3>Масала шай</h3><p>сүт · дәмдеуіштер</p></a>
+      <a class="card" href="/shyrganak"><img src="/img/shyrganak.png" alt=""><h3>Шырғанақ шайы</h3><p>шырғанақ · бал · даршын</p></a>
+    </div>
+    <div class="center"><a class="btn btn-solid" href="/recepty">Барлық 12 рецепт →</a></div>
+  </div>
+</section>
 
-    <footer>© 2026 Shaiym · shaiym.kz</footer>
-  </main>
+<section style="background: var(--cream-panel);">
+  <div class="in reveal">
+    <div class="split">
+      <div>
+        <div class="eyebrow" style="text-align: left;">Шай-карта</div>
+        <h3>Әр тоғызыншы кесе — біздің есебімізден</h3>
+        <p>Сатып алған сайын сатушыдан күн кодын сұраңыз да, Шай-картаңызға мөр қойыңыз. Сегіз мөр — сыйлық: тегін кофе немесе шайға 10% жеңілдік.</p>
+        <div class="stamps" aria-hidden="true">
+          <div class="stamp"><svg viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="6" stroke-linecap="round"><path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/><path d="M48 69 L48 86" stroke-width="7"/></svg></div>
+          <div class="stamp"><svg viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="6" stroke-linecap="round"><path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/><path d="M48 69 L48 86" stroke-width="7"/></svg></div>
+          <div class="stamp"></div><div class="stamp"></div><div class="stamp"></div><div class="stamp"></div><div class="stamp"></div><div class="stamp"></div>
+        </div>
+        <div style="margin-top: 18px;"><a class="btn btn-solid" href="/karta">Шай-картаны ашу</a></div>
+      </div>
+      <div><img src="/img/gifts.jpg" alt="Сыйлық жиынтықтары"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="in reveal">
+    <div class="split">
+      <div><img src="/img/interior.jpg" alt="Shaiym дүкенінің ішінде"></div>
+      <div>
+        <div class="eyebrow" style="text-align: left;">Дүкен</div>
+        <h3>Кіріп, дәмін татып көріңіз</h3>
+        <p>Базар қатарынан да, көшеден де кіруге болады — дүкен арқылы өтіп-ақ кетіңіз, жол-жөнекей бір кесе дәмін татыңыз.</p>
+        <ul>
+          <li><b>Дегустация:</b> күн сайын жаңа «күн шайы» — тегін</li>
+          <li><b>Кофе-бұрыш:</b> капучино, американо және кардамонды кофе</li>
+          <li><b>Сыйлықтар:</b> той, құдалық пен мерекеге дайын жәшіктер</li>
+          <li><b>Мекенжай:</b> Абай ауылы, жаңа базар (Келес ауданы)</li>
+        </ul>
+        <div style="margin-top: 18px;"><a class="btn btn-solid" href="https://wa.me/77064200133">Сұрақ қою — WhatsApp</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="slogan">Жылулық бір пиаладан басталады</div>
+  <div class="links">
+    <a href="/recepty">Рецепттер</a>
+    <a href="/test">Дәм тесті</a>
+    <a href="/karta">Шай-карта</a>
+    <a href="https://www.instagram.com/shaiym.kz/">Instagram</a>
+  </div>
+  <div class="addr">Абай ауылы · жаңа базар · Келес ауданы · +7 706 420 01 33<br>© 2026 Shaiym · shaiym.kz</div>
+</footer>
+
+<script>
+  try {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  } catch (e) { document.querySelectorAll('.reveal').forEach((el) => el.classList.add('on')); }
+</script>
 </body>
 </html>
