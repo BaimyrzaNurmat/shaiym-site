@@ -188,6 +188,10 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--g
 .assort-body{padding:16px 18px 20px}
 .assort-body h3{font-size:1.35rem}
 .assort-body p{margin-top:8px;font-size:.86rem;color:rgba(22,48,31,.75);line-height:1.5}
+.assort-body{display:flex;flex-direction:column;flex:1}
+.assort-go{margin-top:auto;padding-top:12px;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-d);display:inline-flex;align-items:center;gap:6px}
+.assort-card .arr{transition:transform .3s ease}
+.assort-card:hover .arr{transform:translateX(4px)}
 @media(max-width:900px){.assort-grid{grid-template-columns:repeat(2,1fr);gap:12px}.assort-body{padding:12px 14px 16px}.assort-body h3{font-size:1.15rem}.assort-body p{font-size:.78rem}}
 
 /* ---------- recipes ---------- */
@@ -593,34 +597,38 @@ html.has-cursor,html.has-cursor *{cursor:none}
         <a class="sec-link" href="#duken">Дүкенге келу жолы →</a>
       </div>
       <div class="assort-grid">
-        <div class="assort-card reveal">
+        <a class="assort-card reveal" href="/syilyq">
           <figure><img src="img/cat-gifts.jpg" alt="Сыйлық жиынтығы — гравюра" loading="lazy"></figure>
           <div class="assort-body">
             <h3>Сыйлық жиынтықтары</h3>
             <p>Шәйнек, кеселер, таңдаулы шай және рецепт-карточка — бір әдемі қорапта. Сыйлауға дайын.</p>
+            <span class="assort-go">Толығырақ <span class="arr" aria-hidden="true">→</span></span>
           </div>
-        </div>
-        <div class="assort-card reveal" style="--rd:.08s">
+        </a>
+        <a class="assort-card reveal" style="--rd:.08s" href="/ydys">
           <figure><img src="img/cat-posuda.jpg" alt="Шығыс ыдыстары — гравюра" loading="lazy"></figure>
           <div class="assort-body">
             <h3>Ыдыс-аяқ</h3>
             <p>Риштан керамикасы, армуду стақандар, шыны шәйнектер — дастарқанның сәні.</p>
+            <span class="assort-go">Толығырақ <span class="arr" aria-hidden="true">→</span></span>
           </div>
-        </div>
-        <div class="assort-card reveal" style="--rd:.16s">
+        </a>
+        <a class="assort-card reveal" style="--rd:.16s" href="/kofe">
           <figure><img src="img/cat-kofe.jpg" alt="Дәнді кофе — гравюра" loading="lazy"></figure>
           <div class="assort-body">
             <h3>Кофе</h3>
             <p>Жаңа қуырылған дән: керегіңше тартып береміз — үйге де, қолыңызға ұстатып та.</p>
+            <span class="assort-go">Толығырақ <span class="arr" aria-hidden="true">→</span></span>
           </div>
-        </div>
-        <div class="assort-card reveal" style="--rd:.24s">
+        </a>
+        <a class="assort-card reveal" style="--rd:.24s" href="/specii">
           <figure><img src="img/cat-specii.jpg" alt="Дәмдеуіштер — гравюра" loading="lazy"></figure>
           <div class="assort-body">
             <h3>Дәмдеуіштер</h3>
             <p>Кардамон, даршын, бадьян, қарқаде — рецепттегінің бәрі осында, өлшеп аласыз.</p>
+            <span class="assort-go">Толығырақ <span class="arr" aria-hidden="true">→</span></span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
