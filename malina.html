@@ -59,6 +59,10 @@
   footer { margin-top: 30px; padding-top: 14px; border-top: 1px solid rgba(200,162,79,.4); }
   footer .slogan { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 15px; }
 </style>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#16301f">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" href="/icons/icon-192.png" type="image/png">
 </head>
 <body>
   <main class="card">
@@ -110,5 +114,6 @@
     </footer>
   </main>
 <script src="js/tea-promo.js" data-tea="malina"></script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js");</script>
 </body>
 </html>
