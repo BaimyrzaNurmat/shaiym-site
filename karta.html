@@ -68,6 +68,10 @@
   footer { margin-top: 26px; font-size: 13px; color: rgba(243,236,221,.5); }
   footer a { color: #e6cf9a; text-decoration: none; font-weight: 700; }
 </style>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#16301f">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" href="/icons/icon-192.png" type="image/png">
 </head>
 <body>
 <main class="wrap">
@@ -179,5 +183,6 @@
 
   render();
 </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js");</script>
 </body>
 </html>
