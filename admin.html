@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Shaiym — панель</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=PT+Sans:wght@400;700&display=swap">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100svh; background: #16301f; color: #f3ecdd;
+    font-family: 'PT Sans', Arial, sans-serif; font-size: 15px; line-height: 1.5;
+    display: flex; justify-content: center; padding: 26px 14px 60px;
+  }
+  .wrap { width: 100%; max-width: 560px; }
+  h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 28px; text-align: center; }
+  .sub { text-align: center; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #a07c2c; margin: 4px 0 20px; }
+  .panel { background: #1d3b28; border: 1px solid rgba(200,162,79,.5); padding: 18px 16px; margin-top: 16px; }
+  .panel h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 20px; color: #e6cf9a; margin-bottom: 12px; }
+  label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(230,207,154,.8); margin: 12px 0 5px; }
+  input, select {
+    width: 100%; padding: 10px 12px; font-family: inherit; font-size: 15px;
+    background: #16301f; color: #f3ecdd; border: 1px solid rgba(200,162,79,.55);
+  }
+  input:focus, select:focus { outline: 2px solid #c8a24f; }
+  .btn {
+    display: inline-block; padding: 11px 20px; font-size: 14px; font-weight: 700; font-family: inherit;
+    border: 1px solid #c8a24f; cursor: pointer; background: #c8a24f; color: #1a3322; margin-top: 14px;
+  }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .btn-ghost { background: transparent; color: #e6cf9a; }
+  .msg { margin-top: 10px; font-size: 13.5px; min-height: 18px; }
+  .msg.ok { color: #9fd3a0; }
+  .msg.err { color: #e2a08a; }
+  .hint { font-size: 12.5px; color: rgba(243,236,221,.55); margin-top: 8px; }
+  .codes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; }
+  .code-cell { background: #16301f; border: 1px solid rgba(200,162,79,.4); padding: 8px 6px; text-align: center; }
+  .code-cell .d { font-size: 11px; color: rgba(243,236,221,.55); }
+  .code-cell .c { font-weight: 700; font-size: 17px; letter-spacing: 2px; color: #e6cf9a; }
+  .code-cell.today { border-color: #c8a24f; background: rgba(200,162,79,.14); }
+  .gal-block { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(200,162,79,.25); }
+  .gal-block .t { font-weight: 700; font-size: 14px; color: #e6cf9a; }
+  .thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .thumb { position: relative; width: 74px; height: 74px; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; border: 1px solid rgba(200,162,79,.5); display: block; }
+  .thumb button {
+    position: absolute; top: -7px; right: -7px; width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid #c8a24f; background: #16301f; color: #e2a08a; font-weight: 700; cursor: pointer; line-height: 1;
+  }
+  .addfile { margin-top: 8px; font-size: 13px; }
+  .hide { display: none; }
+  a { color: #e6cf9a; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Shaiym</h1>
+  <div class="sub">панель управления сайтом</div>
+
+  <div class="panel">
+    <h2>Доступ</h2>
+    <label for="token">GitHub-токен</label>
+    <input type="password" id="token" placeholder="ghp_...">
+    <button class="btn" onclick="saveToken()">Сохранить и проверить</button>
+    <div class="msg" id="token-msg"></div>
+    <div class="hint">Токен хранится только в этом браузере. Нужен токен с правом записи в репозиторий shaiym-site (тот же, что в файле .env проекта, — попроси Клода напомнить, где он лежит).</div>
+  </div>
+
+  <div class="panel">
+    <h2>Апта шайы (акция недели)</h2>
+    <label for="tea">Какой чай</label>
+    <select id="tea"></select>
+    <label for="disc">Скидка (текст на бейдже)</label>
+    <input type="text" id="disc" value="−15%" maxlength="8">
+    <label for="pill">Строка на странице чая</label>
+    <input type="text" id="pill" maxlength="60">
+    <button class="btn" onclick="publishPromo()" id="promo-btn">Опубликовать акцию</button>
+    <div class="msg" id="promo-msg"></div>
+    <div class="hint">После публикации сайт обновится в течение 1–10 минут (кеш GitHub Pages).</div>
+  </div>
+
+  <div class="panel">
+    <h2>Фото на страницах категорий</h2>
+    <div id="galleries"></div>
+    <div class="msg" id="gal-msg"></div>
+    <div class="hint">Фото сжимаются прямо в браузере до 1200px — можно загружать с телефона. До 6 фото на категорию.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Коды Шай-карты</h2>
+    <div class="codes" id="codes"></div>
+    <div class="hint">Сегодняшний код выделен. Формула та же, что на shaiym.kz/karta — коды совпадают всегда.</div>
+  </div>
+</main>
+
+<script>
+  var REPO = 'https://api.github.com/repos/BaimyrzaNurmat/shaiym-site/contents/';
+  var TEAS = [
+    ['tashkent', 'Ташкент шайы'], ['marokko', 'Марокко шайы'], ['masala', 'Масала шай'],
+    ['shyrganak', 'Шырғанақ шайы'], ['imbir', 'Зімбір шайы'], ['malina', 'Таңқурай шайы'],
+    ['karkade', 'Қарқаде'], ['turk', 'Түрік шайы'], ['ulun', 'Сүтті улун'],
+    ['zhasmin', 'Жасмин шайы'], ['qysqy', 'Қысқы шай'], ['dala', 'Дала шай']
+  ];
+  var CATS = [['syilyq', 'Сыйлық жиынтықтары'], ['ydys', 'Ыдыс-аяқ'], ['kofe', 'Кофе'], ['specii', 'Дәмдеуіштер']];
+  var token = '';
+  var config = null;
+  var configSha = null;
+  try { token = localStorage.getItem('shaiym_admin_token') || ''; } catch (e) {}
+  if (token) document.getElementById('token').value = token;
+
+  function headers() {
+    return { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+  }
+  function setMsg(id, text, ok) {
+    var el = document.getElementById(id);
+    el.textContent = text;
+    el.className = 'msg ' + (ok ? 'ok' : 'err');
+  }
+  function b64encodeText(str) {
+    var bytes = new TextEncoder().encode(str);
+    var bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64decodeText(b64) {
+    var bin = atob(b64.replace(/\n/g, ''));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  function saveToken() {
+    token = document.getElementById('token').value.trim();
+    try { localStorage.setItem('shaiym_admin_token', token); } catch (e) {}
+    setMsg('token-msg', 'Проверяю…', true);
+    fetch(REPO + 'data/config.json', { headers: headers() })
+      .then(function (r) {
+        if (r.status === 401 || r.status === 403) throw new Error('токен не подошёл (нет доступа)');
+        if (!r.ok) throw new Error('ошибка ' + r.status);
+        return r.json();
+      })
+      .then(function (j) {
+        configSha = j.sha;
+        config = JSON.parse(b64decodeText(j.content));
+        setMsg('token-msg', 'Токен работает. Настройки загружены.', true);
+        fillPromoForm();
+        renderGalleries();
+      })
+      .catch(function (e) { setMsg('token-msg', 'Не получилось: ' + e.message, false); });
+  }
+
+  /* ---------- акция ---------- */
+  var teaSel = document.getElementById('tea');
+  TEAS.forEach(function (t) {
+    var o = document.createElement('option');
+    o.value = t[0]; o.textContent = t[1];
+    teaSel.appendChild(o);
+  });
+  function teaName(id) {
+    for (var i = 0; i < TEAS.length; i++) if (TEAS[i][0] === id) return TEAS[i][1];
+    return id;
+  }
+  function autoPill() {
+    document.getElementById('pill').value = 'Апта шайы · ' + document.getElementById('disc').value + ' · дегустация тегін';
+  }
+  document.getElementById('disc').addEventListener('input', autoPill);
+  autoPill();
+  function fillPromoForm() {
+    if (!config || !config.promo) return;
+    teaSel.value = config.promo.teaId || 'tashkent';
+    document.getElementById('disc').value = config.promo.badge || '−15%';
+    document.getElementById('pill').value = config.promo.pill || '';
+  }
+
+  function putConfig(message, done, fail) {
+    var body = {
+      message: message,
+      content: b64encodeText(JSON.stringify(config, null, 2) + '\n'),
+      sha: configSha
+    };
+    fetch(REPO + 'data/config.json', { method: 'PUT', headers: headers(), body: JSON.stringify(body) })
+      .then(function (r) { if (!r.ok) throw new Error('ошибка ' + r.status); return r.json(); })
+      .then(function (j) { configSha = j.content.sha; done(); })
+      .catch(fail);
+  }
+
+  function publishPromo() {
+    if (!token) { setMsg('promo-msg', 'Сначала сохрани токен выше.', false); return; }
+    if (!config) { setMsg('promo-msg', 'Нажми «Сохранить и проверить» выше — загружу настройки.', false); return; }
+    var btn = document.getElementById('promo-btn');
+    btn.disabled = true;
+    var disc = document.getElementById('disc').value.trim();
+    config.promo = {
+      teaId: teaSel.value,
+      badge: disc,
+      hub: 'Апта шайы · ' + disc,
+      pill: document.getElementById('pill').value.trim()
+    };
+    config.updated = new Date().toISOString().slice(0, 10);
+    setMsg('promo-msg', 'Публикую…', true);
+    putConfig('Admin: promo → ' + teaSel.value + ' ' + disc, function () {
+      btn.disabled = false;
+      setMsg('promo-msg', 'Готово! Теперь «Апта шайы» — ' + teaName(teaSel.value) + ' ' + disc + '. На сайте появится в течение 10 минут.', true);
+    }, function (e) {
+      btn.disabled = false;
+      setMsg('promo-msg', 'Не получилось: ' + e.message, false);
+    });
+  }
+
+  /* ---------- фото ---------- */
+  function renderGalleries() {
+    var host = document.getElementById('galleries');
+    host.innerHTML = '';
+    if (!config) { host.innerHTML = '<div class="hint">Сохрани токен — покажу фото.</div>'; return; }
+    CATS.forEach(function (c) {
+      var cat = c[0];
+      var block = document.createElement('div');
+      block.className = 'gal-block';
+      var t = document.createElement('div');
+      t.className = 't'; t.textContent = c[1];
+      block.appendChild(t);
+      var thumbs = document.createElement('div');
+      thumbs.className = 'thumbs';
+      (config.photos[cat] || []).forEach(function (p) {
+        var th = document.createElement('div');
+        th.className = 'thumb';
+        var img = document.createElement('img');
+        img.src = '/' + p + '?v=' + Date.now();
+        th.appendChild(img);
+        var del = document.createElement('button');
+        del.textContent = '×';
+        del.title = 'Удалить фото';
+        del.onclick = function () { removePhoto(cat, p); };
+        th.appendChild(del);
+        thumbs.appendChild(th);
+      });
+      block.appendChild(thumbs);
+      if ((config.photos[cat] || []).length < 6) {
+        var inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/*';
+        inp.className = 'addfile';
+        inp.onchange = function () { if (inp.files[0]) addPhoto(cat, inp.files[0]); };
+        block.appendChild(inp);
+      }
+      host.appendChild(block);
+    });
+  }
+
+  function shrink(file, done, fail) {
+    var img = new Image();
+    var url = URL.createObjectURL(file);
+    img.onload = function () {
+      URL.revokeObjectURL(url);
+      var max = 1200;
+      var k = Math.min(1, max / Math.max(img.width, img.height));
+      var cv = document.createElement('canvas');
+      cv.width = Math.round(img.width * k);
+      cv.height = Math.round(img.height * k);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+      var dataUrl = cv.toDataURL('image/jpeg', 0.82);
+      done(dataUrl.split(',')[1]);
+    };
+    img.onerror = function () { fail(new Error('не удалось прочитать файл')); };
+    img.src = url;
+  }
+
+  function addPhoto(cat, file) {
+    if (!token || !config) { setMsg('gal-msg', 'Сначала сохрани токен.', false); return; }
+    setMsg('gal-msg', 'Сжимаю и загружаю…', true);
+    shrink(file, function (b64) {
+      var path = 'img/photos/' + cat + '-' + Date.now() + '.jpg';
+      fetch(REPO + path, {
+        method: 'PUT', headers: headers(),
+        body: JSON.stringify({ message: 'Admin: photo ' + cat, content: b64 })
+      })
+        .then(function (r) { if (!r.ok) throw new Error('ошибка ' + r.status); return r.json(); })
+        .then(function () {
+          config.photos[cat] = config.photos[cat] || [];
+          config.photos[cat].push(path);
+          putConfig('Admin: photos ' + cat, function () {
+            setMsg('gal-msg', 'Фото добавлено. На сайте — в течение 10 минут.', true);
+            renderGalleries();
+          }, function (e) { setMsg('gal-msg', 'Фото залито, но список не сохранился: ' + e.message + '. Нажми «Сохранить и проверить» и попробуй ещё раз.', false); });
+        })
+        .catch(function (e) { setMsg('gal-msg', 'Не получилось: ' + e.message, false); });
+    }, function (e) { setMsg('gal-msg', e.message, false); });
+  }
+
+  function removePhoto(cat, path) {
+    if (!token || !config) return;
+    if (!confirm('Удалить это фото с сайта?')) return;
+    setMsg('gal-msg', 'Удаляю…', true);
+    fetch(REPO + path, { headers: headers() })
+      .then(function (r) { if (!r.ok) throw new Error('файл не найден'); return r.json(); })
+      .then(function (j) {
+        return fetch(REPO + path, {
+          method: 'DELETE', headers: headers(),
+          body: JSON.stringify({ message: 'Admin: remove photo', sha: j.sha })
+        });
+      })
+      .then(function (r) { if (!r.ok) throw new Error('ошибка ' + r.status); })
+      .then(function () {
+        config.photos[cat] = (config.photos[cat] || []).filter(function (p) { return p !== path; });
+        putConfig('Admin: photos ' + cat, function () {
+          setMsg('gal-msg', 'Фото удалено.', true);
+          renderGalleries();
+        }, function (e) { setMsg('gal-msg', 'Файл удалён, но список не сохранился: ' + e.message, false); });
+      })
+      .catch(function (e) { setMsg('gal-msg', 'Не получилось: ' + e.message, false); });
+  }
+
+  /* ---------- коды дня ---------- */
+  (function () {
+    var host = document.getElementById('codes');
+    var days = ['жс', 'дс', 'сс', 'ср', 'бс', 'жм', 'сб'];
+    for (var i = 0; i < 8; i++) {
+      var d = new Date();
+      d.setDate(d.getDate() + i);
+      var seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+      var code = ((seed * 7919 + 104729) % 46656).toString(36).toUpperCase();
+      while (code.length < 3) code = '0' + code;
+      var cell = document.createElement('div');
+      cell.className = 'code-cell' + (i === 0 ? ' today' : '');
+      cell.innerHTML = '<div class="d">' + (i === 0 ? 'сегодня' : d.getDate() + '.' + String(d.getMonth() + 1).padStart(2, '0') + ' ' + days[d.getDay()]) + '</div><div class="c">' + code + '</div>';
+      host.appendChild(cell);
+    }
+  })();
+
+  renderGalleries();
+  if (token) saveToken();
+</script>
+</body>
+</html>
