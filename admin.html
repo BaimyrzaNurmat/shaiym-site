@@ -98,14 +98,16 @@
     <div id="sale-qr-box" class="hide" style="text-align:center;margin-top:14px">
       <img id="sale-qr" alt="QR чека" width="240" height="240" style="border:8px solid #f3ecdd;background:#f3ecdd">
       <div style="font-size:20px;font-weight:700;color:#e6cf9a;margin-top:8px" id="sale-sum"></div>
-      <div class="hint">Клиент сканирует этот QR в приложении Shaiym — сумма упадёт на его накопительный счёт. QR одноразовый, действует 30 минут.</div>
+      <div class="hint">Клиент сканирует этот QR в приложении Shaiym — ему начислится 5% бонусами. QR одноразовый, действует 30 минут.</div>
     </div>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(200,162,79,.25)">
-      <label for="reward-code">Проверка награды — код клиента</label>
-      <input type="text" id="reward-code" maxlength="4" placeholder="Например: K7MP" style="text-transform:uppercase;letter-spacing:.3em">
-      <button class="btn" onclick="confirmReward()" id="reward-btn">Проверить и погасить</button>
-      <div class="msg" id="reward-msg"></div>
-      <div class="hint">Клиент жмёт в приложении «Использовать награду» и называет код. Если награда настоящая — здесь появится, что именно выдать. Код одноразовый: после проверки награда гасится навсегда.</div>
+      <label for="pay-code">Оплата бонусами — код клиента</label>
+      <input type="text" id="pay-code" maxlength="4" placeholder="Например: K7MP" style="text-transform:uppercase;letter-spacing:.3em">
+      <label for="pay-amount">Сумма чека, тг</label>
+      <input type="number" id="pay-amount" inputmode="numeric" min="1" placeholder="1800">
+      <button class="btn" onclick="confirmBonusPay()" id="pay-btn">Списать бонусы</button>
+      <div class="msg" id="pay-msg"></div>
+      <div class="hint">Правило: чек оплачивается бонусами ТОЛЬКО целиком — доплата деньгами невозможна. Клиент жмёт «Бонуспен төлеу» в приложении и называет код. Если бонусов хватает — спишется вся сумма, денег не бери. Не хватает — чек полностью за деньги (и начисли QR-ом выше).</div>
     </div>
     <div class="hint">Для этого раздела GitHub-токен не нужен — только PIN кассы (он запоминается на этом устройстве).</div>
   </div>
@@ -388,29 +390,34 @@
       .catch(function (e) { btn.disabled = false; setMsg('sale-msg', 'Сеть: ' + e.message, false); });
   }
 
-  function confirmReward() {
-    var code = document.getElementById('reward-code').value.trim().toUpperCase();
+  function confirmBonusPay() {
+    var code = document.getElementById('pay-code').value.trim().toUpperCase();
+    var amount = parseInt(document.getElementById('pay-amount').value, 10);
     var pin = document.getElementById('sale-pin').value.trim();
-    if (!code) { setMsg('reward-msg', 'Введи код клиента.', false); return; }
-    if (!pin) { setMsg('reward-msg', 'Введи PIN кассы в поле выше.', false); return; }
-    var btn = document.getElementById('reward-btn');
+    if (!code) { setMsg('pay-msg', 'Введи код клиента.', false); return; }
+    if (!amount || amount <= 0) { setMsg('pay-msg', 'Введи сумму чека.', false); return; }
+    if (!pin) { setMsg('pay-msg', 'Введи PIN кассы в поле выше.', false); return; }
+    var btn = document.getElementById('pay-btn');
     btn.disabled = true;
-    setMsg('reward-msg', 'Проверяю…', true);
-    fetch(SB_URL + '/rest/v1/rpc/confirm_reward', {
+    setMsg('pay-msg', 'Проверяю…', true);
+    fetch(SB_URL + '/rest/v1/rpc/confirm_bonus_payment', {
       method: 'POST', headers: sbHeaders(),
-      body: JSON.stringify({ p_code: code, p_pin: pin })
+      body: JSON.stringify({ p_code: code, p_amount: amount, p_pin: pin })
     })
       .then(function (r) { return r.json(); })
       .then(function (j) {
         btn.disabled = false;
         if (!j.ok) {
-          setMsg('reward-msg', j.err === 'pin' ? 'Неверный PIN.' : 'Код недействителен: уже использован, истёк (10 минут) или опечатка.', false);
+          if (j.err === 'pin') setMsg('pay-msg', 'Неверный PIN.', false);
+          else if (j.err === 'balance') setMsg('pay-msg', 'Бонусов не хватает: у клиента ' + j.balance + ' тг. Чек — полностью за деньги.', false);
+          else setMsg('pay-msg', 'Код недействителен: уже использован, истёк (10 минут) или опечатка.', false);
           return;
         }
-        document.getElementById('reward-code').value = '';
-        setMsg('reward-msg', 'Награда настоящая, погашена. Выдай клиенту: ' + j.reward_text, true);
+        document.getElementById('pay-code').value = '';
+        document.getElementById('pay-amount').value = '';
+        setMsg('pay-msg', 'Оплачено бонусами полностью — денег не бери. Остаток клиента: ' + j.balance_left + ' тг.', true);
       })
-      .catch(function (e) { btn.disabled = false; setMsg('reward-msg', 'Сеть: ' + e.message, false); });
+      .catch(function (e) { btn.disabled = false; setMsg('pay-msg', 'Сеть: ' + e.message, false); });
   }
 
   renderGalleries();
