@@ -163,41 +163,6 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--g
 .js .reveal[data-dir="right"]{transform:translateX(46px)}
 .js .reveal.is-in{opacity:1;transform:none}
 
-/* ---------- promo (апта шайы) ---------- */
-.promo{background:var(--green-2);color:var(--cream)}
-.promo .wrap{
-  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,70px);
-  align-items:center;padding-top:clamp(60px,9vh,100px);padding-bottom:clamp(60px,9vh,100px);
-}
-.promo .kicker{color:var(--gold-l)}
-.promo .kicker::before{background:var(--gold-l)}
-.promo h2{color:var(--panel);font-size:clamp(2.1rem,4.8vw,3.4rem);margin-top:14px}
-.promo-discount{
-  font-family:var(--serif);font-weight:600;color:var(--gold);
-  font-size:clamp(4.5rem,11vw,8rem);line-height:1;margin-top:6px;
-}
-.promo-discount small{font-size:.32em;font-style:italic;font-weight:500;color:var(--gold-l);letter-spacing:.02em}
-.promo{overflow:hidden}
-.promo p{margin-top:16px;max-width:52ch;color:rgba(243,236,221,.85)}
-.promo p em{font-style:italic;font-family:var(--serif);font-size:1.15em;color:var(--gold-l);border-bottom:1px solid var(--gold-d)}
-.promo-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
-.promo-art{position:relative;display:grid;place-items:center;padding:20px}
-.promo-circle{
-  position:relative;width:min(340px,78vw);aspect-ratio:1/1;border-radius:50%;
-  background:var(--cream);display:grid;place-items:center;
-  box-shadow:0 30px 60px -30px rgba(16,36,23,.8);
-}
-.promo-circle img{width:78%;height:78%;object-fit:contain}
-.promo-ring{position:absolute;left:-22px;top:-22px;width:calc(100% + 44px);height:calc(100% + 44px);color:var(--gold);animation:spin 36s linear infinite;will-change:transform}
-.promo-ring circle{fill:none;stroke:currentColor;stroke-width:1.4;stroke-dasharray:5 11;opacity:.8}
-@keyframes spin{to{transform:rotate(360deg)}}
-.promo-tag{
-  position:absolute;top:6%;right:2%;background:var(--gold);color:var(--green-3);
-  font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
-  padding:9px 16px;border-radius:999px;box-shadow:var(--shadow);
-}
-@media(max-width:860px){.promo .wrap{grid-template-columns:1fr}.promo-art{order:-1;padding:0}}
-
 /* ---------- recipes ---------- */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:clamp(14px,2vw,26px)}
 .card{
@@ -261,6 +226,19 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--g
   user-select:none;-webkit-user-drag:none;pointer-events:none}
 .token.is-active .token-disc{border-color:var(--gold);
   box-shadow:0 16px 42px rgba(200,162,79,.35),0 0 0 6px rgba(200,162,79,.14)}
+.token-badge{position:absolute;top:-7px;right:-9px;z-index:5;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold) 55%,var(--gold-d));color:var(--green-3);
+  font:700 .62rem var(--sans);letter-spacing:.04em;padding:4px 8px;border-radius:999px;
+  box-shadow:0 6px 14px rgba(6,14,9,.4);pointer-events:none;white-space:nowrap}
+.token-promo .token-disc{border-color:var(--gold);animation:promoPulse 2.6s ease-in-out infinite}
+@keyframes promoPulse{
+  0%,100%{box-shadow:0 10px 26px rgba(6,14,9,.45)}
+  50%{box-shadow:0 10px 26px rgba(6,14,9,.45),0 0 0 9px rgba(200,162,79,.22)}
+}
+.hub-promo{background:rgba(200,162,79,.16);border:1px solid rgba(200,162,79,.55);color:var(--gold-l);
+  font:700 .62rem var(--sans);letter-spacing:.12em;text-transform:uppercase;
+  padding:5px 12px;border-radius:999px;white-space:nowrap}
+.hub-promo[hidden]{display:none}
 .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:56%;aspect-ratio:1;border-radius:50%;z-index:300;pointer-events:none;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.28rem;
@@ -454,7 +432,6 @@ html.has-cursor,html.has-cursor *{cursor:none}
   .js .hero-fig{opacity:1;animation:none}
   .js .reveal{opacity:1;transform:none}
   .js .stamp.is-on{transform:scale(1)}
-  .promo-ring{animation:none}
 }
 </style>
 </head>
@@ -504,7 +481,7 @@ html.has-cursor,html.has-cursor *{cursor:none}
           <a class="btn btn-solid w" style="--d:.95s" href="#recepter">Рецепттерді ашу</a>
           <a class="btn btn-line w" style="--d:1.05s" href="/test">Дәм тестінен өту</a>
         </div>
-        <a class="hero-note w" style="--d:1.2s" href="#apta">Апта шайы: Ташкент шайы −15% <span aria-hidden="true">↓</span></a>
+        <a class="hero-note w" style="--d:1.2s" href="#dongelek">Апта шайы дөңгелекте — таңдап көріңіз <span aria-hidden="true">↓</span></a>
       </div>
       <div class="hero-art">
         <span class="hero-ghost" aria-hidden="true">S</span>
@@ -567,35 +544,13 @@ html.has-cursor,html.has-cursor *{cursor:none}
           <div class="wheel" id="wheel" tabindex="0" role="group" aria-label="Шай дөңгелегі: айналдырып шай таңдаңыз"></div>
           <div class="hub">
             <svg class="leaf hub-tre" viewBox="0 0 96 96" aria-hidden="true"><use href="#mark"/></svg>
-            <p class="hub-kicker">Таңдалған дәм</p>
+            <p class="hub-kicker" id="hubKicker" hidden>Таңдалған дәм</p>
+            <p class="hub-promo" id="hubPromo">Апта шайы · −15%</p>
             <p class="hub-name" id="hubName">Ташкент шайы</p>
             <a class="hub-btn" id="hubBtn" href="/tashkent">Рецепті ашу</a>
           </div>
         </div>
         <p class="wheel-hint">Саусақпен айналдыруға да, жетонды басуға да болады</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== PROMO: АПТА ШАЙЫ ===== -->
-  <section class="promo" id="apta">
-    <div class="wrap">
-      <div class="reveal" data-dir="left">
-        <p class="kicker">Осы апта</p>
-        <h2>Апта шайы — Ташкент шайы</h2>
-        <p class="promo-discount">−15<small>пайыз</small></p>
-        <p>Көк шай, лимон және жалбыз — Шығыс дастарқанының классикасы. Осы аптада Ташкент шайына 15% жеңілдік, ал <em>дегустация — тегін</em>: келіңіз, бір пиала құйып береміз.</p>
-        <div class="promo-cta">
-          <a class="btn btn-gold" href="/tashkent">Рецептін көру</a>
-          <a class="btn btn-line-light" href="#duken">Дегустацияға келу</a>
-        </div>
-      </div>
-      <div class="promo-art reveal" data-dir="right">
-        <div class="promo-circle">
-          <svg class="promo-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49"/></svg>
-          <img src="img/tashkent.png" alt="Ташкент шайы гравюрасы" loading="lazy">
-          <span class="promo-tag">Тегін дегустация</span>
-        </div>
       </div>
     </div>
   </section>
@@ -1027,7 +982,7 @@ html.has-cursor,html.has-cursor *{cursor:none}
 (function(){
   var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var TEAS = [
-    {id:'tashkent',  name:'Ташкент шайы'},
+    {id:'tashkent',  name:'Ташкент шайы', promo:'Апта шайы · −15%', badge:'−15%'},
     {id:'marokko',   name:'Марокко шайы'},
     {id:'masala',    name:'Масала шай'},
     {id:'shyrganak', name:'Шырғанақ шайы'},
@@ -1045,14 +1000,17 @@ html.has-cursor,html.has-cursor *{cursor:none}
   var wheel = document.getElementById('wheel');
   var hubName = document.getElementById('hubName');
   var hubBtn = document.getElementById('hubBtn');
+  var hubKicker = document.getElementById('hubKicker');
+  var hubPromo = document.getElementById('hubPromo');
   if (!wheel || !wrap) return;
 
   var tokens = TEAS.map(function(t){
     var b = document.createElement('button');
     b.type = 'button';
-    b.className = 'token';
-    b.setAttribute('aria-label', t.name);
-    b.innerHTML = '<span class="token-disc"><img src="img/' + t.id + '.png" alt="" draggable="false"></span>';
+    b.className = t.promo ? 'token token-promo' : 'token';
+    b.setAttribute('aria-label', t.name + (t.promo ? ' — ' + t.promo : ''));
+    b.innerHTML = '<span class="token-disc"><img src="img/' + t.id + '.png" alt="" draggable="false"></span>'
+      + (t.badge ? '<span class="token-badge">' + t.badge + '</span>' : '');
     wheel.appendChild(b);
     return b;
   });
@@ -1064,6 +1022,10 @@ html.has-cursor,html.has-cursor *{cursor:none}
     for (var k = 0; k < N; k++) tokens[k].classList.toggle('is-active', k === i);
     hubName.textContent = TEAS[i].name;
     hubBtn.setAttribute('href', '/' + TEAS[i].id);
+    if (hubPromo && hubKicker){
+      if (TEAS[i].promo){ hubPromo.textContent = TEAS[i].promo; hubPromo.hidden = false; hubKicker.hidden = true; }
+      else { hubPromo.hidden = true; hubKicker.hidden = false; }
+    }
     if (!RM && hubName.animate) {
       hubName.animate(
         [{opacity:0, transform:'translateY(7px)'}, {opacity:1, transform:'translateY(0)'}],
