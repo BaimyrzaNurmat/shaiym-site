@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Shaiym қосымшасына оралу</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { min-height: 100svh; background: #16301f; color: #f3ecdd; font-family: 'PT Sans', Arial, sans-serif;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; }
+  .box { max-width: 340px; }
+  h1 { font-size: 22px; color: #e6cf9a; }
+  p { margin-top: 10px; font-size: 15px; color: rgba(243,236,221,.8); }
+  a.btn { display: inline-block; margin-top: 18px; padding: 14px 28px; background: #c8a24f; color: #1a3322;
+    font-weight: 700; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Аккаунт расталды</h1>
+  <p id="msg">Қосымшаға ораламыз…</p>
+  <a class="btn" id="open" href="#">Shaiym қосымшасын ашу</a>
+</div>
+<script>
+  var hash = window.location.hash || '';
+  var target = 'shaiym://auth' + hash;
+  document.getElementById('open').setAttribute('href', target);
+  if (hash.indexOf('access_token') >= 0) {
+    window.location.replace(target);
+  } else {
+    document.getElementById('msg').textContent = 'Байланыс расталды. Қосымшаны ашыңыз.';
+  }
+</script>
+</body>
+</html>
