@@ -1,0 +1,29 @@
+{
+  "name": "Shaiym — шай дүкені",
+  "short_name": "Shaiym",
+  "description": "Мейрамхана шайы — енді үйіңізде: рецепттер, Шай-карта, апта шайы.",
+  "lang": "kk",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#16301f",
+  "theme_color": "#16301f",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Шай-карта",
+      "short_name": "Карта",
+      "url": "/karta",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Рецепттер",
+      "url": "/recepty",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
