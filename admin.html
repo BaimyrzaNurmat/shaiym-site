@@ -105,6 +105,22 @@
   </div>
 
   <div class="panel">
+    <h2>Владелец — сверка продаж</h2>
+    <label for="owner-pin">PIN владельца</label>
+    <input type="password" id="owner-pin" inputmode="numeric" maxlength="6" placeholder="****">
+    <label for="owner-days">Период</label>
+    <select id="owner-days">
+      <option value="1">Сегодня</option>
+      <option value="7" selected>7 дней</option>
+      <option value="30">30 дней</option>
+    </select>
+    <button class="btn" onclick="ownerReport()" id="owner-btn">Показать отчёт</button>
+    <div class="msg" id="owner-msg"></div>
+    <div id="owner-out" style="margin-top:10px"></div>
+    <div class="hint">Сверяй колонку «Деньги» с выручкой в Kaspi Pay и кассе за тот же день. Если бонусов начислено заметно больше, чем 5% от реальной выручки, — кассир создаёт чеки без покупок. PIN владельца кассиру не давай.</div>
+  </div>
+
+  <div class="panel">
     <h2>Коды Шай-карты (сайт)</h2>
     <div class="codes" id="codes"></div>
     <div class="hint">Коды для веб-версии Шай-карты на shaiym.kz/karta. Сегодняшний выделен.</div>
@@ -414,6 +430,43 @@
         })
         .catch(function () {});
     }, 2500);
+  }
+
+  function ownerReport() {
+    var pin = document.getElementById('owner-pin').value.trim();
+    var days = parseInt(document.getElementById('owner-days').value, 10);
+    if (!pin) { setMsg('owner-msg', 'Введи PIN владельца.', false); return; }
+    var btn = document.getElementById('owner-btn');
+    btn.disabled = true;
+    setMsg('owner-msg', 'Собираю…', true);
+    fetch(SB_URL + '/rest/v1/rpc/owner_report', {
+      method: 'POST', headers: sbHeaders(),
+      body: JSON.stringify({ p_pin: pin, p_days: days })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        btn.disabled = false;
+        if (!j.ok) { setMsg('owner-msg', j.err === 'pin' ? 'Неверный PIN владельца.' : 'Ошибка.', false); return; }
+        setMsg('owner-msg', 'Бонусов начислено за период: ' + j.bonus_out + ' тг · потрачено бонусами: ' + j.bonus_spent + ' тг', true);
+        var h = '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
+          '<tr style="color:#e6cf9a;text-align:left"><th style="padding:4px">День</th><th>Чеков</th><th>Деньги, тг</th><th>Бонусами, тг</th><th>Не отскан.</th></tr>';
+        j.by_day.forEach(function (d) {
+          h += '<tr style="border-top:1px solid rgba(200,162,79,.25)"><td style="padding:4px">' + d.day +
+            '</td><td>' + d.checks + '</td><td>' + Number(d.money_sales).toLocaleString('ru-RU') +
+            '</td><td>' + Number(d.bonus_sales).toLocaleString('ru-RU') + '</td><td>' + d.not_scanned + '</td></tr>';
+        });
+        h += '</table>';
+        if (j.recent.length) {
+          h += '<div style="margin-top:10px;color:#e6cf9a;font-weight:700;font-size:13px">Последние чеки</div><div style="font-size:12.5px;color:rgba(243,236,221,.75)">';
+          j.recent.forEach(function (p) {
+            var st = p.status === 'paid' ? 'бонусами' : (p.status === 'accrued' ? 'деньги' : 'не отсканирован');
+            h += p.created_at + ' — ' + Number(p.amount).toLocaleString('ru-RU') + ' тг (' + st + ')<br>';
+          });
+          h += '</div>';
+        }
+        document.getElementById('owner-out').innerHTML = h;
+      })
+      .catch(function (e) { btn.disabled = false; setMsg('owner-msg', 'Сеть: ' + e.message, false); });
   }
 
   renderGalleries();
