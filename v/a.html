@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shaiym — мейрамхана шайы енді үйіңізде</title>
+<meta name="description" content="Shaiym — Абай ауылындағы шай бутигі. Мейрамхана шайлары, рецепт-карточкалар, тегін дегустация және өзіңізбен ала кететін кофе.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<script>
+/* до первой отрисовки: пропуск прелоадера при повторном визите */
+(function(){
+  document.documentElement.classList.add('js');
+  try{
+    if (sessionStorage.getItem('shaiym-intro-seen')) document.documentElement.classList.add('no-intro');
+  }catch(e){}
+})();
+</script>
+<style>
+/* ============ базовые токены ============ */
+:root{
+  --g900:#102417;
+  --g800:#16301f;
+  --g700:#1d3b28;
+  --gold:#c8a24f;
+  --gold-d:#a07c2c;
+  --gold-l:#e6cf9a;
+  --cream:#f3ecdd;
+  --cream-p:#faf6ec;
+  --line: rgba(200,162,79,.32);
+  --line-soft: rgba(200,162,79,.18);
+  --txt: rgba(243,236,221,.92);
+  --txt-dim: rgba(243,236,221,.66);
+  --serif:'Cormorant Garamond', Georgia, serif;
+  --sans:'PT Sans', 'Segoe UI', Arial, sans-serif;
+  --radius:24px;
+  --wrap:1160px;
+  --pad:clamp(20px, 5vw, 48px);
+}
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+body{
+  background:var(--g900);
+  color:var(--txt);
+  font-family:var(--sans);
+  font-size:16.5px;
+  line-height:1.65;
+  font-variant-numeric: lining-nums;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{ max-width:100%; display:block; }
+a{ color:var(--gold-l); text-decoration:none; }
+a:focus-visible, button:focus-visible{
+  outline:2px solid var(--gold-l);
+  outline-offset:3px;
+  border-radius:6px;
+}
+h1,h2,h3{ font-family:var(--serif); font-weight:600; color:var(--cream); line-height:1.08; }
+::selection{ background:var(--gold); color:var(--g900); }
+
+.wrap{ max-width:var(--wrap); margin-inline:auto; padding-inline:var(--pad); }
+
+/* ============ прелоадер ============ */
+#intro{
+  position:fixed; inset:0; z-index:200;
+  background:radial-gradient(120% 120% at 50% 30%, var(--g800) 0%, var(--g900) 70%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
+  transition:opacity .55s ease, visibility .55s ease;
+}
+#intro svg{ width:104px; height:104px; }
+#intro .intro-word{
+  font-family:var(--serif); font-weight:600; font-size:1.9rem; letter-spacing:.34em;
+  padding-left:.34em; color:var(--gold-l);
+  opacity:0; animation:introWord .7s ease .75s forwards;
+}
+@keyframes introWord{ to{ opacity:1; } }
+#intro .ld{
+  stroke-dasharray:1; stroke-dashoffset:1;
+  animation:introDraw .85s cubic-bezier(.5,.1,.3,1) forwards;
+}
+#intro .ld2{ animation-delay:.14s; }
+#intro .ld3{ animation-delay:.28s; }
+#intro .ld4{ animation-delay:.46s; }
+@keyframes introDraw{ to{ stroke-dashoffset:0; } }
+#intro.intro-out{ opacity:0; visibility:hidden; }
+html.no-intro #intro{ display:none; }
+html.intro-lock{ overflow:hidden; }
+@media (prefers-reduced-motion: reduce){
+  #intro{ display:none; }
+}
+
+/* ============ полоса прогресса ============ */
+#progress{
+  position:fixed; top:0; left:0; right:0; height:2px; z-index:150;
+  background:linear-gradient(90deg, var(--gold-d), var(--gold) 55%, var(--gold-l));
+  transform:scaleX(0); transform-origin:0 50%;
+  pointer-events:none;
+}
+
+/* ============ шапка ============ */
+.site-head{
+  position:fixed; top:0; left:0; right:0; z-index:120;
+  transition:background .4s ease, box-shadow .4s ease, border-color .4s ease;
+  border-bottom:1px solid transparent;
+}
+.site-head.scrolled{
+  background:rgba(16,36,23,.82);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+  border-bottom-color:var(--line-soft);
+  box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+.head-in{
+  max-width:var(--wrap); margin-inline:auto; padding:14px var(--pad);
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.brand{ display:inline-flex; align-items:center; gap:11px; color:var(--cream); }
+.brand svg{ width:32px; height:32px; color:var(--gold); flex:none; }
+.brand b{
+  font-family:var(--serif); font-weight:600; font-size:1.42rem; letter-spacing:.12em;
+  color:var(--cream);
+}
+.head-nav{ display:flex; align-items:center; gap:clamp(14px,2.4vw,30px); }
+.head-nav a{
+  font-size:.83rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--txt-dim); transition:color .25s ease;
+}
+.head-nav a:hover{ color:var(--gold-l); }
+.head-cta{
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid var(--line); border-radius:999px; padding:.55rem 1.1rem;
+  font-size:.8rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--gold-l); transition:background .25s ease, border-color .25s ease;
+}
+.head-cta svg{ width:16px; height:16px; }
+.head-cta:hover{ background:rgba(200,162,79,.12); border-color:var(--gold); }
+@media (max-width:900px){ .head-nav{ display:none; } }
+
+/* ============ hero ============ */
+.hero{
+  position:relative; min-height:100svh; min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-bg{
+  position:absolute; left:0; right:0; top:-12%; height:124%;
+  background:url("../img/fasad.jpg") center 38%/cover no-repeat var(--g800);
+  z-index:0; will-change:transform;
+}
+.hero-veil{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(16,36,23,.62) 0%, rgba(16,36,23,.42) 34%, rgba(16,36,23,.78) 74%, var(--g900) 100%),
+    radial-gradient(90% 60% at 50% 42%, rgba(16,36,23,0) 30%, rgba(16,36,23,.55) 100%);
+}
+#steam{ position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:none; opacity:.85; }
+.hero-in{
+  position:relative; z-index:3;
+  width:100%; max-width:var(--wrap); margin-inline:auto; padding:120px var(--pad) 90px;
+  text-align:center;
+}
+.hero-eyebrow{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.02rem, 2.6vw, 1.25rem); letter-spacing:.14em;
+  color:var(--gold-l);
+  display:inline-flex; align-items:center; gap:14px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after{
+  content:""; width:38px; height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold));
+}
+.hero-eyebrow::after{ transform:scaleX(-1); }
+.hero-title{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(4.4rem, 17.5vw, 11.6rem);
+  line-height:.98; letter-spacing:.015em;
+  margin:14px 0 6px;
+  color:var(--gold-l);
+}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .hero-title{
+    background:linear-gradient(105deg, var(--gold-d) 0%, var(--gold) 28%, var(--cream) 50%, var(--gold) 72%, var(--gold-d) 100%);
+    background-size:230% 100%;
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent;
+    animation:shimmer 4.2s ease-in-out infinite alternate;
+  }
+}
+@keyframes shimmer{
+  from{ background-position:0% 50%; }
+  to{ background-position:100% 50%; }
+}
+.hero-slogan{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.45rem, 4.6vw, 2.35rem);
+  color:var(--cream);
+}
+.hero-sub{
+  max-width:620px; margin:22px auto 0;
+  color:var(--txt-dim); font-size:clamp(.98rem, 2.4vw, 1.08rem);
+}
+.hero-cta{
+  margin-top:34px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+}
+.hero-chips{
+  margin-top:44px; display:flex; gap:10px 22px; justify-content:center; flex-wrap:wrap;
+  color:var(--txt-dim); font-size:.86rem; letter-spacing:.05em;
+}
+.hero-chips span{ display:inline-flex; align-items:center; gap:9px; }
+.hero-chips span::before{
+  content:""; width:5px; height:5px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 8px rgba(200,162,79,.8);
+}
+.hero-scroll{
+  position:absolute; left:50%; bottom:26px; transform:translateX(-50%); z-index:3;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--txt-dim);
+}
+.hero-scroll i{
+  width:1px; height:44px; display:block; overflow:hidden; position:relative;
+  background:rgba(200,162,79,.22);
+}
+.hero-scroll i::after{
+  content:""; position:absolute; left:0; top:-50%; width:1px; height:50%;
+  background:var(--gold-l);
+  animation:scrollDrop 2.2s cubic-bezier(.5,.1,.4,1) infinite;
+}
+@keyframes scrollDrop{
+  0%{ transform:translateY(0); } 100%{ transform:translateY(300%); }
+}
+
+/* ============ кнопки ============ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.65rem;
+  padding:1rem 2rem; border-radius:999px;
+  font-family:var(--sans); font-weight:700; font-size:.87rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  transition:transform .22s ease, box-shadow .3s ease, background .3s ease, border-color .3s ease, color .3s ease;
+  will-change:transform;
+}
+.btn svg{ width:15px; height:15px; flex:none; }
+.btn-solid{
+  background:linear-gradient(135deg, var(--gold-l) 0%, var(--gold) 45%, var(--gold-d) 100%);
+  color:var(--g800);
+  box-shadow:0 12px 34px rgba(200,162,79,.28);
+}
+.btn-solid:hover{ box-shadow:0 16px 44px rgba(200,162,79,.42); }
+.btn-ghost{
+  border:1px solid rgba(200,162,79,.55); color:var(--gold-l);
+  background:rgba(16,36,23,.25);
+}
+.btn-ghost:hover{ background:rgba(200,162,79,.12); border-color:var(--gold); }
+
+/* ============ бегущая строка ============ */
+.marquee{
+  border-block:1px solid var(--line-soft);
+  padding:20px 0; overflow:hidden;
+  background:linear-gradient(180deg, var(--g900), var(--g800) 50%, var(--g900));
+}
+.mq-track{ display:flex; width:max-content; animation:mq 38s linear infinite; }
+.mq-set{ display:flex; align-items:center; gap:44px; padding-right:44px; white-space:nowrap; }
+.mq-set em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.25rem, 3.4vw, 1.8rem); letter-spacing:.05em;
+  color:rgba(230,207,154,.4);
+}
+.mq-set svg{ width:26px; height:26px; color:rgba(200,162,79,.45); flex:none; }
+@keyframes mq{ to{ transform:translateX(-50%); } }
+
+/* ============ секции ============ */
+.section{ padding:clamp(4.6rem, 10vw, 7.6rem) 0; position:relative; }
+.sec-head{ margin-bottom:clamp(2.2rem, 5vw, 3.4rem); }
+.eyebrow{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:1.12rem; letter-spacing:.1em; color:var(--gold);
+  display:inline-flex; align-items:center; gap:14px; margin-bottom:12px;
+}
+.eyebrow::before{ content:""; width:34px; height:1px; background:var(--gold); opacity:.7; }
+h2.sec-title{ font-size:clamp(2.2rem, 6vw, 3.4rem); letter-spacing:.01em; }
+.sec-sub{ color:var(--txt-dim); max-width:560px; margin-top:14px; }
+
+/* светящаяся панель */
+.panel{
+  position:relative; overflow:hidden;
+  background:linear-gradient(155deg, var(--g700) 0%, var(--g800) 52%, var(--g900) 100%);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:0 34px 90px rgba(0,0,0,.45), inset 0 0 90px rgba(200,162,79,.05);
+}
+.panel::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(60% 55% at 12% 0%, rgba(200,162,79,.14), transparent 60%);
+}
+.panel .wm{
+  position:absolute; right:-70px; bottom:-92px; width:360px; height:360px;
+  color:rgba(200,162,79,.07); pointer-events:none;
+}
+
+/* ============ промо: апта шайы ============ */
+.promo-grid{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1.15fr .85fr; align-items:center;
+  gap:clamp(1.8rem, 4vw, 3.6rem);
+  padding:clamp(2rem, 5vw, 3.8rem);
+}
+.promo-lead{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.15rem, 3vw, 1.45rem); color:var(--gold-l);
+  margin-top:6px;
+}
+.promo-offer{
+  display:flex; align-items:baseline; gap:18px; flex-wrap:wrap;
+  margin:26px 0 8px;
+}
+.promo-percent{
+  font-family:var(--serif); font-weight:600; line-height:1;
+  font-size:clamp(3.6rem, 9vw, 5.4rem);
+  color:var(--gold-l); letter-spacing:.01em;
+  text-shadow:0 0 44px rgba(200,162,79,.35);
+}
+.promo-when{
+  font-size:.9rem; letter-spacing:.14em; text-transform:uppercase; color:var(--txt-dim);
+}
+.tag-free{
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid var(--line); border-radius:999px;
+  padding:.5rem 1.05rem; margin:6px 0 20px;
+  font-size:.82rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--gold-l); background:rgba(200,162,79,.08);
+}
+.tag-free::before{
+  content:""; width:6px; height:6px; border-radius:50%;
+  background:var(--gold-l); box-shadow:0 0 10px rgba(230,207,154,.9);
+}
+.promo-note{ color:var(--txt-dim); max-width:460px; margin-bottom:28px; }
+.promo-visual{ display:flex; justify-content:center; }
+.tea-orb{
+  position:relative; width:min(320px, 74vw); aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle at 38% 30%, var(--cream-p) 0%, var(--cream) 70%);
+  border:1px solid var(--gold);
+  box-shadow:0 0 0 10px rgba(200,162,79,.07), 0 0 70px rgba(200,162,79,.22), 0 34px 70px rgba(0,0,0,.5);
+  display:grid; place-items:center;
+  animation:orbFloat 6.5s ease-in-out infinite;
+}
+.tea-orb img{ width:78%; height:78%; object-fit:contain; }
+.tea-orb::after{
+  content:""; position:absolute; inset:-22px; border-radius:50%;
+  border:1px dashed rgba(200,162,79,.35);
+  animation:orbSpin 40s linear infinite;
+}
+@keyframes orbFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
+@keyframes orbSpin{ to{ transform:rotate(360deg); } }
+
+/* ============ дәм тесті ============ */
+.test-grid{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1.1fr .9fr; align-items:center;
+  gap:clamp(1.8rem, 4vw, 3.4rem);
+  padding:clamp(2rem, 5vw, 3.6rem);
+}
+.pills{ display:flex; flex-direction:column; gap:14px; }
+.pill{
+  border:1px solid rgba(200,162,79,.28); border-radius:14px;
+  padding:1rem 1.4rem;
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:1.18rem; color:var(--txt-dim);
+  background:rgba(16,36,23,.4);
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  animation:pillGlow 5.4s ease-in-out infinite;
+}
+.pill::after{
+  content:""; width:14px; height:14px; border-radius:50%;
+  border:1.5px solid rgba(200,162,79,.5); flex:none;
+}
+.pill:nth-child(2){ animation-delay:1.8s; }
+.pill:nth-child(3){ animation-delay:3.6s; }
+@keyframes pillGlow{
+  0%, 46%, 100%{ border-color:rgba(200,162,79,.28); color:var(--txt-dim); box-shadow:none; }
+  18%{ border-color:var(--gold); color:var(--cream); box-shadow:0 0 30px rgba(200,162,79,.16) inset, 0 8px 26px rgba(200,162,79,.12); }
+}
+
+/* ============ лента рецептов ============ */
+.recipes-head{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:20px;
+}
+.strip-nav{ display:flex; gap:10px; }
+.strip-nav button{
+  width:48px; height:48px; border-radius:50%;
+  border:1px solid var(--line); background:rgba(22,48,31,.6);
+  color:var(--gold-l); cursor:pointer;
+  display:grid; place-items:center;
+  transition:background .25s ease, border-color .25s ease, transform .2s ease;
+}
+.strip-nav button:hover{ background:rgba(200,162,79,.14); border-color:var(--gold); }
+.strip-nav button:active{ transform:scale(.94); }
+.strip-nav svg{ width:18px; height:18px; }
+@media (max-width:860px){ .strip-nav{ display:none; } }
+
+.strip-shell{ position:relative; margin-top:clamp(1.6rem, 4vw, 2.6rem); }
+.strip-shell::before, .strip-shell::after{
+  content:""; position:absolute; top:0; bottom:0; width:clamp(28px, 8vw, 110px);
+  z-index:2; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.strip-shell::before{ left:0; background:linear-gradient(90deg, var(--g900), transparent); }
+.strip-shell::after{ right:0; background:linear-gradient(-90deg, var(--g900), transparent); }
+.strip-shell.at-start::before{ opacity:0; }
+.strip-shell.at-end::after{ opacity:0; }
+
+.strip{
+  display:flex; gap:18px;
+  overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;
+  padding:18px max(var(--pad), calc((100vw - var(--wrap)) / 2 + var(--pad))) 30px;
+  scroll-padding-inline:max(var(--pad), calc((100vw - var(--wrap)) / 2 + var(--pad)));
+  scrollbar-width:none;
+  cursor:grab;
+}
+.strip::-webkit-scrollbar{ display:none; }
+.strip.dragging{ cursor:grabbing; scroll-snap-type:none; }
+.strip.dragging .tea-card{ pointer-events:none; }
+
+.tea-card{
+  flex:0 0 min(258px, 72vw);
+  scroll-snap-align:start;
+  background:var(--cream-p);
+  border:1px solid rgba(160,124,44,.25);
+  border-radius:18px;
+  padding:20px 20px 18px;
+  color:var(--g800);
+  display:flex; flex-direction:column;
+  transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.tea-card figure{
+  background:var(--cream);
+  border-radius:12px;
+  aspect-ratio:1/1;
+  display:grid; place-items:center;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+.tea-card figure img{
+  width:86%; height:86%; object-fit:contain;
+  transition:transform .45s ease;
+}
+.tea-card h3{
+  font-size:1.42rem; color:var(--g800); letter-spacing:.01em;
+}
+.tea-card p{ font-size:.86rem; color:var(--gold-d); margin-top:3px; }
+.tea-card .go{
+  margin-top:auto; padding-top:14px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gold-d);
+  border-top:1px solid rgba(160,124,44,.18);
+}
+.tea-card .go svg{ width:16px; height:16px; transition:transform .3s ease; }
+@media (hover:hover){
+  .tea-card:hover{
+    transform:translateY(-8px);
+    border-color:var(--gold);
+    box-shadow:0 22px 50px rgba(0,0,0,.45), 0 0 0 1px var(--gold), 0 0 34px rgba(200,162,79,.25);
+  }
+  .tea-card:hover figure img{ transform:scale(1.06); }
+  .tea-card:hover .go svg{ transform:translateX(5px); }
+}
+.recipes-all{ margin-top:6px; text-align:center; }
+.link-more{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--serif); font-style:italic; font-weight:500; font-size:1.2rem;
+  color:var(--gold-l);
+  border-bottom:1px solid rgba(200,162,79,.4);
+  padding-bottom:3px;
+  transition:color .25s ease, border-color .25s ease;
+}
+.link-more svg{ width:17px; height:17px; transition:transform .3s ease; }
+.link-more:hover{ color:var(--cream); border-color:var(--gold-l); }
+.link-more:hover svg{ transform:translateX(5px); }
+
+/* ============ шай-карта ============ */
+.karta-grid{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1fr .95fr; align-items:center;
+  gap:clamp(1.8rem, 4vw, 3.6rem);
+  padding:clamp(2rem, 5vw, 3.8rem);
+}
+.karta-big{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(1.7rem, 4.6vw, 2.5rem); line-height:1.2;
+  color:var(--cream); margin:18px 0 14px;
+}
+.karta-big b{ color:var(--gold-l); font-weight:600; }
+.stamps-card{
+  background:rgba(16,36,23,.55);
+  border:1px solid var(--line-soft); border-radius:18px;
+  padding:clamp(1.4rem, 3vw, 2.2rem);
+}
+.stamps-title{
+  font-size:.78rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--txt-dim); margin-bottom:18px;
+  display:flex; justify-content:space-between; gap:10px;
+}
+.stamps-title b{ color:var(--gold-l); }
+.stamps{ display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; }
+.stamp{
+  aspect-ratio:1; border-radius:50%;
+  border:1.6px dashed rgba(200,162,79,.4);
+  display:grid; place-items:center;
+  opacity:0; transform:scale(.35);
+}
+.stamp svg{ width:56%; height:56%; color:rgba(200,162,79,.35); }
+.stamp.filled{
+  border:none;
+  background:radial-gradient(circle at 34% 28%, var(--gold-l), var(--gold) 62%, var(--gold-d));
+  box-shadow:0 8px 22px rgba(0,0,0,.4), 0 0 26px rgba(200,162,79,.3);
+}
+.stamp.filled svg{ color:var(--g800); }
+.is-in .stamp{
+  animation:stampIn .55s cubic-bezier(.2,1.5,.4,1) forwards;
+  animation-delay:calc(var(--i) * .09s);
+}
+@keyframes stampIn{ to{ opacity:1; transform:scale(1); } }
+
+/* ============ бутик ============ */
+.store-grid{
+  display:grid; grid-template-columns:1.05fr .95fr;
+  gap:clamp(2.4rem, 6vw, 4.5rem); align-items:center;
+}
+.photo-stack{ position:relative; padding-bottom:14%; }
+.photo-main{
+  width:92%; border-radius:20px;
+  border:1px solid var(--line);
+  box-shadow:0 34px 80px rgba(0,0,0,.5);
+}
+.photo-sub{
+  position:absolute; right:0; bottom:0; width:52%;
+  border-radius:16px;
+  border:5px solid var(--g900);
+  outline:1px solid var(--line);
+  box-shadow:0 30px 60px rgba(0,0,0,.55);
+}
+.store-list{ list-style:none; margin:26px 0 30px; display:flex; flex-direction:column; gap:20px; }
+.store-list li{ display:flex; gap:16px; align-items:flex-start; }
+.store-ic{
+  flex:none; width:46px; height:46px; border-radius:14px;
+  border:1px solid var(--line-soft);
+  background:rgba(29,59,40,.6);
+  display:grid; place-items:center; color:var(--gold);
+}
+.store-ic svg{ width:22px; height:22px; }
+.store-list b{ display:block; color:var(--cream); font-size:1.02rem; }
+.store-list span{ color:var(--txt-dim); font-size:.93rem; }
+.store-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+
+/* ============ футер ============ */
+.site-foot{
+  border-top:1px solid var(--line-soft);
+  background:linear-gradient(180deg, var(--g800), var(--g900));
+  padding:clamp(3.4rem, 7vw, 5rem) 0 2.2rem;
+  text-align:center;
+}
+.site-foot .mark-big{ width:58px; height:58px; color:var(--gold); margin-inline:auto; }
+.foot-name{
+  font-family:var(--serif); font-weight:600; font-size:2rem; letter-spacing:.22em;
+  padding-left:.22em; color:var(--cream); margin-top:16px;
+}
+.foot-slogan{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:1.25rem; color:var(--gold-l); margin-top:6px;
+}
+.foot-links{
+  margin-top:30px; display:flex; justify-content:center; gap:14px 28px; flex-wrap:wrap;
+}
+.foot-links a{
+  font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--txt-dim); transition:color .25s ease;
+}
+.foot-links a:hover{ color:var(--gold-l); }
+.foot-line{
+  width:min(420px, 70%); height:1px; margin:30px auto;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity:.5;
+}
+.foot-meta{ color:rgba(243,236,221,.45); font-size:.85rem; display:flex; flex-direction:column; gap:6px; }
+.foot-meta a{ color:rgba(230,207,154,.75); }
+.foot-meta a:hover{ color:var(--gold-l); }
+
+/* ============ reveal ============ */
+.js .reveal{
+  opacity:0; transform:translateY(30px);
+  transition:opacity .75s ease, transform .75s cubic-bezier(.2,.7,.3,1);
+  transition-delay:var(--d, 0s);
+}
+.js .reveal.is-in{ opacity:1; transform:none; }
+
+/* ============ адаптив ============ */
+@media (max-width:900px){
+  .promo-grid, .test-grid, .karta-grid, .store-grid{ grid-template-columns:1fr; }
+  .promo-visual{ order:-1; }
+  .test-grid .pills{ order:2; }
+  .photo-stack{ padding-bottom:16%; }
+  .hero-in{ padding-top:104px; }
+}
+@media (max-width:480px){
+  body{ font-size:16px; }
+  .hero-cta .btn{ width:100%; }
+  .store-actions .btn{ width:100%; }
+  .stamps{ gap:11px; }
+}
+
+/* ============ reduced motion ============ */
+@media (prefers-reduced-motion: reduce){
+  .js .reveal{ opacity:1; transform:none; transition:none; }
+  .hero-title{ animation:none; }
+  .mq-track{ animation:none; }
+  .tea-orb, .tea-orb::after{ animation:none; }
+  .pill{ animation:none; }
+  .hero-scroll i::after{ animation:none; }
+  .stamp, .is-in .stamp{ animation:none; opacity:1; transform:none; }
+  #steam{ display:none; }
+  *{ transition-duration:.01ms !important; }
+}
+</style>
+</head>
+<body id="top">
+
+<!-- фирменный знак: символ для повторного использования -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 96 96">
+    <g fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round">
+      <path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
+      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
+      <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
+      <path d="M48 69 L48 86" stroke-width="5.5"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- прелоадер -->
+<div id="intro" aria-hidden="true">
+  <svg viewBox="0 0 96 96" fill="none" stroke="#c8a24f" stroke-width="4.6" stroke-linecap="round">
+    <path class="ld ld1" pathLength="1" d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
+    <path class="ld ld2" pathLength="1" d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
+    <path class="ld ld3" pathLength="1" d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
+    <path class="ld ld4" pathLength="1" d="M48 69 L48 86" stroke-width="5.5"/>
+  </svg>
+  <div class="intro-word">SHAIYM</div>
+</div>
+
+<div id="progress" aria-hidden="true"></div>
+
+<!-- шапка -->
+<header class="site-head" id="siteHead">
+  <div class="head-in">
+    <a class="brand" href="#top" aria-label="Shaiym — басты бет">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <b>Shaiym</b>
+    </a>
+    <nav class="head-nav" aria-label="Негізгі навигация">
+      <a href="#promo">Апта шайы</a>
+      <a href="#test-block">Дәм тесті</a>
+      <a href="#recipes">Рецепттер</a>
+      <a href="#karta-block">Шай-карта</a>
+      <a href="#store">Бутик</a>
+    </nav>
+    <a class="head-cta" href="https://wa.me/77064200133" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 4.8 16.6L21 21l-1.3-4A9 9 0 0 0 12 3z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg" role="img" aria-label="Shaiym бутигінің түнгі жарқыраған витринасы"></div>
+    <div class="hero-veil"></div>
+    <canvas id="steam" aria-hidden="true"></canvas>
+    <div class="hero-in">
+      <p class="hero-eyebrow">Шай бутигі · Абай ауылы</p>
+      <h1 class="hero-title">Shaiym</h1>
+      <p class="hero-slogan">Мейрамхана шайы — енді үйіңізде</p>
+      <p class="hero-sub">Мейрамханада ұнатқан шайыңызды енді үйде демдеңіз: дайын құрамдар, рецепт-карточкалар және өзіңізбен ала кететін кофе — бәрі бір бутикте.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid magnetic" href="#promo">
+          Апта шайын көру
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </a>
+        <a class="btn btn-ghost magnetic" href="/test">Дәм тестінен өту</a>
+      </div>
+      <div class="hero-chips" aria-label="Бутик артықшылықтары">
+        <span>12 түрлі шай</span>
+        <span>Тегін дегустация</span>
+        <span>Кофе өзіңізбен</span>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#promo" aria-label="Төмен қарай">
+      <span>Төмен қарай</span>
+      <i></i>
+    </a>
+  </section>
+
+  <!-- бегущая строка -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      <div class="mq-set">
+        <em>Мейрамхана шайы — енді үйіңізде</em>
+        <svg><use href="#mark"/></svg>
+        <em>Жылулық бір пиаладан басталады</em>
+        <svg><use href="#mark"/></svg>
+        <em>Shaiym — Абай ауылы</em>
+        <svg><use href="#mark"/></svg>
+      </div>
+      <div class="mq-set">
+        <em>Мейрамхана шайы — енді үйіңізде</em>
+        <svg><use href="#mark"/></svg>
+        <em>Жылулық бір пиаладан басталады</em>
+        <svg><use href="#mark"/></svg>
+        <em>Shaiym — Абай ауылы</em>
+        <svg><use href="#mark"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРОМО: АПТА ШАЙЫ -->
+  <section class="section" id="promo">
+    <div class="wrap">
+      <div class="panel reveal">
+        <svg class="wm" aria-hidden="true"><use href="#mark"/></svg>
+        <div class="promo-grid">
+          <div>
+            <p class="eyebrow">Апта шайы</p>
+            <h2 class="sec-title">Ташкент шайы</h2>
+            <p class="promo-lead">Жалбыз бен лимонға демделген шығыстың қонақжай шайы.</p>
+            <div class="promo-offer">
+              <span class="promo-percent">−15%</span>
+              <span class="promo-when">осы аптада</span>
+            </div>
+            <p class="tag-free">Дегустация — тегін</p>
+            <p class="promo-note">Аптаның соңына дейін Ташкент шайы жеңілдікпен. Келіп, бір пиаласын тегін татып көріңіз — ұнаса, рецептісімен бірге үйге ала қайтасыз.</p>
+            <a class="btn btn-solid magnetic" href="/tashkent">
+              Рецептін ашу
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <div class="promo-visual reveal" style="--d:.15s">
+            <div class="tea-orb">
+              <img src="../img/tashkent.png" alt="Ташкент шайының гравюралық суреті" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ДӘМ ТЕСТІ -->
+  <section class="section" id="test-block" style="padding-top:0">
+    <div class="wrap">
+      <div class="panel reveal">
+        <svg class="wm" style="right:auto; left:-80px; bottom:-100px" aria-hidden="true"><use href="#mark"/></svg>
+        <div class="test-grid">
+          <div>
+            <p class="eyebrow">Дәм тесті</p>
+            <h2 class="sec-title">Қай шай — сіздікі?</h2>
+            <p class="sec-sub">Бір минуттық тест: талғамыңыз туралы бірнеше сұраққа жауап беріңіз — Shaiym 12 шайдың ішінен дәл сіздікін ұсынады.</p>
+            <div style="margin-top:28px">
+              <a class="btn btn-solid magnetic" href="/test">
+                Тесті бастау
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="pills" aria-hidden="true">
+            <div class="pill">Қышқылтым дәм ұнай ма?</div>
+            <div class="pill">Тәттілеу демдеу керек пе?</div>
+            <div class="pill">Дәмдеуіш қосамыз ба?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- РЕЦЕПТЫ -->
+  <section class="section" id="recipes" style="padding-top:0">
+    <div class="wrap recipes-head reveal">
+      <div class="sec-head" style="margin-bottom:0">
+        <p class="eyebrow">Рецепттер</p>
+        <h2 class="sec-title">12 шай — 12 рецепт</h2>
+        <p class="sec-sub">Әр карточкада — құрамы, демдеу рецепті және шайдың қысқаша тарихы. Ашып көріңіз.</p>
+      </div>
+      <div class="strip-nav">
+        <button type="button" id="stripPrev" aria-label="Артқа жылжыту">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" id="stripNext" aria-label="Алға жылжыту">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="strip-shell at-start reveal" style="--d:.1s">
+      <div class="strip" id="strip">
+        <a class="tea-card" href="/tashkent">
+          <figure><img src="../img/tashkent.png" alt="Ташкент шайы" loading="lazy"></figure>
+          <h3>Ташкент шайы</h3>
+          <p>Жалбыз бен лимон</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/marokko">
+          <figure><img src="../img/marokko.png" alt="Марокко шайы" loading="lazy"></figure>
+          <h3>Марокко шайы</h3>
+          <p>Жасыл шай мен жалбыз</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/masala">
+          <figure><img src="../img/masala.png" alt="Масала шай" loading="lazy"></figure>
+          <h3>Масала шай</h3>
+          <p>Сүт пен дәмдеуіштер</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/shyrganak">
+          <figure><img src="../img/shyrganak.png" alt="Шырғанақ шайы" loading="lazy"></figure>
+          <h3>Шырғанақ шайы</h3>
+          <p>Шырғанақ пен бал</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/imbir">
+          <figure><img src="../img/imbir.png" alt="Зімбір шайы" loading="lazy"></figure>
+          <h3>Зімбір шайы</h3>
+          <p>Зімбір мен лимон</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/malina">
+          <figure><img src="../img/malina.png" alt="Таңқурай шайы" loading="lazy"></figure>
+          <h3>Таңқурай шайы</h3>
+          <p>Таңқурай мен бал</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/karkade">
+          <figure><img src="../img/karkade.png" alt="Қарқаде" loading="lazy"></figure>
+          <h3>Қарқаде</h3>
+          <p>Қышқылтым гүл шайы</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/turk">
+          <figure><img src="../img/turk.png" alt="Түрік шайы" loading="lazy"></figure>
+          <h3>Түрік шайы</h3>
+          <p>Қос шәйнекте қою демдеу</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/ulun">
+          <figure><img src="../img/ulun.png" alt="Сүтті улун" loading="lazy"></figure>
+          <h3>Сүтті улун</h3>
+          <p>Нәзік сүт дәмі</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/zhasmin">
+          <figure><img src="../img/zhasmin.png" alt="Жасмин шайы" loading="lazy"></figure>
+          <h3>Жасмин шайы</h3>
+          <p>Жасмин гүлді жасыл шай</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/qysqy">
+          <figure><img src="../img/qysqy.png" alt="Қысқы шай" loading="lazy"></figure>
+          <h3>Қысқы шай</h3>
+          <p>Цитрус пен дәмдеуіштер</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="tea-card" href="/dala">
+          <figure><img src="../img/dala.png" alt="Дала шай" loading="lazy"></figure>
+          <h3>Дала шай</h3>
+          <p>Дала шөптерінің жиынтығы</p>
+          <span class="go">Рецепті
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="recipes-all reveal">
+      <a class="link-more" href="/recepty">
+        Барлық рецепттер
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ШАЙ-КАРТА -->
+  <section class="section" id="karta-block" style="padding-top:0">
+    <div class="wrap">
+      <div class="panel reveal">
+        <svg class="wm" aria-hidden="true"><use href="#mark"/></svg>
+        <div class="karta-grid">
+          <div>
+            <p class="eyebrow">Шай-карта</p>
+            <h2 class="sec-title">Жылулық жинаңыз</h2>
+            <p class="karta-big"><b>8 мөр</b> = тегін кофе немесе <b>−10%</b> жеңілдік</p>
+            <p class="sec-sub">Әр сатып алу — бір мөр. Сегіз мөр жиналғанда таңдау сіздікі: бір кофе тегін немесе келесі шайыңызға −10%.</p>
+            <div style="margin-top:28px">
+              <a class="btn btn-ghost magnetic" href="/karta">
+                Картаны ашу
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="stamps-card reveal" style="--d:.15s">
+            <p class="stamps-title"><span>Shaiym шай-картасы</span><b>3 / 8</b></p>
+            <div class="stamps" aria-label="Мөр жинау мысалы: сегіздің үшеуі жиналған">
+              <span class="stamp filled" style="--i:0"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp filled" style="--i:1"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp filled" style="--i:2"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp" style="--i:3"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp" style="--i:4"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp" style="--i:5"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp" style="--i:6"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="stamp" style="--i:7"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- БУТИК -->
+  <section class="section" id="store" style="padding-top:0">
+    <div class="wrap store-grid">
+      <div class="photo-stack reveal">
+        <img class="photo-main" src="../img/interior.jpg" alt="Shaiym бутигінің іші: жасыл қабырғалар мен ағаш сөрелер" loading="lazy">
+        <img class="photo-sub" src="../img/gifts.jpg" alt="Сыйлық жинақтары, керамика және самауыр" loading="lazy">
+      </div>
+      <div class="reveal" style="--d:.12s">
+        <p class="eyebrow">Бутик</p>
+        <h2 class="sec-title">Бізге қонаққа келіңіз</h2>
+        <ul class="store-list">
+          <li>
+            <span class="store-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.3-7-11a7 7 0 1 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            </span>
+            <div>
+              <b>Абай ауылы, жаңа базар</b>
+              <span>Келес ауданы, Түркістан облысы</span>
+            </div>
+          </li>
+          <li>
+            <span class="store-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h6m0 0L6 9m3 3-3 3M21 12h-6m0 0 3-3m-3 3 3 3"/></svg>
+            </span>
+            <div>
+              <b>Екі кіреберіс</b>
+              <span>Базар ішінен және көше жағынан — қалай ыңғайлы болса, солай кіріңіз</span>
+            </div>
+          </li>
+          <li>
+            <span class="store-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8.4 5.4c0-1.1.9-1.3.9-2.4M12 5.4c0-1.1.9-1.3.9-2.4"/></svg>
+            </span>
+            <div>
+              <b>Кофе өзіңізбен</b>
+              <span>Бутикте кофе-нүкте бар — тапсырысыңызды жолшыбай ала кетіңіз</span>
+            </div>
+          </li>
+        </ul>
+        <div class="store-actions">
+          <a class="btn btn-solid magnetic" href="https://wa.me/77064200133" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 4.8 16.6L21 21l-1.3-4A9 9 0 0 0 12 3z"/></svg>
+            WhatsApp-қа жазу
+          </a>
+          <a class="btn btn-ghost magnetic" href="https://instagram.com/shaiym.kz" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>
+            @shaiym.kz
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- футер -->
+<footer class="site-foot">
+  <div class="wrap">
+    <svg class="mark-big" aria-hidden="true"><use href="#mark"/></svg>
+    <p class="foot-name">SHAIYM</p>
+    <p class="foot-slogan">Жылулық бір пиаладан басталады</p>
+    <nav class="foot-links" aria-label="Футер навигациясы">
+      <a href="#promo">Апта шайы</a>
+      <a href="/test">Дәм тесті</a>
+      <a href="/recepty">Рецепттер</a>
+      <a href="/karta">Шай-карта</a>
+    </nav>
+    <div class="foot-line"></div>
+    <div class="foot-meta">
+      <span>Абай ауылы, жаңа базар · Келес ауданы</span>
+      <span>
+        <a href="https://wa.me/77064200133" target="_blank" rel="noopener">WhatsApp</a>
+        &nbsp;·&nbsp;
+        <a href="https://instagram.com/shaiym.kz" target="_blank" rel="noopener">Instagram @shaiym.kz</a>
+      </span>
+      <span>© 2026 Shaiym</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+
+  /* ---------- прелоадер ---------- */
+  var intro = document.getElementById('intro');
+  if (intro){
+    if (RM || root.classList.contains('no-intro')){
+      intro.parentNode.removeChild(intro);
+    } else {
+      root.classList.add('intro-lock');
+      try{ sessionStorage.setItem('shaiym-intro-seen', '1'); }catch(e){}
+      setTimeout(function(){ intro.classList.add('intro-out'); root.classList.remove('intro-lock'); }, 1350);
+      setTimeout(function(){ if (intro.parentNode) intro.parentNode.removeChild(intro); }, 2000);
+    }
+  }
+
+  /* ---------- скролл: прогресс, шапка, параллакс ---------- */
+  var progress = document.getElementById('progress');
+  var head = document.getElementById('siteHead');
+  var heroBg = document.getElementById('heroBg');
+  var hero = document.getElementById('hero');
+  var heroVisible = true;
+  var ticking = false;
+
+  function onScrollFrame(){
+    ticking = false;
+    var sy = window.scrollY || window.pageYOffset;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(sy / max, 1) : 0) + ')';
+    if (sy > 10) head.classList.add('scrolled'); else head.classList.remove('scrolled');
+    if (!RM && heroVisible && heroBg){
+      heroBg.style.transform = 'translate3d(0,' + (sy * 0.26).toFixed(1) + 'px,0)';
+    }
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(onScrollFrame); }
+  }, { passive:true });
+  onScrollFrame();
+
+  /* ---------- reveal при скролле ---------- */
+  var revealIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        en.target.classList.add('is-in');
+        revealIO.unobserve(en.target);
+      }
+    });
+  }, { threshold:.12, rootMargin:'0px 0px -40px 0px' });
+  Array.prototype.forEach.call(document.querySelectorAll('.reveal'), function(el){
+    revealIO.observe(el);
+  });
+  /* страховка: при быстром флике элемент может перепрыгнуть вьюпорт между кадрами,
+     и IO не выстрелит — доокрываем всё, что уже прошло линию показа */
+  var safetyPending = false;
+  function revealSafety(){
+    safetyPending = false;
+    Array.prototype.forEach.call(document.querySelectorAll('.reveal:not(.is-in)'), function(el){
+      if (el.getBoundingClientRect().top < window.innerHeight - 40){
+        el.classList.add('is-in');
+        revealIO.unobserve(el);
+      }
+    });
+  }
+  window.addEventListener('scroll', function(){
+    if (!safetyPending){ safetyPending = true; setTimeout(revealSafety, 150); }
+  }, { passive:true });
+
+  /* ---------- canvas: пар и чаинки ---------- */
+  (function(){
+    if (RM) return;
+    var canvas = document.getElementById('steam');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0, dpr = 1, rafId = 0, running = false;
+    var puffs = [], flecks = [];
+    var PUFFS = 46, FLECKS = 22;
+    var sources = [0.3, 0.5, 0.7];
+
+    var tex = (function(){
+      var c = document.createElement('canvas');
+      c.width = c.height = 64;
+      var g = c.getContext('2d');
+      var rg = g.createRadialGradient(32, 32, 2, 32, 32, 30);
+      rg.addColorStop(0, 'rgba(243,236,221,.5)');
+      rg.addColorStop(1, 'rgba(243,236,221,0)');
+      g.fillStyle = rg;
+      g.beginPath(); g.arc(32, 32, 30, 0, Math.PI * 2); g.fill();
+      return c;
+    })();
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = canvas.offsetWidth;
+      H = canvas.offsetHeight;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function newPuff(p, first){
+      var src = sources[(Math.random() * sources.length) | 0];
+      p.x = W * src + (Math.random() - 0.5) * W * 0.14;
+      p.y = first ? H * (0.35 + Math.random() * 0.65) : H + 30;
+      p.vy = 0.35 + Math.random() * 0.55;
+      p.size = 26 + Math.random() * 46;
+      p.grow = 0.06 + Math.random() * 0.1;
+      p.sway = 14 + Math.random() * 22;
+      p.freq = 0.4 + Math.random() * 0.6;
+      p.phase = Math.random() * Math.PI * 2;
+      p.alpha = 0.14 + Math.random() * 0.16;
+      return p;
+    }
+    function newFleck(f){
+      f.x = Math.random() * W;
+      f.y = Math.random() * H;
+      f.vy = 0.08 + Math.random() * 0.16;
+      f.vx = (Math.random() - 0.5) * 0.12;
+      f.r = 1 + Math.random() * 1.6;
+      f.phase = Math.random() * Math.PI * 2;
+      f.tw = 0.6 + Math.random() * 1.1;
+      return f;
+    }
+
+    function seed(){
+      puffs.length = 0; flecks.length = 0;
+      for (var i = 0; i < PUFFS; i++) puffs.push(newPuff({}, true));
+      for (var j = 0; j < FLECKS; j++) flecks.push(newFleck({}));
+    }
+
+    var t0 = performance.now();
+    function frame(now){
+      if (!running) return;
+      var t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, W, H);
+
+      for (var i = 0; i < puffs.length; i++){
+        var p = puffs[i];
+        p.y -= p.vy;
+        p.size += p.grow;
+        var x = p.x + Math.sin(t * p.freq + p.phase) * p.sway;
+        var prog = 1 - p.y / (H + 30);
+        var a = p.alpha * Math.sin(Math.min(Math.max(prog, 0), 1) * Math.PI);
+        if (p.y < -p.size){ newPuff(p, false); continue; }
+        if (a > 0.004){
+          ctx.globalAlpha = a;
+          ctx.drawImage(tex, x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+        }
+      }
+
+      for (var j = 0; j < flecks.length; j++){
+        var f = flecks[j];
+        f.y -= f.vy;
+        f.x += f.vx + Math.sin(t * 0.5 + f.phase) * 0.08;
+        if (f.y < -6 || f.x < -6 || f.x > W + 6) newFleck(f), f.y = H + 6;
+        ctx.globalAlpha = 0.22 + 0.2 * Math.sin(t * f.tw + f.phase);
+        ctx.fillStyle = '#c8a24f';
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      rafId = requestAnimationFrame(frame);
+    }
+
+    function start(){
+      if (running) return;
+      running = true;
+      t0 = performance.now();
+      rafId = requestAnimationFrame(frame);
+    }
+    function stop(){
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+    }
+
+    resize(); seed();
+    window.addEventListener('resize', function(){ resize(); seed(); });
+
+    var heroIO = new IntersectionObserver(function(entries){
+      heroVisible = entries[0].isIntersecting;
+      if (heroVisible && !document.hidden) start(); else stop();
+    }, { threshold: 0.02 });
+    heroIO.observe(hero);
+
+    document.addEventListener('visibilitychange', function(){
+      if (document.hidden) stop();
+      else if (heroVisible) start();
+    });
+  })();
+
+  /* ---------- лента: drag мышью + стрелки + края ---------- */
+  (function(){
+    var strip = document.getElementById('strip');
+    if (!strip) return;
+    var shell = strip.parentNode;
+    var down = false, startX = 0, startL = 0, moved = false;
+
+    strip.addEventListener('pointerdown', function(e){
+      if (e.pointerType !== 'mouse') return;
+      down = true; moved = false;
+      startX = e.clientX; startL = strip.scrollLeft;
+      strip.classList.add('dragging');
+      strip.setPointerCapture(e.pointerId);
+    });
+    strip.addEventListener('pointermove', function(e){
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 6) moved = true;
+      strip.scrollLeft = startL - dx;
+    });
+    function release(){
+      down = false;
+      strip.classList.remove('dragging');
+    }
+    strip.addEventListener('pointerup', release);
+    strip.addEventListener('pointercancel', release);
+    strip.addEventListener('click', function(e){
+      if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
+
+    function step(){
+      var card = strip.querySelector('.tea-card');
+      return card ? (card.offsetWidth + 18) * 2 : 560;
+    }
+    document.getElementById('stripPrev').addEventListener('click', function(){
+      strip.scrollBy({ left: -step(), behavior: RM ? 'auto' : 'smooth' });
+    });
+    document.getElementById('stripNext').addEventListener('click', function(){
+      strip.scrollBy({ left: step(), behavior: RM ? 'auto' : 'smooth' });
+    });
+
+    var edgeTick = false;
+    function edges(){
+      edgeTick = false;
+      var max = strip.scrollWidth - strip.clientWidth;
+      shell.classList.toggle('at-start', strip.scrollLeft < 8);
+      shell.classList.toggle('at-end', strip.scrollLeft > max - 8);
+    }
+    strip.addEventListener('scroll', function(){
+      if (!edgeTick){ edgeTick = true; requestAnimationFrame(edges); }
+    }, { passive:true });
+    edges();
+  })();
+
+  /* ---------- магнитные кнопки (десктоп) ---------- */
+  (function(){
+    if (RM || !window.matchMedia('(pointer:fine)').matches) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.magnetic'), function(btn){
+      btn.addEventListener('mousemove', function(e){
+        var r = btn.getBoundingClientRect();
+        var dx = (e.clientX - r.left - r.width / 2) / r.width;
+        var dy = (e.clientY - r.top - r.height / 2) / r.height;
+        btn.style.transform = 'translate(' + (dx * 10).toFixed(1) + 'px,' + (dy * 8).toFixed(1) + 'px)';
+      });
+      btn.addEventListener('mouseleave', function(){
+        btn.style.transform = '';
+      });
+    });
+  })();
+})();
+</script>
+</body>
+</html>
