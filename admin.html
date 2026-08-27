@@ -88,9 +88,25 @@
   </div>
 
   <div class="panel">
-    <h2>Коды Шай-карты</h2>
+    <h2>Продажа — QR для клиента</h2>
+    <label for="sale-amount">Сумма чека, тг</label>
+    <input type="number" id="sale-amount" inputmode="numeric" min="1" placeholder="4500">
+    <label for="sale-pin">PIN кассы</label>
+    <input type="password" id="sale-pin" inputmode="numeric" maxlength="6" placeholder="****">
+    <button class="btn" onclick="makeSaleQr()" id="sale-btn">Показать QR</button>
+    <div class="msg" id="sale-msg"></div>
+    <div id="sale-qr-box" class="hide" style="text-align:center;margin-top:14px">
+      <img id="sale-qr" alt="QR чека" width="240" height="240" style="border:8px solid #f3ecdd;background:#f3ecdd">
+      <div style="font-size:20px;font-weight:700;color:#e6cf9a;margin-top:8px" id="sale-sum"></div>
+      <div class="hint">Клиент сканирует этот QR в приложении Shaiym — сумма упадёт на его накопительный счёт. QR одноразовый, действует 30 минут.</div>
+    </div>
+    <div class="hint">Для этого раздела GitHub-токен не нужен — только PIN кассы (он запоминается на этом устройстве).</div>
+  </div>
+
+  <div class="panel">
+    <h2>Коды Шай-карты (сайт)</h2>
     <div class="codes" id="codes"></div>
-    <div class="hint">Сегодняшний код выделен. Формула та же, что на shaiym.kz/karta — коды совпадают всегда.</div>
+    <div class="hint">Коды для веб-версии Шай-карты на shaiym.kz/karta. Сегодняшний выделен.</div>
   </div>
 </main>
 
@@ -145,7 +161,41 @@
         config = JSON.parse(b64decodeText(j.content));
         setMsg('token-msg', 'Токен работает. Настройки загружены.', true);
         fillPromoForm();
-        renderGalleries();
+        /* ---------- продажа: QR чека ---------- */
+  var SB_URL = 'https://ftyrqoogbpiigtzxxien.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eXJxb29nYnBpaWd0enh4aWVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4NTAxODMsImV4cCI6MjEwMzQyNjE4M30.2ju5yhABMzIxfsiCYYgdnru4Lm-W-biJAlbRapPuV_s';
+  try { var savedPin = localStorage.getItem('shaiym_seller_pin'); if (savedPin) document.getElementById('sale-pin').value = savedPin; } catch (e) {}
+  function makeSaleQr() {
+    var amount = parseInt(document.getElementById('sale-amount').value, 10);
+    var pin = document.getElementById('sale-pin').value.trim();
+    if (!amount || amount <= 0) { setMsg('sale-msg', 'Введи сумму чека.', false); return; }
+    if (!pin) { setMsg('sale-msg', 'Введи PIN кассы.', false); return; }
+    var btn = document.getElementById('sale-btn');
+    btn.disabled = true;
+    setMsg('sale-msg', 'Создаю чек…', true);
+    fetch(SB_URL + '/rest/v1/rpc/create_purchase_code', {
+      method: 'POST',
+      headers: { apikey: SB_ANON, Authorization: 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_amount: amount, p_pin: pin })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        btn.disabled = false;
+        if (!j.ok) {
+          setMsg('sale-msg', j.err === 'pin' ? 'Неверный PIN.' : 'Ошибка: ' + j.err, false);
+          return;
+        }
+        try { localStorage.setItem('shaiym_seller_pin', pin); } catch (e) {}
+        var data = encodeURIComponent('SHAIYM:P:' + j.token);
+        document.getElementById('sale-qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=480x480&color=16301f&bgcolor=f3ecdd&qzone=1&data=' + data;
+        document.getElementById('sale-sum').textContent = amount.toLocaleString('ru-RU') + ' тг';
+        document.getElementById('sale-qr-box').classList.remove('hide');
+        setMsg('sale-msg', 'Готово — покажи QR клиенту.', true);
+      })
+      .catch(function (e) { btn.disabled = false; setMsg('sale-msg', 'Сеть: ' + e.message, false); });
+  }
+
+  renderGalleries();
       })
       .catch(function (e) { setMsg('token-msg', 'Не получилось: ' + e.message, false); });
   }
@@ -281,7 +331,41 @@
           config.photos[cat].push(path);
           putConfig('Admin: photos ' + cat, function () {
             setMsg('gal-msg', 'Фото добавлено. На сайте — в течение 10 минут.', true);
-            renderGalleries();
+            /* ---------- продажа: QR чека ---------- */
+  var SB_URL = 'https://ftyrqoogbpiigtzxxien.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eXJxb29nYnBpaWd0enh4aWVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4NTAxODMsImV4cCI6MjEwMzQyNjE4M30.2ju5yhABMzIxfsiCYYgdnru4Lm-W-biJAlbRapPuV_s';
+  try { var savedPin = localStorage.getItem('shaiym_seller_pin'); if (savedPin) document.getElementById('sale-pin').value = savedPin; } catch (e) {}
+  function makeSaleQr() {
+    var amount = parseInt(document.getElementById('sale-amount').value, 10);
+    var pin = document.getElementById('sale-pin').value.trim();
+    if (!amount || amount <= 0) { setMsg('sale-msg', 'Введи сумму чека.', false); return; }
+    if (!pin) { setMsg('sale-msg', 'Введи PIN кассы.', false); return; }
+    var btn = document.getElementById('sale-btn');
+    btn.disabled = true;
+    setMsg('sale-msg', 'Создаю чек…', true);
+    fetch(SB_URL + '/rest/v1/rpc/create_purchase_code', {
+      method: 'POST',
+      headers: { apikey: SB_ANON, Authorization: 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_amount: amount, p_pin: pin })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        btn.disabled = false;
+        if (!j.ok) {
+          setMsg('sale-msg', j.err === 'pin' ? 'Неверный PIN.' : 'Ошибка: ' + j.err, false);
+          return;
+        }
+        try { localStorage.setItem('shaiym_seller_pin', pin); } catch (e) {}
+        var data = encodeURIComponent('SHAIYM:P:' + j.token);
+        document.getElementById('sale-qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=480x480&color=16301f&bgcolor=f3ecdd&qzone=1&data=' + data;
+        document.getElementById('sale-sum').textContent = amount.toLocaleString('ru-RU') + ' тг';
+        document.getElementById('sale-qr-box').classList.remove('hide');
+        setMsg('sale-msg', 'Готово — покажи QR клиенту.', true);
+      })
+      .catch(function (e) { btn.disabled = false; setMsg('sale-msg', 'Сеть: ' + e.message, false); });
+  }
+
+  renderGalleries();
           }, function (e) { setMsg('gal-msg', 'Фото залито, но список не сохранился: ' + e.message + '. Нажми «Сохранить и проверить» и попробуй ещё раз.', false); });
         })
         .catch(function (e) { setMsg('gal-msg', 'Не получилось: ' + e.message, false); });
@@ -305,7 +389,41 @@
         config.photos[cat] = (config.photos[cat] || []).filter(function (p) { return p !== path; });
         putConfig('Admin: photos ' + cat, function () {
           setMsg('gal-msg', 'Фото удалено.', true);
-          renderGalleries();
+          /* ---------- продажа: QR чека ---------- */
+  var SB_URL = 'https://ftyrqoogbpiigtzxxien.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eXJxb29nYnBpaWd0enh4aWVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4NTAxODMsImV4cCI6MjEwMzQyNjE4M30.2ju5yhABMzIxfsiCYYgdnru4Lm-W-biJAlbRapPuV_s';
+  try { var savedPin = localStorage.getItem('shaiym_seller_pin'); if (savedPin) document.getElementById('sale-pin').value = savedPin; } catch (e) {}
+  function makeSaleQr() {
+    var amount = parseInt(document.getElementById('sale-amount').value, 10);
+    var pin = document.getElementById('sale-pin').value.trim();
+    if (!amount || amount <= 0) { setMsg('sale-msg', 'Введи сумму чека.', false); return; }
+    if (!pin) { setMsg('sale-msg', 'Введи PIN кассы.', false); return; }
+    var btn = document.getElementById('sale-btn');
+    btn.disabled = true;
+    setMsg('sale-msg', 'Создаю чек…', true);
+    fetch(SB_URL + '/rest/v1/rpc/create_purchase_code', {
+      method: 'POST',
+      headers: { apikey: SB_ANON, Authorization: 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_amount: amount, p_pin: pin })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        btn.disabled = false;
+        if (!j.ok) {
+          setMsg('sale-msg', j.err === 'pin' ? 'Неверный PIN.' : 'Ошибка: ' + j.err, false);
+          return;
+        }
+        try { localStorage.setItem('shaiym_seller_pin', pin); } catch (e) {}
+        var data = encodeURIComponent('SHAIYM:P:' + j.token);
+        document.getElementById('sale-qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=480x480&color=16301f&bgcolor=f3ecdd&qzone=1&data=' + data;
+        document.getElementById('sale-sum').textContent = amount.toLocaleString('ru-RU') + ' тг';
+        document.getElementById('sale-qr-box').classList.remove('hide');
+        setMsg('sale-msg', 'Готово — покажи QR клиенту.', true);
+      })
+      .catch(function (e) { btn.disabled = false; setMsg('sale-msg', 'Сеть: ' + e.message, false); });
+  }
+
+  renderGalleries();
         }, function (e) { setMsg('gal-msg', 'Файл удалён, но список не сохранился: ' + e.message, false); });
       })
       .catch(function (e) { setMsg('gal-msg', 'Не получилось: ' + e.message, false); });
@@ -327,6 +445,40 @@
       host.appendChild(cell);
     }
   })();
+
+  /* ---------- продажа: QR чека ---------- */
+  var SB_URL = 'https://ftyrqoogbpiigtzxxien.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eXJxb29nYnBpaWd0enh4aWVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4NTAxODMsImV4cCI6MjEwMzQyNjE4M30.2ju5yhABMzIxfsiCYYgdnru4Lm-W-biJAlbRapPuV_s';
+  try { var savedPin = localStorage.getItem('shaiym_seller_pin'); if (savedPin) document.getElementById('sale-pin').value = savedPin; } catch (e) {}
+  function makeSaleQr() {
+    var amount = parseInt(document.getElementById('sale-amount').value, 10);
+    var pin = document.getElementById('sale-pin').value.trim();
+    if (!amount || amount <= 0) { setMsg('sale-msg', 'Введи сумму чека.', false); return; }
+    if (!pin) { setMsg('sale-msg', 'Введи PIN кассы.', false); return; }
+    var btn = document.getElementById('sale-btn');
+    btn.disabled = true;
+    setMsg('sale-msg', 'Создаю чек…', true);
+    fetch(SB_URL + '/rest/v1/rpc/create_purchase_code', {
+      method: 'POST',
+      headers: { apikey: SB_ANON, Authorization: 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_amount: amount, p_pin: pin })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        btn.disabled = false;
+        if (!j.ok) {
+          setMsg('sale-msg', j.err === 'pin' ? 'Неверный PIN.' : 'Ошибка: ' + j.err, false);
+          return;
+        }
+        try { localStorage.setItem('shaiym_seller_pin', pin); } catch (e) {}
+        var data = encodeURIComponent('SHAIYM:P:' + j.token);
+        document.getElementById('sale-qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=480x480&color=16301f&bgcolor=f3ecdd&qzone=1&data=' + data;
+        document.getElementById('sale-sum').textContent = amount.toLocaleString('ru-RU') + ' тг';
+        document.getElementById('sale-qr-box').classList.remove('hide');
+        setMsg('sale-msg', 'Готово — покажи QR клиенту.', true);
+      })
+      .catch(function (e) { btn.disabled = false; setMsg('sale-msg', 'Сеть: ' + e.message, false); });
+  }
 
   renderGalleries();
   if (token) saveToken();
