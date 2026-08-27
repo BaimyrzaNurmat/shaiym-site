@@ -227,6 +227,60 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--g
 }
 
 /* ---------- test banner ---------- */
+/* ---------- шай дөңгелегі ---------- */
+.wheel-sec{background:var(--green-2);color:var(--cream);overflow:hidden;padding:clamp(64px,10vh,110px) 0}
+.wheel-sec h2{color:var(--cream);font-size:clamp(2.1rem,4.8vw,3.3rem);margin-top:14px}
+.wheel-head{text-align:center;max-width:640px;margin:0 auto clamp(30px,5vh,50px)}
+.wheel-sub{margin-top:14px;color:rgba(243,236,221,.75)}
+.hero-wheel{max-width:min(92vw,600px);margin:0 auto}
+.wheel-wrap{position:relative;margin:0 auto;
+  --wheel:min(92vw,400px);--token:64px;
+  width:var(--wheel);height:var(--wheel)}
+@media(min-width:560px){.wheel-wrap{--wheel:min(86vw,470px);--token:78px}}
+@media(min-width:980px){.wheel-wrap{--wheel:clamp(430px,40vw,540px);--token:92px}}
+.wheel-glow{position:absolute;inset:-16%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(200,162,79,.2) 0%,rgba(200,162,79,.06) 46%,rgba(200,162,79,0) 70%);
+  animation:glowPulse 7s ease-in-out infinite}
+@keyframes glowPulse{50%{transform:scale(1.07);opacity:.8}}
+.wheel-ring{position:absolute;inset:calc(var(--token)/2 + 2%);pointer-events:none;opacity:.85;
+  animation:ringSpin 90s linear infinite}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+.wheel{position:absolute;inset:0;border-radius:50%;touch-action:none;cursor:grab;
+  user-select:none;-webkit-user-select:none}
+.wheel:active{cursor:grabbing}
+.wheel:focus-visible{outline:2px solid var(--gold);outline-offset:10px}
+.token{position:absolute;left:0;top:0;width:var(--token);height:var(--token);
+  border:0;padding:0;background:transparent;cursor:grab;touch-action:none;
+  -webkit-tap-highlight-color:transparent;will-change:transform}
+.token:active{cursor:grabbing}
+.token-disc{display:block;width:100%;height:100%;border-radius:50%;background:var(--cream);
+  border:2px solid rgba(200,162,79,.5);overflow:hidden;
+  box-shadow:0 10px 26px rgba(6,14,9,.45);
+  transition:border-color .3s ease,box-shadow .3s ease}
+.token img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;
+  user-select:none;-webkit-user-drag:none;pointer-events:none}
+.token.is-active .token-disc{border-color:var(--gold);
+  box-shadow:0 16px 42px rgba(200,162,79,.35),0 0 0 6px rgba(200,162,79,.14)}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:56%;aspect-ratio:1;border-radius:50%;z-index:300;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.28rem;
+  text-align:center;padding:9%;
+  background:radial-gradient(circle,rgba(16,36,23,.94) 0%,rgba(16,36,23,.6) 58%,rgba(16,36,23,0) 72%)}
+.hub-tre{width:22px;height:22px;color:var(--gold);opacity:.9}
+.hub-kicker{font:700 .6rem var(--sans);letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(230,207,154,.7)}
+.hub-name{font:600 clamp(1.1rem,4.4vw,1.7rem)/1.15 var(--serif);color:var(--cream)}
+.hub-btn{pointer-events:auto;margin-top:.45rem;display:inline-block;text-decoration:none;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold) 55%,var(--gold-d));color:var(--green-3);
+  font:700 .84rem var(--sans);padding:.55rem 1.15rem;border-radius:999px;
+  box-shadow:0 10px 24px rgba(200,162,79,.35);transition:transform .25s ease,box-shadow .25s ease}
+.hub-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(200,162,79,.45)}
+.wheel-hint{text-align:center;margin-top:1.3rem;font-size:.86rem;letter-spacing:.04em;
+  color:rgba(243,236,221,.55)}
+@media (prefers-reduced-motion: reduce){
+  .wheel-glow,.wheel-ring{animation:none}
+}
+
 .test-band{background:var(--panel);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
 .test-band .wrap{
   display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,60px);align-items:center;
@@ -577,6 +631,33 @@ html.has-cursor,html.has-cursor *{cursor:none}
           <figure class="card-img"><img src="img/dala.png" alt="Дала шай" loading="lazy"></figure>
           <div class="card-body"><h3>Дала шай</h3><p>Дала шөптері · тау балы</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ШАЙ ДӨҢГЕЛЕГІ ===== -->
+  <section class="wheel-sec" id="dongelek">
+    <div class="wrap">
+      <div class="wheel-head reveal">
+        <p class="kicker">Қалауыңызды білмейсіз бе?</p>
+        <h2>Шай дөңгелегі</h2>
+        <p class="wheel-sub">Он екі дәм — бір дөңгелек. Айналдырып, өз шайыңызды табыңыз да, бір басып рецептіне өтіңіз.</p>
+      </div>
+      <div class="hero-wheel reveal" style="--rd:.12s">
+        <div class="wheel-wrap" id="wheelWrap">
+          <div class="wheel-glow" aria-hidden="true"></div>
+          <svg class="wheel-ring" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(200,162,79,.3)" stroke-width=".45" stroke-dasharray="1.1 2.6"/>
+          </svg>
+          <div class="wheel" id="wheel" tabindex="0" role="group" aria-label="Шай дөңгелегі: айналдырып шай таңдаңыз"></div>
+          <div class="hub">
+            <svg class="leaf hub-tre" viewBox="0 0 96 96" aria-hidden="true"><use href="#mark"/></svg>
+            <p class="hub-kicker">Таңдалған дәм</p>
+            <p class="hub-name" id="hubName">Ташкент шайы</p>
+            <a class="hub-btn" id="hubBtn" href="/tashkent">Рецепті ашу</a>
+          </div>
+        </div>
+        <p class="wheel-hint">Саусақпен айналдыруға да, жетонды басуға да болады</p>
       </div>
     </div>
   </section>
@@ -939,6 +1020,197 @@ html.has-cursor,html.has-cursor *{cursor:none}
       ring.style.transform = 'translate3d(-100px,-100px,0)';
     });
   }
+})();
+
+/* ================= шай дөңгелегі ================= */
+(function(){
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var TEAS = [
+    {id:'tashkent',  name:'Ташкент шайы'},
+    {id:'marokko',   name:'Марокко шайы'},
+    {id:'masala',    name:'Масала шай'},
+    {id:'shyrganak', name:'Шырғанақ шайы'},
+    {id:'imbir',     name:'Зімбір шайы'},
+    {id:'malina',    name:'Таңқурай шайы'},
+    {id:'karkade',   name:'Қарқаде'},
+    {id:'turk',      name:'Түрік шайы'},
+    {id:'ulun',      name:'Сүтті улун'},
+    {id:'zhasmin',   name:'Жасмин шайы'},
+    {id:'qysqy',     name:'Қысқы шай'},
+    {id:'dala',      name:'Дала шай'}
+  ];
+  var N = TEAS.length, STEP = 360 / N;
+  var wrap = document.getElementById('wheelWrap');
+  var wheel = document.getElementById('wheel');
+  var hubName = document.getElementById('hubName');
+  var hubBtn = document.getElementById('hubBtn');
+  if (!wheel || !wrap) return;
+
+  var tokens = TEAS.map(function(t){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'token';
+    b.setAttribute('aria-label', t.name);
+    b.innerHTML = '<span class="token-disc"><img src="img/' + t.id + '.png" alt="" draggable="false"></span>';
+    wheel.appendChild(b);
+    return b;
+  });
+
+  var size = 0, radius = 0, rot = 0, activeIdx = -1, raf = 0, animRaf = 0;
+
+  var setActive = function(i){
+    activeIdx = i;
+    for (var k = 0; k < N; k++) tokens[k].classList.toggle('is-active', k === i);
+    hubName.textContent = TEAS[i].name;
+    hubBtn.setAttribute('href', '/' + TEAS[i].id);
+    if (!RM && hubName.animate) {
+      hubName.animate(
+        [{opacity:0, transform:'translateY(7px)'}, {opacity:1, transform:'translateY(0)'}],
+        {duration:260, easing:'ease-out'}
+      );
+    }
+  };
+
+  var render = function(){
+    var half = size / 2;
+    for (var i = 0; i < N; i++) {
+      var a = (rot + i * STEP - 90) * Math.PI / 180;
+      var x = half + radius * Math.cos(a);
+      var y = half + radius * Math.sin(a);
+      var p = Math.max(0, Math.cos(a + Math.PI / 2));
+      var s = 0.84 + 0.52 * p * p * p;
+      tokens[i].style.transform =
+        'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-50%) scale(' + s.toFixed(3) + ')';
+      tokens[i].style.zIndex = String(100 + Math.round(p * 100));
+    }
+    var idx = ((Math.round(-rot / STEP) % N) + N) % N;
+    if (idx !== activeIdx) setActive(idx);
+  };
+
+  var requestRender = function(){
+    if (!raf) raf = requestAnimationFrame(function(){ raf = 0; render(); });
+  };
+
+  var measure = function(){
+    size = wheel.clientWidth;
+    var ts = tokens[0].offsetWidth || 64;
+    radius = size / 2 - ts / 2 - size * 0.02;
+    render();
+  };
+
+  var cancelAnim = function(){
+    if (animRaf) { cancelAnimationFrame(animRaf); animRaf = 0; }
+  };
+
+  var animateTo = function(target){
+    cancelAnim();
+    if (RM) { rot = target; render(); return; }
+    var last = performance.now();
+    var step = function(now){
+      var dt = Math.min(50, now - last); last = now;
+      var diff = target - rot;
+      if (Math.abs(diff) < 0.06) { rot = target; render(); animRaf = 0; return; }
+      rot += diff * (1 - Math.exp(-dt / 110));
+      render();
+      animRaf = requestAnimationFrame(step);
+    };
+    animRaf = requestAnimationFrame(step);
+  };
+
+  var snap = function(){ animateTo(Math.round(rot / STEP) * STEP); };
+
+  var goTo = function(i){
+    var target = -i * STEP;
+    target += Math.round((rot - target) / 360) * 360;
+    animateTo(target);
+  };
+
+  /* -- drag with inertia -- */
+  var dragging = false, captured = false, pid = null;
+  var lastAng = 0, lastT = 0, vel = 0, moved = 0, suppress = false;
+  var cx = 0, cy = 0;
+
+  var angOf = function(e){
+    return Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+  };
+
+  wheel.addEventListener('pointerdown', function(e){
+    var r = wheel.getBoundingClientRect();
+    cx = r.left + r.width / 2; cy = r.top + r.height / 2;
+    dragging = true; captured = false; pid = e.pointerId;
+    moved = 0; suppress = false; vel = 0;
+    lastAng = angOf(e); lastT = performance.now();
+    cancelAnim();
+  });
+
+  wheel.addEventListener('pointermove', function(e){
+    if (!dragging || e.pointerId !== pid) return;
+    var a = angOf(e);
+    var d = ((a - lastAng + 540) % 360) - 180;
+    var now = performance.now();
+    var dt = Math.max(1, now - lastT);
+    rot += d; moved += Math.abs(d);
+    vel = 0.8 * vel + 0.2 * (d / dt);
+    lastAng = a; lastT = now;
+    if (moved > 4 && !captured) {
+      captured = true; suppress = true;
+      try { wheel.setPointerCapture(pid); } catch (_) {}
+    }
+    requestRender();
+  });
+
+  var endDrag = function(e){
+    if (!dragging || (e && e.pointerId !== pid)) return;
+    dragging = false;
+    setTimeout(function(){ suppress = false; }, 0);
+    if (RM || Math.abs(vel) < 0.02) { snap(); return; }
+    cancelAnim();
+    var last = performance.now();
+    var step = function(now){
+      var dt = Math.min(50, now - last); last = now;
+      rot += vel * dt;
+      vel *= Math.pow(0.9965, dt);
+      render();
+      if (Math.abs(vel) < 0.012) { animRaf = 0; snap(); return; }
+      animRaf = requestAnimationFrame(step);
+    };
+    animRaf = requestAnimationFrame(step);
+  };
+  wheel.addEventListener('pointerup', endDrag);
+  wheel.addEventListener('pointercancel', endDrag);
+
+  /* -- mouse wheel -- */
+  var wheelTimer = 0;
+  wrap.addEventListener('wheel', function(e){
+    e.preventDefault();
+    cancelAnim();
+    rot += (e.deltaY + e.deltaX) * 0.05;
+    requestRender();
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(snap, 150);
+  }, {passive:false});
+
+  /* -- click token: bring to top / open recipe -- */
+  tokens.forEach(function(el, i){
+    el.addEventListener('click', function(){
+      if (suppress) return;
+      if (i === activeIdx) { window.location.href = '/' + TEAS[i].id; return; }
+      goTo(i);
+    });
+  });
+
+  /* -- keyboard -- */
+  wheel.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault(); goTo((activeIdx + 1) % N);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); goTo((activeIdx + N - 1) % N);
+    }
+  });
+
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(wheel);
+  window.addEventListener('resize', measure);
+  measure();
 })();
 </script>
 </body>
