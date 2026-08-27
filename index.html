@@ -1252,6 +1252,39 @@ html.has-cursor,html.has-cursor *{cursor:none}
   if (window.ResizeObserver) new ResizeObserver(measure).observe(wheel);
   window.addEventListener('resize', measure);
   measure();
+
+  /* акция недели из data/config.json — админ-панель может переназначить её
+     на другой чай без правки кода; вшитый Ташкент остаётся запасным вариантом */
+  fetch('/data/config.json?v=' + Date.now())
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (cfg) {
+      if (!cfg || !cfg.promo || !cfg.promo.teaId) return;
+      var idx = -1;
+      for (var i = 0; i < N; i++) if (TEAS[i].id === cfg.promo.teaId) idx = i;
+      if (idx < 0) return;
+      for (var k = 0; k < N; k++) {
+        delete TEAS[k].promo;
+        delete TEAS[k].badge;
+        tokens[k].classList.remove('token-promo');
+        var oldBadge = tokens[k].querySelector('.token-badge');
+        if (oldBadge) oldBadge.remove();
+        tokens[k].setAttribute('aria-label', TEAS[k].name);
+      }
+      TEAS[idx].promo = cfg.promo.hub || 'Апта шайы';
+      TEAS[idx].badge = cfg.promo.badge || '';
+      tokens[idx].classList.add('token-promo');
+      if (TEAS[idx].badge) {
+        var b = document.createElement('span');
+        b.className = 'token-badge';
+        b.textContent = TEAS[idx].badge;
+        tokens[idx].appendChild(b);
+      }
+      tokens[idx].setAttribute('aria-label', TEAS[idx].name + ' — ' + TEAS[idx].promo);
+      var cur = activeIdx;
+      activeIdx = -1;
+      setActive(cur);
+    })
+    .catch(function () {});
 })();
 </script>
 </body>
