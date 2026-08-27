@@ -129,8 +129,22 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--g
 .js .hero-fig{opacity:0;animation:figIn 1.1s ease .5s forwards}
 @keyframes figIn{to{opacity:1}}
 @media(max-width:860px){
-  .hero-grid{grid-template-columns:1fr}
-  .hero-art{display:none}
+  .hero-grid{
+    grid-template-columns:1fr minmax(112px,132px);
+    grid-template-areas:"h1 h1" "slogan art" "lead lead" "cta cta" "note note";
+    gap:0 16px;align-items:center;
+  }
+  .hero-copy{display:contents}
+  .hero-copy h1{grid-area:h1}
+  .hero-slogan{grid-area:slogan}
+  .hero-lead{grid-area:lead}
+  .hero-cta{grid-area:cta}
+  .hero-note{grid-area:note;justify-self:start}
+  .hero-art{grid-area:art;min-height:0}
+  .hero-ghost{display:none}
+  .hero-fig{background:transparent;border:none;box-shadow:none;padding:0}
+  .hero-fig img{background:transparent}
+  .hero-fig figcaption{display:none}
 }
 
 /* ---------- marquee ---------- */
