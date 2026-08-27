@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shaiym — мейрамхана шайы енді үйіңізде</title>
+<meta name="description" content="Shaiym — Абай ауылындағы шай бутигі: он екі ресторандық рецепт, кофе өзіңізбен және жылы дастарқан.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js';</script>
+<style>
+:root{
+  --green:#16301f;
+  --green-2:#1d3b28;
+  --green-3:#102417;
+  --gold:#c8a24f;
+  --gold-d:#a07c2c;
+  --gold-l:#e6cf9a;
+  --cream:#f3ecdd;
+  --panel:#faf6ec;
+  --hair:rgba(22,48,31,.16);
+  --hair-soft:rgba(22,48,31,.09);
+  --shadow:0 22px 44px -26px rgba(16,36,23,.4);
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'PT Sans',Arial,Helvetica,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  font-variant-numeric:lining-nums;
+  background:var(--cream);
+  color:var(--green);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold-d);outline-offset:3px}
+::selection{background:var(--gold-l);color:var(--green-3)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--green)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.leaf{fill:none;stroke:currentColor;stroke-width:4.6;stroke-linecap:round;display:block}
+
+/* ---------- kickers, buttons ---------- */
+.kicker{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--sans);font-weight:700;font-size:.72rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);
+}
+.kicker::before{content:"";width:34px;height:1px;background:var(--gold-d);display:inline-block}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--sans);font-weight:700;font-size:.95rem;
+  padding:15px 30px;border-radius:999px;border:1px solid transparent;
+  transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s ease;
+  will-change:transform;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-solid{background:var(--green);color:var(--cream)}
+.btn-solid:hover{background:var(--green-3);color:var(--gold-l)}
+.btn-gold{background:var(--gold);color:var(--green-3)}
+.btn-gold:hover{background:var(--gold-l)}
+.btn-line{border-color:var(--hair);color:var(--green)}
+.btn-line:hover{border-color:var(--gold-d);color:var(--gold-d)}
+.btn-line-light{border-color:rgba(230,207,154,.45);color:var(--gold-l)}
+.btn-line-light:hover{border-color:var(--gold-l);background:rgba(230,207,154,.08)}
+
+/* ---------- header ---------- */
+.site-head{
+  position:fixed;inset:0 0 auto 0;z-index:50;
+  transition:background .4s ease,box-shadow .4s ease;
+}
+.site-head .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;padding-bottom:16px;
+}
+.site-head.is-scrolled{background:rgba(250,246,236,.95);box-shadow:0 1px 0 var(--hair)}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--green)}
+.brand .leaf{width:30px;height:30px;color:var(--gold-d)}
+.brand-name{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:.02em}
+.nav-links{display:flex;gap:28px;font-size:.9rem;font-weight:700}
+.nav-links a{position:relative;padding:4px 0}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--gold-d);transform:scaleX(0);transform-origin:right;
+  transition:transform .35s ease;
+}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.head-cta{border:1px solid var(--gold-d);color:var(--gold-d);border-radius:999px;padding:9px 20px;font-weight:700;font-size:.85rem;transition:background .3s,color .3s}
+.head-cta:hover{background:var(--gold-d);color:var(--panel)}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding-top:clamp(110px,16vh,160px);padding-bottom:clamp(30px,6vh,70px)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,70px);align-items:center}
+.hero h1{font-size:clamp(4.2rem,12vw,8.6rem);letter-spacing:.01em;line-height:.92}
+.hero-slogan{
+  font-family:var(--serif);font-weight:500;font-style:italic;
+  font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.14;margin-top:18px;color:var(--green-2);
+}
+.hero-slogan em{font-style:italic;color:var(--gold-d)}
+.hero-lead{margin-top:22px;max-width:46ch;font-size:1.02rem;color:rgba(22,48,31,.82)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+.hero-note{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:.9rem;font-weight:700;color:var(--gold-d);border-bottom:1px solid var(--gold-l);padding-bottom:3px;transition:color .3s,border-color .3s}
+.hero-note:hover{color:var(--green);border-color:var(--gold-d)}
+.hero-art{position:relative;min-height:300px}
+.hero-ghost{
+  position:absolute;top:-14%;right:-8%;z-index:0;
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(220px,30vw,460px);line-height:1;color:var(--gold-l);opacity:.4;
+  user-select:none;pointer-events:none;will-change:transform;
+}
+.hero-fig{
+  position:relative;z-index:1;background:var(--panel);
+  border:1px solid var(--hair);padding:clamp(14px,2vw,26px);
+  box-shadow:var(--shadow);will-change:transform;
+}
+.hero-fig img{width:100%;aspect-ratio:1/1;object-fit:contain;background:var(--cream)}
+.hero-fig figcaption{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  margin-top:12px;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--green-2);
+}
+.hero-fig figcaption b{font-family:var(--sans);font-style:normal;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-d)}
+/* cascade */
+.js .w{display:inline-block;opacity:0;transform:translateY(.55em);animation:wordIn .85s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0s)}
+@keyframes wordIn{to{opacity:1;transform:none}}
+.js .hero-fig{opacity:0;animation:figIn 1.1s ease .5s forwards}
+@keyframes figIn{to{opacity:1}}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{max-width:340px;margin:10px auto 0}
+  .hero-ghost{font-size:220px;top:-8%;right:-14%}
+}
+
+/* ---------- marquee ---------- */
+.marquee{
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  overflow:hidden;padding:18px 0;margin-top:clamp(30px,6vh,60px);background:var(--panel);
+}
+.marquee-track{display:flex;width:max-content;animation:marq 46s linear infinite;will-change:transform}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;align-items:center;flex:none}
+.marquee-item{
+  display:flex;align-items:center;gap:26px;padding-right:26px;flex:none;
+  font-family:var(--serif);font-weight:500;font-size:clamp(1.25rem,2.4vw,1.7rem);
+  color:var(--green-2);white-space:nowrap;
+}
+.marq-leaf{width:17px;height:17px;color:var(--gold);flex:none}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- section base ---------- */
+.section{padding:clamp(64px,10vh,120px) 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:clamp(28px,5vh,52px)}
+.sec-head h2{font-size:clamp(2.1rem,4.8vw,3.5rem);margin-top:14px}
+.sec-link{font-weight:700;font-size:.92rem;color:var(--gold-d);border-bottom:1px solid var(--gold-l);padding-bottom:3px;transition:color .3s,border-color .3s}
+.sec-link:hover{color:var(--green);border-color:var(--gold-d)}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--rd,0s)}
+.js .reveal[data-dir="left"]{transform:translateX(-46px)}
+.js .reveal[data-dir="right"]{transform:translateX(46px)}
+.js .reveal.is-in{opacity:1;transform:none}
+
+/* ---------- promo (апта шайы) ---------- */
+.promo{background:var(--green-2);color:var(--cream)}
+.promo .wrap{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,70px);
+  align-items:center;padding-top:clamp(60px,9vh,100px);padding-bottom:clamp(60px,9vh,100px);
+}
+.promo .kicker{color:var(--gold-l)}
+.promo .kicker::before{background:var(--gold-l)}
+.promo h2{color:var(--panel);font-size:clamp(2.1rem,4.8vw,3.4rem);margin-top:14px}
+.promo-discount{
+  font-family:var(--serif);font-weight:600;color:var(--gold);
+  font-size:clamp(4.5rem,11vw,8rem);line-height:1;margin-top:6px;
+}
+.promo-discount small{font-size:.32em;font-style:italic;font-weight:500;color:var(--gold-l);letter-spacing:.02em}
+.promo{overflow:hidden}
+.promo p{margin-top:16px;max-width:52ch;color:rgba(243,236,221,.85)}
+.promo p em{font-style:italic;font-family:var(--serif);font-size:1.15em;color:var(--gold-l);border-bottom:1px solid var(--gold-d)}
+.promo-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.promo-art{position:relative;display:grid;place-items:center;padding:20px}
+.promo-circle{
+  position:relative;width:min(340px,78vw);aspect-ratio:1/1;border-radius:50%;
+  background:var(--cream);display:grid;place-items:center;
+  box-shadow:0 30px 60px -30px rgba(16,36,23,.8);
+}
+.promo-circle img{width:78%;height:78%;object-fit:contain}
+.promo-ring{position:absolute;inset:-22px;color:var(--gold);animation:spin 36s linear infinite;will-change:transform}
+.promo-ring circle{fill:none;stroke:currentColor;stroke-width:1.4;stroke-dasharray:5 11;opacity:.8}
+@keyframes spin{to{transform:rotate(360deg)}}
+.promo-tag{
+  position:absolute;top:6%;right:2%;background:var(--gold);color:var(--green-3);
+  font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 16px;border-radius:999px;box-shadow:var(--shadow);
+}
+@media(max-width:860px){.promo .wrap{grid-template-columns:1fr}.promo-art{order:-1;padding:0}}
+
+/* ---------- recipes ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:clamp(14px,2vw,26px)}
+.card{
+  background:var(--panel);border:1px solid var(--hair-soft);
+  display:flex;flex-direction:column;
+  transition:transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .55s ease,border-color .4s ease;
+  transform-style:preserve-3d;will-change:transform;
+}
+.card:hover{box-shadow:var(--shadow);border-color:var(--gold-l)}
+.card.is-tilting{transition:box-shadow .4s ease,border-color .4s ease}
+.card-img{background:var(--cream);border-bottom:1px solid var(--hair-soft);padding:14px}
+.card-img img{width:100%;aspect-ratio:1/1;object-fit:contain}
+.card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card-body h3{font-size:1.45rem}
+.card-body p{font-size:.85rem;color:rgba(22,48,31,.7)}
+.card-go{
+  margin-top:auto;padding-top:12px;font-weight:700;font-size:.85rem;color:var(--gold-d);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.card-go .arr{transition:transform .35s ease;display:inline-block}
+.card:hover .card-go .arr{transform:translateX(6px)}
+@media(max-width:600px){
+  .cards{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card-body{padding:12px 14px 14px}
+  .card-body h3{font-size:1.15rem}
+  .card-body p{font-size:.78rem}
+}
+
+/* ---------- test banner ---------- */
+.test-band{background:var(--panel);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.test-band .wrap{
+  display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,60px);align-items:center;
+  padding-top:clamp(56px,8vh,90px);padding-bottom:clamp(56px,8vh,90px);
+}
+.test-band h2{font-size:clamp(2.2rem,5vw,3.6rem);font-style:italic;font-weight:500;margin-top:14px}
+.test-band h2 b{font-style:italic;font-weight:600;color:var(--gold-d)}
+.test-band p{margin-top:14px;max-width:50ch;color:rgba(22,48,31,.8)}
+.test-art{display:flex;gap:0;align-items:center}
+.test-chip{
+  width:clamp(120px,14vw,170px);aspect-ratio:1/1;border-radius:50%;
+  background:var(--cream);border:1px solid var(--hair);
+  display:grid;place-items:center;overflow:hidden;
+}
+.test-chip img{width:82%;height:82%;object-fit:contain}
+.test-chip:nth-child(2){margin-left:-28px;background:var(--panel);transform:rotate(6deg)}
+.test-chip:first-child{transform:rotate(-5deg)}
+@media(max-width:760px){.test-band .wrap{grid-template-columns:1fr}.test-art{justify-content:center}}
+
+/* ---------- brew (sticky) ---------- */
+.brew-scene{position:relative}
+.brew-sticky{padding:clamp(64px,10vh,110px) 0}
+.brew-grid{display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,60px)}
+.brew-intro p{margin-top:16px;max-width:48ch;color:rgba(22,48,31,.8)}
+.brew-progress{margin-top:34px;display:none}
+.brew-rail{height:2px;background:var(--hair-soft);position:relative;overflow:hidden}
+.brew-fill{position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;will-change:transform}
+.brew-tabs{display:flex;justify-content:space-between;margin-top:14px;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,48,31,.4)}
+.brew-tab{transition:color .4s ease}
+.brew-tab.is-active{color:var(--gold-d)}
+.brew-steps{position:relative}
+.brew-step{
+  background:var(--panel);border:1px solid var(--hair-soft);
+  padding:clamp(24px,3.4vw,44px);display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,38px);align-items:start;
+}
+.brew-step + .brew-step{margin-top:16px}
+.brew-num{
+  font-family:var(--serif);font-weight:600;line-height:.8;
+  font-size:clamp(4.6rem,9vw,8.2rem);color:var(--gold-l);
+  -webkit-text-stroke:1.5px var(--gold);
+}
+.brew-step h3{font-size:clamp(1.6rem,3vw,2.3rem)}
+.brew-step p{margin-top:10px;max-width:46ch;color:rgba(22,48,31,.8)}
+.brew-step p em{font-family:var(--serif);font-style:italic;font-size:1.12em;color:var(--gold-d)}
+@media(min-width:900px){
+  .js.can-stick .brew-scene{height:320vh}
+  .js.can-stick .brew-sticky{position:sticky;top:0;min-height:100vh;display:flex;align-items:center}
+  .js.can-stick .brew-sticky > .wrap{width:100%}
+  .js.can-stick .brew-grid{grid-template-columns:.9fr 1.1fr;align-items:center}
+  .js.can-stick .brew-progress{display:block}
+  .js.can-stick .brew-steps{min-height:380px}
+  .js.can-stick .brew-step{position:absolute;inset:0;margin:0;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+  .js.can-stick .brew-step + .brew-step{margin-top:0}
+  .js.can-stick .brew-step.is-active{opacity:1;transform:none;pointer-events:auto}
+}
+
+/* ---------- stats ---------- */
+.stats{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stats .wrap{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  padding-top:clamp(44px,7vh,72px);padding-bottom:clamp(44px,7vh,72px);
+}
+.stat{padding:0 clamp(14px,3vw,44px);text-align:left}
+.stat + .stat{border-left:1px solid var(--hair-soft)}
+.stat-num{
+  font-family:var(--serif);font-weight:600;line-height:1;
+  font-size:clamp(3.2rem,7.5vw,5.8rem);color:var(--green);display:block;
+}
+.stat-num i{font-style:italic;font-weight:500;font-size:.5em;color:var(--gold-d)}
+.stat-cap{display:block;margin-top:10px;font-size:.88rem;color:rgba(22,48,31,.72);max-width:22ch}
+@media(max-width:700px){
+  .stats .wrap{grid-template-columns:1fr}
+  .stat{padding:18px 0}
+  .stat + .stat{border-left:none;border-top:1px solid var(--hair-soft)}
+}
+
+/* ---------- karta ---------- */
+.karta .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
+.karta h2{font-size:clamp(2.1rem,4.8vw,3.4rem);margin-top:14px}
+.karta p{margin-top:16px;max-width:48ch;color:rgba(22,48,31,.82)}
+.karta p b{color:var(--gold-d)}
+.karta .btn{margin-top:28px}
+.karta-card{
+  background:var(--green-3);border-radius:22px;padding:clamp(24px,3vw,38px);
+  color:var(--gold-l);box-shadow:0 34px 60px -30px rgba(16,36,23,.55);
+  border:1px solid rgba(200,162,79,.35);transform:rotate(-2deg);
+}
+.karta-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.karta-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--panel)}
+.karta-brand .leaf{width:26px;height:26px;color:var(--gold)}
+.karta-kind{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.stamp{
+  aspect-ratio:1/1;border-radius:50%;border:1px dashed rgba(230,207,154,.4);
+  display:grid;place-items:center;color:var(--green-3);
+}
+.stamp .leaf{width:44%;height:44%}
+.stamp.is-on{background:var(--gold);border:1px solid var(--gold)}
+.stamp.is-gift{border:1px solid var(--gold-l);color:var(--gold-l);font-family:var(--serif);font-style:italic;font-size:.95rem}
+.js .stamp.is-on{transform:scale(0);transition:transform .5s cubic-bezier(.3,1.4,.4,1);transition-delay:var(--sd,0s)}
+.js .is-in .stamp.is-on,.js .karta-card.is-in .stamp.is-on{transform:scale(1)}
+.karta-note{margin-top:24px;font-size:.85rem;color:rgba(243,236,221,.75);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.karta-note b{color:var(--gold)}
+@media(max-width:860px){.karta .wrap{grid-template-columns:1fr}.karta-card{transform:rotate(0);max-width:420px}}
+
+/* ---------- shop rows ---------- */
+.shop-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);
+  align-items:center;margin-top:clamp(40px,7vh,80px);
+}
+.shop-row:first-of-type{margin-top:0}
+.shop-fig{position:relative;background:var(--panel);border:1px solid var(--hair);padding:clamp(12px,1.6vw,20px);box-shadow:var(--shadow)}
+.shop-fig img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.shop-fig figcaption{margin-top:10px;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--green-2)}
+.shop-txt h3{font-size:clamp(1.8rem,3.6vw,2.7rem);margin-top:14px}
+.shop-txt p{margin-top:14px;max-width:48ch;color:rgba(22,48,31,.82)}
+.shop-txt p em{font-family:var(--serif);font-style:italic;font-size:1.12em;color:var(--gold-d)}
+@media(max-width:820px){
+  .shop-row{grid-template-columns:1fr}
+  .shop-row .shop-txt{order:2}
+  .shop-row .shop-fig{order:1}
+}
+
+/* ---------- visit ---------- */
+.visit{background:var(--green-3);color:var(--cream);margin-top:clamp(56px,9vh,110px)}
+.visit .wrap{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,80px);align-items:center;
+  padding-top:clamp(64px,10vh,110px);padding-bottom:clamp(64px,10vh,110px);
+}
+.visit .kicker{color:var(--gold-l)}
+.visit .kicker::before{background:var(--gold-l)}
+.visit h2{color:var(--panel);font-size:clamp(2.2rem,5vw,3.6rem);margin-top:14px}
+.visit-sub{margin-top:8px;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold-l)}
+.visit p{margin-top:16px;max-width:50ch;color:rgba(243,236,221,.82)}
+.visit-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.visit-chip{
+  border:1px solid rgba(230,207,154,.4);border-radius:999px;
+  padding:9px 18px;font-size:.85rem;font-weight:700;color:var(--gold-l);
+}
+.visit-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.visit-fig{background:rgba(243,236,221,.06);border:1px solid rgba(230,207,154,.28);padding:clamp(12px,1.6vw,20px)}
+.visit-fig img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.visit-fig figcaption{margin-top:10px;font-family:var(--serif);font-style:italic;color:rgba(243,236,221,.75)}
+@media(max-width:860px){.visit .wrap{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+.foot{background:var(--green-3);color:var(--cream);border-top:1px solid rgba(200,162,79,.3)}
+.foot .wrap{padding-top:clamp(48px,8vh,80px);padding-bottom:40px;text-align:center}
+.foot .leaf{width:52px;height:52px;color:var(--gold);margin:0 auto}
+.foot-slogan{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.5rem,3.4vw,2.2rem);color:var(--gold-l);margin-top:18px}
+.foot-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 30px;margin-top:28px;font-size:.9rem;font-weight:700}
+.foot-nav a{color:rgba(243,236,221,.8);transition:color .3s}
+.foot-nav a:hover{color:var(--gold)}
+.foot-copy{margin-top:30px;padding-top:22px;border-top:1px solid rgba(243,236,221,.12);font-size:.8rem;color:rgba(243,236,221,.5)}
+
+/* ---------- custom cursor ---------- */
+.cursor-dot,.cursor-ring{position:fixed;left:0;top:0;z-index:999;pointer-events:none;border-radius:50%;will-change:transform}
+.cursor-dot{width:8px;height:8px;background:var(--gold)}
+.cursor-ring{width:34px;height:34px;border:1px solid var(--gold);transition:width .25s ease,height .25s ease,opacity .25s ease;opacity:.7}
+.cursor-ring.is-link{width:52px;height:52px;opacity:1}
+html.has-cursor,html.has-cursor *{cursor:none}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .marquee-track{animation:none;width:auto;flex-wrap:wrap}
+  .marquee-group[aria-hidden]{display:none}
+  .js .w{opacity:1;transform:none;animation:none}
+  .js .hero-fig{opacity:1;animation:none}
+  .js .reveal{opacity:1;transform:none}
+  .js .stamp.is-on{transform:scale(1)}
+  .promo-ring{animation:none}
+}
+</style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="mark" viewBox="0 0 96 96">
+    <path d="M43.5 54 C36 42 37.5 25 48 14 C58.5 25 60 42 52.5 54"/>
+    <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(45 70) rotate(-48)"/>
+    <path d="M0 0 C12.5 -13 12.5 -32 0 -44 C-12.5 -32 -12.5 -13 0 0 Z" transform="translate(51 70) rotate(48)"/>
+    <path d="M48 69 L48 86" stroke-width="5.5"/>
+  </symbol>
+</svg>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Shaiym — басты бет">
+      <svg class="leaf" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand-name">Shaiym</span>
+    </a>
+    <nav class="nav-links" aria-label="Негізгі навигация">
+      <a href="#recepter">Рецепттер</a>
+      <a href="#demdeu">Демдеу</a>
+      <a href="#karta">Шай-карта</a>
+      <a href="#duken">Дүкен</a>
+    </nav>
+    <a class="head-cta" href="/test">Дәм тесті</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker"><span class="w" style="--d:.05s">Шай бутигі · Абай ауылы</span></p>
+        <h1><span class="w" style="--d:.12s">Shaiym</span></h1>
+        <p class="hero-slogan">
+          <span class="w" style="--d:.3s">Мейрамхана</span>
+          <span class="w" style="--d:.42s">шайы&nbsp;—</span>
+          <span class="w" style="--d:.54s"><em>енді</em></span>
+          <span class="w" style="--d:.66s"><em>үйіңізде.</em></span>
+        </p>
+        <p class="hero-lead"><span class="w" style="--d:.8s">Он екі ресторандық рецепт, ыстық кофе өзіңізбен және жылы әңгіме — базардың жүрегіндегі бір дүкенде.</span></p>
+        <div class="hero-cta">
+          <a class="btn btn-solid w" style="--d:.95s" href="#recepter">Рецепттерді ашу</a>
+          <a class="btn btn-line w" style="--d:1.05s" href="/test">Дәм тестінен өту</a>
+        </div>
+        <a class="hero-note w" style="--d:1.2s" href="#apta">Апта шайы: Ташкент шайы −15% <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-art">
+        <span class="hero-ghost" aria-hidden="true">S</span>
+        <figure class="hero-fig">
+          <img src="../img/tashkent.png" alt="Ташкент шайы — алтын сызықты гравюра" fetchpriority="high">
+          <figcaption><span>Ташкент шайы — апта ұсынысы</span><b>№ бір</b></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- marquee -->
+    <div class="marquee" aria-label="Он екі шай атауы">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="marquee-item">Ташкент шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Марокко шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Масала шай <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Шырғанақ шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Зімбір шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Таңқурай шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Қарқаде <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Түрік шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Сүтті улун <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Жасмин шайы <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Қысқы шай <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Дала шай <svg class="leaf marq-leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          <span class="marquee-item">Ташкент шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Марокко шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Масала шай <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Шырғанақ шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Зімбір шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Таңқурай шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Қарқаде <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Түрік шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Сүтті улун <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Жасмин шайы <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Қысқы шай <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+          <span class="marquee-item">Дала шай <svg class="leaf marq-leaf"><use href="#mark"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMO: АПТА ШАЙЫ ===== -->
+  <section class="promo" id="apta">
+    <div class="wrap">
+      <div class="reveal" data-dir="left">
+        <p class="kicker">Осы апта</p>
+        <h2>Апта шайы — Ташкент шайы</h2>
+        <p class="promo-discount">−15<small>пайыз</small></p>
+        <p>Көк шай, лимон және жалбыз — Шығыс дастарқанының классикасы. Осы аптада Ташкент шайына 15% жеңілдік, ал <em>дегустация — тегін</em>: келіңіз, бір пиала құйып береміз.</p>
+        <div class="promo-cta">
+          <a class="btn btn-gold" href="/tashkent">Рецептін көру</a>
+          <a class="btn btn-line-light" href="#duken">Дегустацияға келу</a>
+        </div>
+      </div>
+      <div class="promo-art reveal" data-dir="right">
+        <div class="promo-circle">
+          <svg class="promo-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49"/></svg>
+          <img src="../img/tashkent.png" alt="Ташкент шайы гравюрасы" loading="lazy">
+          <span class="promo-tag">Тегін дегустация</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RECIPES ===== -->
+  <section class="section" id="recepter">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <p class="kicker">Рецепттер</p>
+          <h2>Он екі дастарқан дәмі</h2>
+        </div>
+        <a class="sec-link" href="/recepty">Барлық рецепттер <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="cards">
+        <a class="card tilt reveal" href="/tashkent" style="--rd:0s">
+          <figure class="card-img"><img src="../img/tashkent.png" alt="Ташкент шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Ташкент шайы</h3><p>Көк шай · лимон · жалбыз</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/marokko" style="--rd:.06s">
+          <figure class="card-img"><img src="../img/marokko.png" alt="Марокко шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Марокко шайы</h3><p>Көк шай · жас жалбыз</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/masala" style="--rd:.12s">
+          <figure class="card-img"><img src="../img/masala.png" alt="Масала шай" loading="lazy"></figure>
+          <div class="card-body"><h3>Масала шай</h3><p>Қара шай · сүт · дәмдеуіштер</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/shyrganak" style="--rd:.18s">
+          <figure class="card-img"><img src="../img/shyrganak.png" alt="Шырғанақ шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Шырғанақ шайы</h3><p>Шырғанақ · апельсин · бал</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/imbir" style="--rd:0s">
+          <figure class="card-img"><img src="../img/imbir.png" alt="Зімбір шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Зімбір шайы</h3><p>Зімбір · лимон · бал</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/malina" style="--rd:.06s">
+          <figure class="card-img"><img src="../img/malina.png" alt="Таңқурай шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Таңқурай шайы</h3><p>Таңқурай · қара шай</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/karkade" style="--rd:.12s">
+          <figure class="card-img"><img src="../img/karkade.png" alt="Қарқаде" loading="lazy"></figure>
+          <div class="card-body"><h3>Қарқаде</h3><p>Гибискус гүлдері · жеңіл қышқыл дәм</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/turk" style="--rd:.18s">
+          <figure class="card-img"><img src="../img/turk.png" alt="Түрік шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Түрік шайы</h3><p>Қою қара шай · армуды стақан</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/ulun" style="--rd:0s">
+          <figure class="card-img"><img src="../img/ulun.png" alt="Сүтті улун" loading="lazy"></figure>
+          <div class="card-body"><h3>Сүтті улун</h3><p>Улун · кремді жұмсақ дәм</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/zhasmin" style="--rd:.06s">
+          <figure class="card-img"><img src="../img/zhasmin.png" alt="Жасмин шайы" loading="lazy"></figure>
+          <div class="card-body"><h3>Жасмин шайы</h3><p>Көк шай · жасмин гүлі</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/qysqy" style="--rd:.12s">
+          <figure class="card-img"><img src="../img/qysqy.png" alt="Қысқы шай" loading="lazy"></figure>
+          <div class="card-body"><h3>Қысқы шай</h3><p>Апельсин · даршын · қалампыр</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+        <a class="card tilt reveal" href="/dala" style="--rd:.18s">
+          <figure class="card-img"><img src="../img/dala.png" alt="Дала шай" loading="lazy"></figure>
+          <div class="card-body"><h3>Дала шай</h3><p>Дала шөптері · тау балы</p><span class="card-go">Рецепт <span class="arr" aria-hidden="true">→</span></span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEST ===== -->
+  <section class="test-band">
+    <div class="wrap">
+      <div class="reveal" data-dir="left">
+        <p class="kicker">Дәм тесті</p>
+        <h2>Қай шай — <b>сіздікі?</b></h2>
+        <p>Таңдау қиын ба? Бес сұраққа жауап беріңіз — бір минутта он екі рецепттің ішінен дәл сізге лайығын ұсынамыз.</p>
+        <p style="margin-top:24px"><a class="btn btn-solid" href="/test">Тесті бастау</a></p>
+      </div>
+      <div class="test-art reveal" data-dir="right" aria-hidden="true">
+        <span class="test-chip"><img src="../img/zhasmin.png" alt="" loading="lazy"></span>
+        <span class="test-chip"><img src="../img/karkade.png" alt="" loading="lazy"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BREW: STICKY SCENE ===== -->
+  <section class="brew" id="demdeu">
+    <div class="brew-scene">
+      <div class="brew-sticky">
+        <div class="wrap">
+          <div class="brew-grid">
+            <div class="brew-intro reveal">
+              <p class="kicker">Демдеу өнері</p>
+              <h2>Демдеу — қадам-қадаммен</h2>
+              <p>Мейрамхана дәмінің құпиясы — рецептте ғана емес, демдеуде. Үш қарапайым қадам — және үйіңіздегі пиала мейрамханадағыдай.</p>
+              <div class="brew-progress" aria-hidden="true">
+                <div class="brew-rail"><div class="brew-fill"></div></div>
+                <div class="brew-tabs">
+                  <span class="brew-tab is-active">Қыздыру</span>
+                  <span class="brew-tab">Мөлшер</span>
+                  <span class="brew-tab">Дем</span>
+                </div>
+              </div>
+            </div>
+            <div class="brew-steps reveal" data-dir="right">
+              <article class="brew-step is-active">
+                <span class="brew-num" aria-hidden="true">1</span>
+                <div>
+                  <h3>Ыдысты қыздырыңыз</h3>
+                  <p>Шәйнекті қайнаған сумен шайып, жылытып алыңыз. <em>Жылы ыдыста</em> шай хош иісін толық ашады — мейрамханада дәл солай істейді.</p>
+                </div>
+              </article>
+              <article class="brew-step">
+                <span class="brew-num" aria-hidden="true">2</span>
+                <div>
+                  <h3>Мөлшерін сақтаңыз</h3>
+                  <p>Әр пиалаға — бір шай қасық құрама. Су ыстық, бірақ қайнап тұрмаған болсын: <em>90–95 градус</em> — дәмнің алтын ортасы.</p>
+                </div>
+              </article>
+              <article class="brew-step">
+                <span class="brew-num" aria-hidden="true">3</span>
+                <div>
+                  <h3>Демін күтіңіз</h3>
+                  <p>Төрт-бес минут — асықпаңыз. Дастарқанды жайып, жақындарыңызды шақырыңыз: <em>жылулық бір пиаладан басталады</em>.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="stats">
+    <div class="wrap">
+      <div class="stat reveal" style="--rd:0s">
+        <span class="stat-num"><span data-count="12">0</span></span>
+        <span class="stat-cap">ресторандық рецепт — әрқайсысы жеке карточкада</span>
+      </div>
+      <div class="stat reveal" style="--rd:.12s">
+        <span class="stat-num"><span data-count="2">0</span> <i>есік</i></span>
+        <span class="stat-cap">базар жағынан және көше жағынан кіруге болады</span>
+      </div>
+      <div class="stat reveal" style="--rd:.24s">
+        <span class="stat-num"><span data-count="8">0</span> <i>мөр</i></span>
+        <span class="stat-cap">жиналса — сыйлық: тегін кофе немесе −10%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KARTA ===== -->
+  <section class="section karta" id="karta">
+    <div class="wrap">
+      <div class="reveal" data-dir="left">
+        <p class="kicker">Адалдық бағдарламасы</p>
+        <h2>Шай-карта: 8 мөр — бір сыйлық</h2>
+        <p>Әр сатып алған сусыныңызға — бір мөр. Сегізі жиналғанда таңдау сіздікі: <b>тегін кофе</b> немесе келесі сатып алуға <b>−10% жеңілдік</b>.</p>
+        <a class="btn btn-solid" href="/karta">Картаны ашу</a>
+      </div>
+      <div class="karta-card reveal" data-dir="right">
+        <div class="karta-top">
+          <span class="karta-brand"><svg class="leaf" aria-hidden="true"><use href="#mark"/></svg> Shaiym</span>
+          <span class="karta-kind">Шай-карта</span>
+        </div>
+        <div class="stamps" aria-label="Мөр жинау картасы: сегіздің бесеуі басылған">
+          <span class="stamp is-on" style="--sd:.1s"><svg class="leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="stamp is-on" style="--sd:.22s"><svg class="leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="stamp is-on" style="--sd:.34s"><svg class="leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="stamp is-on" style="--sd:.46s"><svg class="leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="stamp is-on" style="--sd:.58s"><svg class="leaf" aria-hidden="true"><use href="#mark"/></svg></span>
+          <span class="stamp"></span>
+          <span class="stamp"></span>
+          <span class="stamp is-gift">сыйлық</span>
+        </div>
+        <div class="karta-note"><span>Әр сусын — бір мөр</span><span><b>8 мөр</b> = тегін кофе / −10%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SHOP ===== -->
+  <section class="section" id="duken" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <p class="kicker">Дүкен</p>
+          <h2>Базардың жүрегінде — жаңа дастарқан</h2>
+        </div>
+      </div>
+
+      <div class="shop-row">
+        <figure class="shop-fig reveal" data-dir="left">
+          <img src="../img/interior.jpg" alt="Shaiym бутигінің іші: жасыл қабырғалар мен ағаш сөрелер" loading="lazy">
+          <figcaption>Бутик ішінде — жасыл қабырғалар, алтын жарық</figcaption>
+        </figure>
+        <div class="shop-txt reveal" data-dir="right">
+          <p class="kicker">Бутик ішінде</p>
+          <h3>Сөрелерде — он екі рецепт</h3>
+          <p>Әр құраманы өлшеп, буып, қалай демдеу керегін түсіндіріп береміз. Қасында — кофе-нүкте: <em>капучиноны өзіңізбен ала кетіңіз</em>, базар аралағанда жылытып жүреді.</p>
+        </div>
+      </div>
+
+      <div class="shop-row">
+        <div class="shop-txt reveal" data-dir="left">
+          <p class="kicker">Сыйлық бұрышы</p>
+          <h3>Дастарқанға — дайын сыйлық</h3>
+          <p>Керамика пиалалар, самауыр, шай қораптары — тойға да, көрімдікке де. Жиынтықты таңдап, <em>әдемілеп орап, ұсынуға дайындап</em> береміз.</p>
+        </div>
+        <figure class="shop-fig reveal" data-dir="right">
+          <img src="../img/gifts.jpg" alt="Сыйлық бұрышы: қораптар, керамика және самауыр" loading="lazy">
+          <figcaption>Сыйлық жиынтықтары мен керамика</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- visit band -->
+    <div class="visit">
+      <div class="wrap">
+        <div class="reveal" data-dir="left">
+          <p class="kicker">Мекенжай</p>
+          <h2>Абай ауылы, жаңа базар</h2>
+          <p class="visit-sub">Келес ауданы, Түркістан облысы</p>
+          <p>Дүкен — өтпелі: бір есік базар жағынан, екіншісі көше жағынан ашылады. Таңғы кофеден кешкі шайға дейін күтеміз.</p>
+          <div class="visit-chips">
+            <span class="visit-chip">Есік — базар жағынан</span>
+            <span class="visit-chip">Есік — көше жағынан</span>
+            <span class="visit-chip">Кофе — өзіңізбен</span>
+          </div>
+          <div class="visit-cta">
+            <a class="btn btn-gold" href="https://wa.me/77064200133">WhatsApp-қа жазу</a>
+            <a class="btn btn-line-light" href="https://instagram.com/shaiym.kz">Instagram: @shaiym.kz</a>
+          </div>
+        </div>
+        <figure class="visit-fig reveal" data-dir="right">
+          <img src="../img/fasad.jpg" alt="Shaiym дүкенінің кешкі фасады, жарық маңдайша" loading="lazy">
+          <figcaption>Кешкі Shaiym — көше жағынан</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot">
+  <div class="wrap">
+    <svg class="leaf" aria-hidden="true"><use href="#mark"/></svg>
+    <p class="foot-slogan">Жылулық бір пиаладан басталады</p>
+    <nav class="foot-nav" aria-label="Төменгі навигация">
+      <a href="#recepter">Рецепттер</a>
+      <a href="/test">Дәм тесті</a>
+      <a href="/karta">Шай-карта</a>
+      <a href="https://wa.me/77064200133">WhatsApp</a>
+      <a href="https://instagram.com/shaiym.kz">Instagram</a>
+    </nav>
+    <p class="foot-copy">© 2026 Shaiym · Абай ауылы, жаңа базар</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FINE = window.matchMedia('(pointer: fine)').matches;
+  var DESK = window.matchMedia('(min-width: 900px)');
+  var root = document.documentElement;
+
+  /* sticky brew scene works only on desktop without reduced motion */
+  if (!REDUCED) root.classList.add('can-stick');
+
+  /* ---------- scroll: header, parallax, brew progress ---------- */
+  var header = document.querySelector('.site-head');
+  var heroFig = document.querySelector('.hero-fig');
+  var ghost = document.querySelector('.hero-ghost');
+  var scene = document.querySelector('.brew-scene');
+  var fill = document.querySelector('.brew-fill');
+  var steps = [].slice.call(document.querySelectorAll('.brew-step'));
+  var tabs = [].slice.call(document.querySelectorAll('.brew-tab'));
+  var ticking = false;
+
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var y = window.pageYOffset || 0;
+      header.classList.toggle('is-scrolled', y > 24);
+      if (REDUCED) return;
+      /* hero parallax */
+      if (heroFig && y < window.innerHeight * 1.3){
+        heroFig.style.transform = 'translate3d(0,' + (y * 0.1).toFixed(1) + 'px,0)';
+        if (ghost) ghost.style.transform = 'translate3d(0,' + (y * -0.07).toFixed(1) + 'px,0)';
+      }
+      /* brew sticky progress */
+      if (scene && DESK.matches){
+        var total = scene.offsetHeight - window.innerHeight;
+        if (total > 0){
+          var top = scene.getBoundingClientRect().top;
+          var p = Math.min(1, Math.max(0, -top / total));
+          if (fill) fill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+          var idx = Math.min(2, Math.floor(p * 3));
+          for (var i = 0; i < steps.length; i++){
+            steps[i].classList.toggle('is-active', i === idx);
+            if (tabs[i]) tabs[i].classList.toggle('is-active', i === idx);
+          }
+        }
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---------- scroll reveal ---------- */
+  var revealEls = [].slice.call(document.querySelectorAll('.reveal'));
+  if ('IntersectionObserver' in window && !REDUCED){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){
+          en.target.classList.add('is-in');
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+    /* страховка: при быстром флике элемент может перепрыгнуть вьюпорт между
+       кадрами, и IO не выстрелит — доокрываем всё, что уже прошло линию показа */
+    var safetyPending = false;
+    var revealSafety = function(){
+      safetyPending = false;
+      revealEls.forEach(function(el){
+        if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < window.innerHeight * 0.92){
+          el.classList.add('is-in');
+          io.unobserve(el);
+        }
+      });
+      nums.forEach(function(n){
+        if (!n.hasAttribute('data-done') && n.getBoundingClientRect().top < window.innerHeight){
+          n.setAttribute('data-done', '1');
+          runCount(n);
+        }
+      });
+    };
+    window.addEventListener('scroll', function(){
+      if (!safetyPending){ safetyPending = true; setTimeout(revealSafety, 150); }
+    }, { passive:true });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-in'); });
+  }
+
+  /* ---------- counters ---------- */
+  var nums = [].slice.call(document.querySelectorAll('[data-count]'));
+  function runCount(el){
+    var target = parseInt(el.getAttribute('data-count'), 10);
+    if (REDUCED || !window.requestAnimationFrame){ el.textContent = target; return; }
+    var dur = 1200, start = null;
+    function tick(now){
+      if (start === null) start = now;
+      var k = Math.min(1, (now - start) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e);
+      if (k < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if ('IntersectionObserver' in window){
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && !en.target.hasAttribute('data-done')){ en.target.setAttribute('data-done', '1'); runCount(en.target); io2.unobserve(en.target); }
+      });
+    }, {threshold:.6});
+    nums.forEach(function(n){ io2.observe(n); });
+  } else {
+    nums.forEach(function(n){ n.textContent = n.getAttribute('data-count'); });
+  }
+
+  /* ---------- 3D tilt cards (desktop only) ---------- */
+  if (FINE && !REDUCED){
+    [].slice.call(document.querySelectorAll('.tilt')).forEach(function(card){
+      var raf = null;
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - .5;
+        var py = (e.clientY - r.top) / r.height - .5;
+        if (raf) return;
+        raf = requestAnimationFrame(function(){
+          card.style.transform = 'perspective(720px) rotateX(' + (-py * 7).toFixed(2) + 'deg) rotateY(' + (px * 9).toFixed(2) + 'deg) translateY(-4px)';
+          raf = null;
+        });
+      });
+      card.addEventListener('mouseenter', function(){ card.classList.add('is-tilting'); });
+      card.addEventListener('mouseleave', function(){
+        card.classList.remove('is-tilting');
+        card.style.transform = '';
+      });
+    });
+  }
+
+  /* ---------- custom cursor (desktop only) ---------- */
+  if (FINE && !REDUCED && window.innerWidth > 900){
+    var dot = document.createElement('div');
+    var ring = document.createElement('div');
+    dot.className = 'cursor-dot';
+    ring.className = 'cursor-ring';
+    dot.setAttribute('aria-hidden','true');
+    ring.setAttribute('aria-hidden','true');
+    document.body.appendChild(ring);
+    document.body.appendChild(dot);
+    root.classList.add('has-cursor');
+    var cx = -100, cy = -100, craf = null;
+    function place(){
+      dot.style.transform = 'translate3d(' + (cx - 4) + 'px,' + (cy - 4) + 'px,0)';
+      var half = ring.offsetWidth / 2;
+      ring.style.transform = 'translate3d(' + (cx - half) + 'px,' + (cy - half) + 'px,0)';
+      craf = null;
+    }
+    window.addEventListener('mousemove', function(e){
+      cx = e.clientX; cy = e.clientY;
+      if (!craf) craf = requestAnimationFrame(place);
+    }, {passive:true});
+    document.addEventListener('mouseover', function(e){
+      ring.classList.toggle('is-link', !!(e.target.closest && e.target.closest('a,button')));
+    });
+    document.addEventListener('mouseleave', function(){
+      dot.style.transform = 'translate3d(-100px,-100px,0)';
+      ring.style.transform = 'translate3d(-100px,-100px,0)';
+    });
+  }
+})();
+</script>
+</body>
+</html>
