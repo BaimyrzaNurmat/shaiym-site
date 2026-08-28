@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Shaiym қосымшасы</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { min-height: 100svh; background: #16301f; color: #f3ecdd; font-family: 'PT Sans', Arial, sans-serif;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; }
+  .box { max-width: 340px; }
+  h1 { font-size: 24px; color: #e6cf9a; }
+  p { margin-top: 12px; font-size: 15px; color: rgba(243,236,221,.8); line-height: 1.5; }
+  a.btn { display: block; margin-top: 18px; padding: 16px 28px; background: #c8a24f; color: #1a3322;
+    font-weight: 700; font-size: 16px; text-decoration: none; }
+  a.ghost { background: transparent; border: 1px solid #c8a24f; color: #e6cf9a; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Shaiym қосымшасы</h1>
+  <p>1. Алдымен App Store-дан тегін <b>Expo Go</b> орнатыңыз.<br>2. Сосын төмендегі батырманы басыңыз.</p>
+  <a class="btn" href="exp://u.expo.dev/5bbc5d71-6915-45bf-a850-1f99b35ceb2a?channel-name=preview&runtime-version=exposdk:54.0.0">Shaiym-ды ашу</a>
+  <a class="btn ghost" href="https://apps.apple.com/app/expo-go/id982107779">Expo Go орнату (App Store)</a>
+</div>
+<script>
+  if (/android/i.test(navigator.userAgent)) {
+    document.querySelector('.ghost').href = 'https://play.google.com/store/apps/details?id=host.exp.exponent';
+  }
+</script>
+</body>
+</html>
