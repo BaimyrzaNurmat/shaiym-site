@@ -1,11 +1,11 @@
 /* Shaiym service worker: офлайн-доступ к рецептам и Шай-карте.
    HTML и config — сеть в приоритете (свежесть), картинки — кеш в приоритете. */
-var VERSION = 'shaiym-v1';
+var VERSION = 'shaiym-v2';
 var PRECACHE = [
   '/', '/karta', '/test', '/recepty',
   '/tashkent', '/marokko', '/masala', '/shyrganak', '/imbir', '/malina',
   '/karkade', '/turk', '/ulun', '/zhasmin', '/qysqy', '/dala',
-  '/syilyq', '/ydys', '/kofe', '/specii',
+  '/syilyq', '/ydys', '/kofe', '/specii', '/kepken',
   '/js/tea-promo.js', '/js/cat-gallery.js', '/data/config.json',
   '/icons/icon-192.png', '/icons/icon-512.png'
 ];
