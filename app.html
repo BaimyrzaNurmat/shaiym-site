@@ -21,12 +21,17 @@
 <div class="box">
   <h1>Shaiym қосымшасы</h1>
   <p>1. Алдымен App Store-дан тегін <b>Expo Go</b> орнатыңыз.<br>2. Сосын төмендегі батырманы басыңыз.</p>
-  <a class="btn" href="exp://u.expo.dev/5bbc5d71-6915-45bf-a850-1f99b35ceb2a?channel-name=preview&runtime-version=exposdk:54.0.0">Shaiym-ды ашу</a>
+  <a class="btn" id="open-app" href="exp://u.expo.dev/update/01a0466c-765d-71de-9917-e0913af0c574">Shaiym-ды ашу</a>
   <a class="btn ghost" href="https://apps.apple.com/app/expo-go/id982107779">Expo Go орнату (App Store)</a>
 </div>
 <script>
+  /* Android: ставим сразу наш APK (самообновляется), Expo Go не нужен */
   if (/android/i.test(navigator.userAgent)) {
-    document.querySelector('.ghost').href = 'https://play.google.com/store/apps/details?id=host.exp.exponent';
+    var main = document.getElementById('open-app');
+    main.href = 'https://expo.dev/artifacts/eas/05Qk8pAkgpqcwdAjJ394IhBwNhA7iG1FdmGtR7CMKEQ.apk';
+    main.textContent = 'Shaiym орнату (APK)';
+    document.querySelector('.ghost').style.display = 'none';
+    document.querySelector('p').innerHTML = 'Батырманы басып, жүктелген файлды ашыңыз — орнатуға рұқсат беріңіз.';
   }
 </script>
 </body>
