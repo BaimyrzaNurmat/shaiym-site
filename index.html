@@ -179,8 +179,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;color:var(--g
 /* ---------- ассортимент ---------- */
 .assort{background:var(--panel);border-bottom:1px solid var(--hair)}
 .assort .wrap{padding-top:clamp(56px,9vh,96px);padding-bottom:clamp(56px,9vh,96px)}
-.assort-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(12px,1.6vw,22px);margin-top:clamp(26px,4vh,44px)}
-@media(max-width:1050px) and (min-width:901px){.assort-grid{grid-template-columns:repeat(3,1fr)}}
+.assort-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.8vw,24px);margin-top:clamp(26px,4vh,44px)}
 .assort-card{background:var(--cream);border:1px solid var(--hair-soft);display:flex;flex-direction:column;
   transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s ease,border-color .4s ease}
 .assort-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--gold-l)}
@@ -512,7 +511,7 @@ html.has-cursor,html.has-cursor *{cursor:none}
           <span class="w" style="--d:.54s"><em>енді</em></span>
           <span class="w" style="--d:.66s"><em>үйіңізде.</em></span>
         </p>
-        <p class="hero-lead"><span class="w" style="--d:.8s">Ресторандық шай, өз өндірісіміздің кептірілген жемістері, сыйлық жиынтықтары, шығыс ыдыстары және жаңа тартылған кофе — базардың жүрегіндегі бір бутикте.</span></p>
+        <p class="hero-lead"><span class="w" style="--d:.8s">Ресторандық шай, кофе, науат пен бал, өз кептірмелеріміз, дәмдеуіштер, Риштан ыдыстары және сыйлық жиынтықтары — базардың жүрегіндегі бір бутикте.</span></p>
         <div class="hero-cta">
           <a class="btn btn-solid w" style="--d:.95s" href="#recepter">Рецепттерді ашу</a>
           <a class="btn btn-line w" style="--d:1.05s" href="/test">Дәм тестінен өту</a>
@@ -615,6 +614,14 @@ html.has-cursor,html.has-cursor *{cursor:none}
           <div class="assort-body">
             <h3>Ыдыс-аяқ</h3>
             <p>Риштан керамикасы, армуду стақандар, шыны шәйнектер — дастарқанның сәні.</p>
+            <span class="assort-go">Толығырақ <span class="arr" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+        <a class="assort-card reveal" style="--rd:.08s" href="/nauat">
+          <figure><img src="img/cat-nauat.jpg" alt="Науат пен бал — гравюра" loading="lazy"></figure>
+          <div class="assort-body">
+            <h3>Науат пен бал</h3>
+            <p>Кристалл науат таяқшада және жергілікті бал — шайдың ежелгі серіктері.</p>
             <span class="assort-go">Толығырақ <span class="arr" aria-hidden="true">→</span></span>
           </div>
         </a>
