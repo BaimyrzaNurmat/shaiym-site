@@ -106,18 +106,31 @@
 
   <div class="panel">
     <h2>Владелец — сверка продаж</h2>
-    <label for="owner-pin">PIN владельца</label>
-    <input type="password" id="owner-pin" inputmode="numeric" maxlength="6" placeholder="****">
+    <div id="owner-login">
+      <label for="owner-email">Email</label>
+      <input type="email" id="owner-email" autocomplete="username" placeholder="email">
+      <label for="owner-pass">Пароль</label>
+      <input type="password" id="owner-pass" autocomplete="current-password" placeholder="пароль">
+      <button class="btn" onclick="ownerAuth()">Войти</button>
+    </div>
+    <div id="owner-area" class="hide">
+      <div style="text-align:center;padding:10px;border:1px solid rgba(200,162,79,.5);margin-top:6px">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(230,207,154,.8)">PIN кассы на сегодня</div>
+        <div id="day-pin" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:38px;letter-spacing:8px;color:#e6cf9a">····</div>
+        <button class="btn btn-ghost" onclick="rotateDayPin()">Сменить сейчас</button>
+      </div>
+      <div class="hint">Скажи этот PIN продавцу утром — завтра он сменится сам. «Сменить сейчас» — если код утёк среди дня.</div>
     <label for="owner-days">Период</label>
     <select id="owner-days">
       <option value="1">Сегодня</option>
       <option value="7" selected>7 дней</option>
       <option value="30">30 дней</option>
     </select>
-    <button class="btn" onclick="ownerReport()" id="owner-btn">Показать отчёт</button>
+    <button class="btn" onclick="ownerReportRun()" id="owner-btn">Показать отчёт</button>
+    </div>
     <div class="msg" id="owner-msg"></div>
     <div id="owner-out" style="margin-top:10px"></div>
-    <div class="hint">Сверяй колонку «Деньги» с выручкой в Kaspi Pay и кассе за тот же день. Если бонусов начислено заметно больше, чем 5% от реальной выручки, — кассир создаёт чеки без покупок. PIN владельца кассиру не давай.</div>
+    <div class="hint">Сверяй колонку «Деньги» с выручкой в Kaspi Pay и кассе за тот же день. Если бонусов начислено заметно больше, чем 5% от реальной выручки, — кассир создаёт чеки без покупок.</div>
   </div>
 
   <div class="panel">
@@ -432,21 +445,94 @@
     }, 2500);
   }
 
-  function ownerReport() {
-    var pin = document.getElementById('owner-pin').value.trim();
-    var days = parseInt(document.getElementById('owner-days').value, 10);
-    if (!pin) { setMsg('owner-msg', 'Введи PIN владельца.', false); return; }
-    var btn = document.getElementById('owner-btn');
-    btn.disabled = true;
-    setMsg('owner-msg', 'Собираю…', true);
-    fetch(SB_URL + '/rest/v1/rpc/owner_report', {
-      method: 'POST', headers: sbHeaders(),
-      body: JSON.stringify({ p_pin: pin, p_days: days })
+  /* ---------- владелец: вход по email+паролю ---------- */
+  var ownerAT = '';
+  var ownerRT = '';
+  try {
+    ownerAT = localStorage.getItem('shaiym_owner_at') || '';
+    ownerRT = localStorage.getItem('shaiym_owner_rt') || '';
+  } catch (e) {}
+
+  function saveOwnerTokens(at, rt) {
+    ownerAT = at; ownerRT = rt;
+    try { localStorage.setItem('shaiym_owner_at', at); localStorage.setItem('shaiym_owner_rt', rt); } catch (e) {}
+  }
+  function showOwnerArea(show) {
+    document.getElementById('owner-login').classList.toggle('hide', show);
+    document.getElementById('owner-area').classList.toggle('hide', !show);
+  }
+  function ownerAuth() {
+    var email = document.getElementById('owner-email').value.trim();
+    var pass = document.getElementById('owner-pass').value;
+    if (!email || !pass) { setMsg('owner-msg', 'Введи email и пароль.', false); return; }
+    setMsg('owner-msg', 'Вхожу…', true);
+    fetch(SB_URL + '/auth/v1/token?grant_type=password', {
+      method: 'POST', headers: { apikey: SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: pass })
     })
       .then(function (r) { return r.json(); })
       .then(function (j) {
+        if (!j.access_token) { setMsg('owner-msg', 'Неверный email или пароль.', false); return; }
+        saveOwnerTokens(j.access_token, j.refresh_token || '');
+        setMsg('owner-msg', 'Вошёл.', true);
+        showOwnerArea(true);
+        loadDayPin();
+      })
+      .catch(function (e) { setMsg('owner-msg', 'Сеть: ' + e.message, false); });
+  }
+  function ownerRefresh() {
+    if (!ownerRT) return Promise.resolve(false);
+    return fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
+      method: 'POST', headers: { apikey: SB_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: ownerRT })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.access_token) return false;
+        saveOwnerTokens(j.access_token, j.refresh_token || ownerRT);
+        return true;
+      })
+      .catch(function () { return false; });
+  }
+  function ownerRpc(fn, body, retried) {
+    return fetch(SB_URL + '/rest/v1/rpc/' + fn, {
+      method: 'POST',
+      headers: { apikey: SB_ANON, Authorization: 'Bearer ' + ownerAT, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body || {})
+    })
+      .then(function (r) { return r.status === 401 ? { ok: false, err: 'auth' } : r.json(); })
+      .then(function (j) {
+        if (j && j.err === 'auth' && !retried) {
+          return ownerRefresh().then(function (ok) {
+            if (!ok) { showOwnerArea(false); return j; }
+            return ownerRpc(fn, body, true);
+          });
+        }
+        return j;
+      });
+  }
+  function loadDayPin() {
+    ownerRpc('get_seller_pin').then(function (j) {
+      if (j.ok) document.getElementById('day-pin').textContent = j.pin;
+    });
+  }
+  function rotateDayPin() {
+    if (!confirm('Сменить PIN кассы прямо сейчас? Текущий перестанет работать.')) return;
+    ownerRpc('rotate_pin_salt').then(function (j) {
+      if (j.ok) { document.getElementById('day-pin').textContent = j.pin; setMsg('owner-msg', 'PIN сменён — сообщи продавцу новый.', true); }
+    });
+  }
+  if (ownerAT) { showOwnerArea(true); loadDayPin(); }
+
+  function ownerReportRun() {
+    var days = parseInt(document.getElementById('owner-days').value, 10);
+    var btn = document.getElementById('owner-btn');
+    btn.disabled = true;
+    setMsg('owner-msg', 'Собираю…', true);
+    ownerRpc('owner_report', { p_days: days })
+      .then(function (j) {
         btn.disabled = false;
-        if (!j.ok) { setMsg('owner-msg', j.err === 'pin' ? 'Неверный PIN владельца.' : 'Ошибка.', false); return; }
+        if (!j.ok) { setMsg('owner-msg', 'Не получилось — войди заново.', false); return; }
         setMsg('owner-msg', 'Бонусов начислено за период: ' + j.bonus_out + ' тг · потрачено бонусами: ' + j.bonus_spent + ' тг', true);
         var h = '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
           '<tr style="color:#e6cf9a;text-align:left"><th style="padding:4px">День</th><th>Чеков</th><th>Деньги, тг</th><th>Бонусами, тг</th><th>Не отскан.</th></tr>';
